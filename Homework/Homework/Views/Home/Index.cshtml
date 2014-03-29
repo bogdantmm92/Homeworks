@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured {
+    @if (Request.IsAuthenticated) {
+        <section class="featured">
+            <div class="content-wrapper">
+                <hgroup class="title">
+                    <h1>My Homeworks</h1>
+                    <h3>Homework 1</h3>
+                    <h3>Homework 2</h3>
+                    <h3>Homework 3</h3>
+                </hgroup>
+            </div>
+        </section>
+    }
+    else{
+        <section class="featured">
+            <div class="content-wrapper">
+                <hgroup class="title">
+                    <h1>Please login</h1>
+                    <br />
+                    <h2>Homeworks is an online educational platform that facilitates homework whatever</h2>
+                </hgroup>
+            </div>
+        </section>
+    }
+}
