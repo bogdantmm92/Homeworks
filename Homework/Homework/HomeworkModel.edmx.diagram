@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f266c735a3484ce48905b4cb3f2bf7ae" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.Comentariu" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Fisier" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Liceu" Width="1.5" PointX="1.5" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Participa" Width="1.5" PointX="8.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Rating" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Submit" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Tema" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.User" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Comentariu_ToTema" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Comentariu_ToUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Submit_ToFisier" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Tema_ToFisier1" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Tema_ToFisier2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_User_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Participa_ToTema" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Participa_ToUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Rating_ToTema" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Rating_ToUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Submit_ToTema" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Submit_ToUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Tema_ToUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
