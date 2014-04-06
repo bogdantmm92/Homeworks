@@ -167,6 +167,7 @@
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddHomeworkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeworksController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
