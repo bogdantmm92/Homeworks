@@ -196,6 +196,7 @@
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Tema.cs" />
     <Compile Include="Participa.cs">
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
