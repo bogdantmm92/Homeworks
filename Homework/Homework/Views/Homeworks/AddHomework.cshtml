@@ -1,0 +1,42 @@
+﻿@model Homework.Models.AddHomeworkModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    <h1> Creeaza tema</h1>
+
+    <div>
+
+        @using (Html.BeginForm())
+        {
+        <p>Titlu: @Html.TextBoxFor(m => Model.title) </p>
+        <p> Enunt: @Html.TextAreaFor(m => Model.enunt)</p>
+        <p> Deadline: @Html.EditorFor(m => Model.deadline)</p>
+        <p> Fisier Help: <input type="file" name="help" id="help"></p>
+        <p> Fisier In Out: <input type="file" name="inout" id="inout"></p>
+        <p> An:
+            @for (int i = 9; i < 13; i++ )
+            {
+                @Html.RadioButtonFor(b => b.SelectedAnswer, 1) @i
+            }
+        </p>
+        <p> Clasa:@Html.TextBoxFor(m => Model.clasa)</p>
+        <p> Privat: @Html.CheckBoxFor(m => Model.privat) </p>
+         
+        <input type="submit" name="addhomework" value="creeaza" />   
+            
+        }
+
+    </div>
+</body>
+</html>

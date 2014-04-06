@@ -115,13 +115,26 @@ namespace Homework.Models
         public string help;
         public int current_grade;
         public List<CommentModel> comentariu;
-
     }
     public class CommentModel
     {
         public string username;
         public string text;
         public DateTime data;
+    }
+
+    public class AddHomeworkModel
+    {
+        public string title;
+        public string enunt { get; set; }
+        public DateTime deadline { get; set; }
+        public FileStream help { get; set; }
+        public FileStream in_out { get; set; }
+        public int an { get; set; }
+        public string clasa { get; set; }
+        public bool privat;
+
+
     }
 
 }
