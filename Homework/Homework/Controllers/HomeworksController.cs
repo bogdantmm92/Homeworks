@@ -22,5 +22,28 @@ namespace Homework.Controllers
             }
         }
 
+
+        public void createMyId(int id)
+        {
+            Session["userId"] = id;            
+        }
+
+        public int getMyId()
+        {
+            return (int)Session["user_id"];
+        }
+
+        public void getUsername()
+        {
+            int id = getMyId();
+            using (var db = new HomeworkContext())
+            {
+                var user = db.Users.Where(a => a.id_user == id).FirstOrDefault(); ;
+                var name = user.nume + " " + user.prenume;
+                ViewBag.username = name;
+                //return View();
+            }
+        }
+
     }
 }

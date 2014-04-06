@@ -101,4 +101,17 @@ namespace Homework.Models
     {
         public List<Tema> teme;
     }
+
+    public class UserModel
+    {
+        public string username { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string highschool { get; set; }
+        public char className { get; set; }
+        public int year { get; set; }
+        public int type { get; set; }
+    }
+
+
 }
