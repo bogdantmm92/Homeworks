@@ -104,7 +104,7 @@ namespace Homework.Models
         public List<Tema> teme;
     }
 
-    public class Homework
+    public class HomeworkModel
     {
         public string Title;
         public string Professor;
@@ -112,14 +112,12 @@ namespace Homework.Models
         public int grade;
         public double rating;
         public string Text;
-        public File help;
+        public string help;
         public int current_grade;
-        public List<Comment> comentariu;
-
-
+        public List<CommentModel> comentariu;
 
     }
-    public class Comment
+    public class CommentModel
     {
         public string username;
         public string text;
