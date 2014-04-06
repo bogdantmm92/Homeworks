@@ -196,7 +196,6 @@
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Tema.cs" />
     <Compile Include="Participa.cs">
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
@@ -347,6 +346,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Homeworks\Teme.cshtml" />
+    <Content Include="Views\Homeworks\AddHomework.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

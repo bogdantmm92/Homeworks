@@ -12,15 +12,9 @@ namespace Homework.Controllers
         // GET: /AddHomework/
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult AddHomework()
         {
-            
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Index()
-        {
+            ViewBag.Title = "Creeaza Tema";
             return View();
         }
 
