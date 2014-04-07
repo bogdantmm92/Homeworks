@@ -105,6 +105,7 @@ namespace Homework.Models
     }
 
 
+
     public class UserModel
     {
         public string username { get; set; }
@@ -116,6 +117,7 @@ namespace Homework.Models
         public int type { get; set; }
     }
 
+
     public class HomeworkModel
     {
         public string Title;
@@ -124,7 +126,7 @@ namespace Homework.Models
         public int grade;
         public double rating;
         public string Text;
-        public File help;
+        public string help;
         public int current_grade;
         public List<CommentModel> comentariu;
 
@@ -136,6 +138,21 @@ namespace Homework.Models
         public string username;
         public string text;
         public DateTime data;
+    }
+
+
+    public class AddHomeworkModel
+    {
+        public string title;
+        public string enunt { get; set; }
+        public DateTime deadline { get; set; }
+        public FileStream help { get; set; }
+        public FileStream in_out { get; set; }
+        public int an { get; set; }
+        public string clasa { get; set; }
+        public bool privat;
+
+
     }
 
 
