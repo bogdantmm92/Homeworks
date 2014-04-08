@@ -212,6 +212,7 @@
     <Compile Include="User.cs">
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AccountUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
