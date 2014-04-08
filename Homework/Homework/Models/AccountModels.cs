@@ -135,9 +135,9 @@ namespace Homework.Models
     }
     public class CommentModel
     {
-        public string username;
-        public string text;
-        public DateTime data;
+        public string username { get; set; }
+        public string text { get; set; }
+        public DateTime data { get; set; }
     }
 
 
@@ -152,8 +152,13 @@ namespace Homework.Models
         public string clasa { get; set; }
         public bool privat;
 
-
     }
 
+    public class RatingModel
+    {
+        public int rating { get; set; }
+        public int id_tema { get; set; }
+        public int id_user { get; set; }
+    }
 
 }

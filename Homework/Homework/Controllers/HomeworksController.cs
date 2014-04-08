@@ -30,7 +30,7 @@ namespace Homework.Controllers
 
         public int getMyId()
         {
-            return (int)Session["user_id"];
+            return (int)Session["userId"];
         }
 
         public void getUsername()
@@ -41,9 +41,63 @@ namespace Homework.Controllers
                 var user = db.Users.Where(a => a.id_user == id).FirstOrDefault(); ;
                 var name = user.nume + " " + user.prenume;
                 ViewBag.username = name;
-                //return View();
             }
         }
+
+        
+        /*
+        public ActionResult SeeHomework(int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List <CommentModel>();
+                var com = db.Comentarius.Where(a => a.id_tema == id_tema).ToList();
+                foreach(var c in com)
+                {
+                    CommentModel comm = new CommentModel();
+                    comm.data = c.data;
+                    comm.text = c.text;
+                    var user = db.Users.Where(a => a.id_user == c.id_user).FirstOrDefault();
+                    comm.username = user.nume + " " + user.prenume;
+                    model.Add(comm);
+                }
+
+                return View(model);
+            }
+        }*/
+
+        //adauga comentariu
+        
+        //[HttpGet]
+        public ActionResult SeeHomework()
+        {
+            //createMyId(1);
+            return View();
+        }
+        /*
+        [HttpPost]
+        public ActionResult SeeHomework(/*int id_tema, CommentModel model)
+        {
+            using (var db = new HomeworkContext())
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Comentarius.Add(new Comentariu
+                    {
+                        id_tema = 1,//id_tema,
+                        text = model.text,
+                        id_user = getMyId(),
+                        data = DateTime.Now
+                    });
+
+                    db.SaveChanges();
+                    return RedirectToAction("SeeHomework");
+                }
+            
+                return View(model);
+            }
+        }
+        */
 
     }
 }
