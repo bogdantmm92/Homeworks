@@ -16,13 +16,13 @@
 
     <div>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("AddHomework", "Homeworks", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            <p> Titlu: @Html.TextBoxFor(m => Model.title) </p>
+            <p> Titlu: @Html.EditorFor(m => Model.title) </p>
             <p> Enunt: @Html.TextAreaFor(m => Model.enunt)</p>
             <p> Deadline: @Html.EditorFor(m => Model.deadline)</p>
             <p> Fisier Help: <input type="file" name="help" id="help"></p>
-            <p> Fisier In Out: <input type="file" name="inout" id="inout"></p>
+            <p> Fisier In Out: <input type="file" name="in_out" id="in_out"></p>
             <p>
                 An:
                 @for (int i = 9; i < 13; i++)
@@ -30,7 +30,7 @@
                     @Html.RadioButtonFor(b => b.an, 1) @i
                 }
             </p>
-            <p> Clasa:@Html.TextBoxFor(m => Model.clasa)</p>
+            <p> Clasa:@Html.EditorFor(m => Model.clasa)</p>
             <p> Privat: @Html.CheckBoxFor(m => Model.privat) </p>
 
             <input type="submit" name="addhomework" value="creeaza" />

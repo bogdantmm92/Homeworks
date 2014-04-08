@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using System.Web.Security;
 using System.Web.WebPages.Html;
 
@@ -155,14 +156,14 @@ namespace Homework.Models
 
     public class AddHomeworkModel
     {
-        public string title;
+        public string title { get; set; }
         public string enunt { get; set; }
         public DateTime deadline { get; set; }
-        public FileStream help { get; set; }
-        public FileStream in_out { get; set; }
+        public HttpPostedFileBase help { get; set; }
+        public HttpPostedFileBase in_out { get; set; }
         public int an { get; set; }
         public string clasa { get; set; }
-        public bool privat;
+        public bool privat { get; set; }
 
 
     }
