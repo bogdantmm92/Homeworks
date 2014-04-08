@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Web.Security;
 using System.Web.WebPages.Html;
+
 
 namespace Homework.Models
 {
@@ -128,4 +130,41 @@ namespace Homework.Models
     {
         public List<Tema> teme;
     }
+
+    public class HomeworkModel
+    {
+        public string Title;
+        public string Professor;
+        public DateTime deadline;
+        public int grade;
+        public double rating;
+        public string Text;
+        public string help;
+        public int current_grade;
+        public List<CommentModel> comentariu;
+
+
+
+    }
+    public class CommentModel
+    {
+        public string username;
+        public string text;
+        public DateTime data;
+    }
+
+    public class AddHomeworkModel
+    {
+        public string title;
+        public string enunt { get; set; }
+        public DateTime deadline { get; set; }
+        public FileStream help { get; set; }
+        public FileStream in_out { get; set; }
+        public int an { get; set; }
+        public string clasa { get; set; }
+        public bool privat;
+
+
+    }
+
 }
