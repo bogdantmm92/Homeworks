@@ -5,6 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Homework.Models;
+using WebMatrix.WebData;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace Homework.Controllers
 {
@@ -22,12 +25,48 @@ namespace Homework.Controllers
                 return View(model);
             }
         }*/
+        [HttpPost]
+        public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model) 
+        { 
+            using (var db = new HomeworkContext())
+            { if (ModelState.IsValid) 
+            {
+                try
+                {
+                    var f = new Comentariu();
+                    f.data = DateTime.Now;
+                    f.id_tema = 1;
+                    f.id_user = 1;
+                    f.text = model.c.text;
+                    
 
-        public ActionResult ShowHomework(int id_tema)
+                    db.Comentarius.Add(f);
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+                }
+              return RedirectToAction("ShowHomework"); } 
+              return View(model); 
+            } 
+        }
+        public ActionResult ShowHomework()
         {
             using (var db = new HomeworkContext())
             {
+                int id_tema=1;
+                var m = new SeeHomeworkModel();
                 var model = new HomeworkModel();
+                var rt = new RatingModel();
+                var cm = new CommentModel();
+
                 var tema = db.Temas.Where(t => t.id_tema == id_tema).FirstOrDefault();
                 model.Title = tema.titlu;
                 model.Text = tema.enunt;
@@ -42,7 +81,7 @@ namespace Homework.Controllers
                 model.help = fisier.cale;
 
                 model.comentariu = new List<CommentModel>();
-                var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).ToList();
+                var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).OrderBy( a=> a.data).ToList();
                 foreach(var c in lista_com)
                 {
                     CommentModel com = new CommentModel();
@@ -56,11 +95,40 @@ namespace Homework.Controllers
                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
                 model.grade = db.Submits.Where(a => a.id_user == 1).FirstOrDefault().rezultat;
 
-                return View(model);
+                m.Hm = model;
+                m.r = rt;
+                m.c = cm;
+                return View(m);
 
 
             }
         }
+
+        public ActionResult ArhivaTeme()
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List<TemaAModel>();
+
+                foreach (var t in db.Temas.Where(a => (a.deadline < DateTime.Now && a.privat == 0)))
+                {
+                    var tm = new TemaAModel();
+                    tm.data = t.deadline;
+                    tm.titlu = t.titlu;
+                    var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
+                    tm.prof = prof.nume + " " + prof.prenume;
+                    var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault();
+                    var r = db.Ratings.Where( a => a.id_tema == t.id_tema).ToList();
+                    tm.rating = r.Average(a => a.rating1);
+                    tm.liceu = l.nume;
+
+                    model.Add(tm);
+                }
+
+                return View(model);
+            }
+        }
+
 
 
 

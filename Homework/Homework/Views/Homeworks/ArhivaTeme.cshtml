@@ -1,0 +1,18 @@
+﻿@Model List<Homework.Models.TemaAModel>
+@{
+    ViewBag.Title = "ArhivaTeme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ArhivaTeme</h2>
+
+<div id="allHomeworks">
+    @foreach (var tm in Model)
+    { <div> <p>Titlu : <strong>@tm.titlu </strong></p>
+            <p>Deadline : <i>@tm.data</i></p>
+            <p>Creata de : @tm.prof din @tm.liceu </p>
+            <p> Rating : @tm.rating </p>
+      </div>
+
+        <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
+</div>

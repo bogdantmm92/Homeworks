@@ -1,0 +1,12 @@
+﻿@model Homework.Models.SeeHomeworkModel
+@{ string actionKeyword = ViewData["ActionKeyword"].ToString(); }
+<div id="addComm">
+
+    @using (Html.BeginForm("AddComment","Homeworks"))
+    { <p>Text: @Html.TextAreaFor(m => Model.c.text) </p>
+
+        <input type="submit" name="addComment" value="Submit" />
+
+    }
+
+</div>

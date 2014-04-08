@@ -348,6 +348,8 @@
     <Content Include="Views\Homeworks\Teme.cshtml" />
     <Content Include="Views\Homeworks\ShowHomework.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
+    <Content Include="Views\Shared\_AddComment.cshtml" />
+    <Content Include="Views\Homeworks\ArhivaTeme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
