@@ -106,6 +106,111 @@ namespace Homework.Controllers
 
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult ChangeInfo()
+        {
+            ViewBag.Title = "Creeaza Tema";
+            var model = new ChangeInfo();
+
+            using (var db = new HomeworkContext())
+            {
+                var user = new User();
+                var id = (int)Session["UserId"];
+                user = db.Users.Where(a => a.id_user == id).FirstOrDefault();
+
+                model.nume = user.nume;
+                model.prenume = user.prenume;
+                model.email = user.email;
+                model.parola = user.parola;
+                model.clasa = user.clasa;
+                model.anStudiu = (int)user.an_studiu;
+                
+            }
+
+            return View(model);
+
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangeInfo(ChangeInfo model)
+        {
+            ViewBag.Title = "Creeaza Tema";
+
+            using (var db = new HomeworkContext())
+            {
+                var user = new User();
+                var id = (int)Session["UserId"];
+                user = db.Users.Where(a => a.id_user == id).FirstOrDefault();
+
+                user.nume = model.nume;
+                user.prenume = model.prenume;
+                user.email = model.email;
+                user.parola = model.parola;
+                user.clasa = model.clasa;
+                user.an_studiu = model.anStudiu;
+
+                db.SaveChanges();
+
+            }
+
+            return View();
+
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult TemeleMele()
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List<TemaAModel>();
+
+                var id = (int)Session["UserId"];
+
+                var teme = db.Temas.Join(db.Participas, a => a.id_tema, b => b.id_tema, (a, b) => new { user = b, tema = a }).Where( a => a.user.id_user == id ).ToList();
+
+                foreach (var t in teme)
+                {
+                    var tm = new TemaAModel(); 
+                    tm.data = t.tema.deadline;
+                    tm.titlu = t.tema.titlu;
+
+                    var prof = db.Users.Where(a => a.id_user == t.tema.id_prof).FirstOrDefault(); 
+                    tm.prof = prof.nume + " " + prof.prenume;
+
+                    var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault(); 
+                    tm.liceu = l.nume;
+
+                    var list2 = new List<double>();
+
+                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.tema.id_tema)) { 
+                        list2.Add(rat.rating1);
+                   }
+
+                    if (list2.Count > 0) { 
+                        var p = list2.Average(); 
+                        tm.rating = p; 
+                    } else { 
+                        tm.rating = 0; 
+                    }
+
+                    tm.id_tema = t.tema.id_tema;
+
+                    model.Add(tm);
+                }
+
+                return View(model);
+                
+            }
+
+            
+        }
+
+
+    
     }
 
 

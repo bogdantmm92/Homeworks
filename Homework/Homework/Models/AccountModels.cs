@@ -168,4 +168,23 @@ namespace Homework.Models
 
     }
 
+    public class ChangeInfo
+    {
+        public string nume { get; set; }
+        public string prenume { get; set; }
+        public string email { get; set; }
+        public string parola { get; set; }
+        public string clasa { get; set; }
+        public int anStudiu { get; set; }
+
+    }
+
+    public class TemaAModel { 
+        public string titlu { get; set; } 
+        public string prof { get; set; } 
+        public string liceu { get; set; } 
+        public double rating { get; set; } 
+        public DateTime data { get; set; } 
+        public int id_tema { get; set; } }
+
 }
