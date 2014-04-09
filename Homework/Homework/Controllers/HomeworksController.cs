@@ -19,12 +19,8 @@ namespace Homework.Controllers
     {
 
 
-       
-
         public ActionResult Licee()
 
-        /*public ActionResult Teme()
->>>>>>> e9687859a5bd8a880072a500cb61b3dd112691c0
         {
             using (var db = new HomeworkContext())
             {
@@ -36,33 +32,36 @@ namespace Homework.Controllers
             }
         }
 
-        public ActionResult ListaTeme(int id_prof)
-        {
-            using (var db = new HomeworkContext())
-            {
-                var model = new List<TemaModel>();
-                foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof)))
-                {
-                    var tm = new TemaModel();
-                    tm.data = t.deadline;
-                    tm.titlu = t.titlu;
-                    var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
-                    var list2 = new List<double>();
-                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
-                        list2.Add(rat.rating1);
-                    if (list2.Count > 0)
-                    {
-                        var p = list2.Average();
-                        tm.rating = p;
-                    }
-                    else
-                    { tm.rating = 0; }
-                    tm.id_tema = t.id_tema;
-                    model.Add(tm);
-                }
-                return View(model);
-            }
-        }*/
+      
+
+       public ActionResult ListaTeme(int id_prof)
+       {
+           using (var db = new HomeworkContext())
+           {
+               var model = new List<TemaModel>();
+               foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof)))
+               {
+                   var tm = new TemaModel();
+                   tm.data = t.deadline;
+                   tm.titlu = t.titlu;
+                   var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
+                   var list2 = new List<double>();
+                   foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
+                       list2.Add(rat.rating1);
+                   if (list2.Count > 0)
+                   {
+                       var p = list2.Average();
+                       tm.rating = p;
+                   }
+                   else
+                   { tm.rating = 0; }
+                   tm.id_tema = t.id_tema;
+                   model.Add(tm);
+               }
+               return View(model);
+           }
+       }
+        
         [HttpPost]
         public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model)
         {
@@ -201,7 +200,7 @@ namespace Homework.Controllers
 
         [HttpPost]
         [Authorize]
-        
+
         public ActionResult AddHomework(AddHomeworkModel model)
         {
             ViewBag.Title = "Creeaza Tema";
@@ -213,7 +212,7 @@ namespace Homework.Controllers
 
                 tema.deadline = model.deadline;
                 tema.enunt = model.enunt;
-                
+
                 var fileName = Path.GetFileName(model.in_out.FileName);
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
                 model.in_out.SaveAs(path);
@@ -274,16 +273,15 @@ namespace Homework.Controllers
         {
             using (var db = new HomeworkContext())
             {
-              
+
                 var profi = new List<ProfesoriModel>();
-                foreach (var u in (db.Users.Where(a => a.tip==2 && a.id_liceu == idd_liceu).ToList()))
-                   
+                foreach (var u in (db.Users.Where(a => a.tip == 2 && a.id_liceu == idd_liceu).ToList()))
                 {
                     var prof = new ProfesoriModel();
                     int id_liceu = u.id_liceu;
                     int id_prof = u.id_user;
 
-                    prof.id_prof =u.id_user;
+                    prof.id_prof = u.id_user;
                     prof.nume = u.nume;
                     prof.prenume = u.prenume;
                     prof.numar_teme = db.Temas.Where(a => a.id_prof == id_prof).Count();
@@ -301,13 +299,20 @@ namespace Homework.Controllers
 
                         foreach (var rat in db.Ratings.Where(r => r.id_tema == tema.id_tema))
                             list2.Add(rat.rating1);
-                            list.Add(list2.Average());       
+                        if (list2.Count() != 0)
+                        {
+                            list.Add(list2.Average());
+                        }
+                        else
+                        {
+                            list.Add(0);
+                        }
                     }
 
                     if (list.Count() == 0) prof.rating = 0;
                     else
                         prof.rating = list.Average();
-                                  
+
                     profi.Add(prof);
                 }
 
@@ -323,51 +328,56 @@ namespace Homework.Controllers
         {
             using (var db = new HomeworkContext())
             {
-              
+
                 var profi = new List<ProfesoriModel>();
-                foreach (var u in (db.Users.Where(a =>(a.nume + a.prenume).Contains(model.NumeProfesor)).ToList()))
-                    if (u.tip==2)
-                {
-                    var prof = new ProfesoriModel();
-                    int id_liceu = u.id_liceu;
-                    int id_prof = u.id_user;
-
-                    prof.id_prof = u.id_user;
-                    prof.nume = u.nume;
-                    prof.prenume = u.prenume;
-                    prof.numar_teme = db.Temas.Where(a => a.id_prof == id_prof).Count();
-
-                    foreach (var liceu in (db.Liceus.Where(a => a.id_liceu == id_liceu)).ToList())
+                foreach (var u in (db.Users.Where(a => (a.nume + a.prenume).Contains(model.NumeProfesor)).ToList()))
+                    if (u.tip == 2)
                     {
-                        prof.liceu = liceu.nume;
+                        var prof = new ProfesoriModel();
+                        int id_liceu = u.id_liceu;
+                        int id_prof = u.id_user;
+
+                        prof.id_prof = u.id_user;
+                        prof.nume = u.nume;
+                        prof.prenume = u.prenume;
+                        prof.numar_teme = db.Temas.Where(a => a.id_prof == id_prof).Count();
+
+                        foreach (var liceu in (db.Liceus.Where(a => a.id_liceu == id_liceu)).ToList())
+                        {
+                            prof.liceu = liceu.nume;
+                        }
+
+                        var list2 = new List<int>();
+                        var list = new List<double>();
+
+                        foreach (var tema in db.Temas.Where(a => a.id_prof == id_prof))
+                        {
+
+                            foreach (var rat in db.Ratings.Where(r => r.id_tema == tema.id_tema))
+                                list2.Add(rat.rating1);
+
+                            if(list2.Count() != 0) {
+                                list.Add(list2.Average());
+                            }
+                            else
+                            {
+                                list.Add(0);
+                            }
+                             
+                        }
+
+                        if (list.Count() == 0) prof.rating = 0;
+                        else
+                            prof.rating = list.Average();
+
+                        profi.Add(prof);
                     }
-
-                    var list2 = new List<int>();
-                    var list = new List<double>();
-
-                    foreach (var tema in db.Temas.Where(a => a.id_prof == id_prof))
-                    {
-
-                        foreach (var rat in db.Ratings.Where(r => r.id_tema == tema.id_tema))
-                            list2.Add(rat.rating1);
-                            list.Add(list2.Average());       
-                    }
-
-                    if (list.Count() == 0) prof.rating = 0;
-                    else
-                        prof.rating = list.Average();
-                                  
-                    profi.Add(prof);
-                }
 
                 return View(profi);
             }
 
         }
-        
 
-    }
-}
 
         [HttpGet]
         [Authorize]
@@ -388,7 +398,7 @@ namespace Homework.Controllers
                 model.parola = user.parola;
                 model.clasa = user.clasa;
                 model.anStudiu = (int)user.an_studiu;
-                
+
             }
 
             return View(model);
@@ -423,6 +433,7 @@ namespace Homework.Controllers
 
         }
 
+
         [HttpGet]
         [Authorize]
         public ActionResult TemeleMele()
@@ -433,31 +444,35 @@ namespace Homework.Controllers
 
                 var id = (int)Session["UserId"];
 
-                var teme = db.Temas.Join(db.Participas, a => a.id_tema, b => b.id_tema, (a, b) => new { user = b, tema = a }).Where( a => a.user.id_user == id ).ToList();
+                var teme = db.Temas.Join(db.Participas, a => a.id_tema, b => b.id_tema, (a, b) => new { user = b, tema = a }).Where(a => a.user.id_user == id).ToList();
 
                 foreach (var t in teme)
                 {
-                    var tm = new TemaAModel(); 
+                    var tm = new TemaAModel();
                     tm.data = t.tema.deadline;
                     tm.titlu = t.tema.titlu;
 
-                    var prof = db.Users.Where(a => a.id_user == t.tema.id_prof).FirstOrDefault(); 
+                    var prof = db.Users.Where(a => a.id_user == t.tema.id_prof).FirstOrDefault();
                     tm.prof = prof.nume + " " + prof.prenume;
 
-                    var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault(); 
+                    var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault();
                     tm.liceu = l.nume;
 
                     var list2 = new List<double>();
 
-                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.tema.id_tema)) { 
+                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.tema.id_tema))
+                    {
                         list2.Add(rat.rating1);
-                   }
+                    }
 
-                    if (list2.Count > 0) { 
-                        var p = list2.Average(); 
-                        tm.rating = p; 
-                    } else { 
-                        tm.rating = 0; 
+                    if (list2.Count > 0)
+                    {
+                        var p = list2.Average();
+                        tm.rating = p;
+                    }
+                    else
+                    {
+                        tm.rating = 0;
                     }
 
                     tm.id_tema = t.tema.id_tema;
@@ -466,18 +481,12 @@ namespace Homework.Controllers
                 }
 
                 return View(model);
-                
+
             }
 
-            
+
         }
-
-
-    
     }
 
 
-
-
 }
-
