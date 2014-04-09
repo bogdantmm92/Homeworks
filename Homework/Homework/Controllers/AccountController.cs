@@ -38,6 +38,8 @@ namespace Homework.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                Session["UserId"] = WebSecurity.GetUserId(model.UserName);
+                //int id = (int)Session["UserId"];
                 return RedirectToLocal(returnUrl);
             }
 
