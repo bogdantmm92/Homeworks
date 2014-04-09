@@ -189,7 +189,7 @@ namespace Homework.Models
         public int id_user { get; set; }
     }
 
-<<<<<<< HEAD
+
     public class SourceModel
     {
         public int result { get; set; }
@@ -198,7 +198,7 @@ namespace Homework.Models
         public int id_submit { get; set; }
     }
 
-=======
+
     public class ChangeInfo
     {
         public string nume { get; set; }
@@ -217,6 +217,5 @@ namespace Homework.Models
         public double rating { get; set; } 
         public DateTime data { get; set; } 
         public int id_tema { get; set; } }
->>>>>>> d92cb7aaa0bab45e016f3050ed3eb3dc6cf10e3a
 
 }
