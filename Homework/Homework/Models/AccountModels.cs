@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using System.Web.Security;
 using System.Web.WebPages.Html;
 
@@ -149,44 +150,56 @@ namespace Homework.Models
     {
         public string username { get; set; }
         public string text { get; set; }
-        public DateTime data { get; set; } 
+        public DateTime data { get; set; }
     }
-    public class RatingModel 
-    { public int rating { get; set; } 
-        public int id_tema { get; set; } 
-        public int id_user { get; set; } 
+    public class RatingModel
+    {
+        public int rating { get; set; }
+        public int id_tema { get; set; }
+        public int id_user { get; set; }
     }
     public class SeeHomeworkModel
     {
-        public HomeworkModel Hm{ get; set; } 
-        public RatingModel r{ get; set; } 
-        public CommentModel c{ get; set; }
-        public int id_tema { get; set; } 
+        public HomeworkModel Hm { get; set; }
+        public RatingModel r { get; set; }
+        public CommentModel c { get; set; }
+        public int id_tema { get; set; }
 
     }
     public class AddHomeworkModel
     {
-        public string title;
+        public string title { get; set; }
         public string enunt { get; set; }
         public DateTime deadline { get; set; }
-        public FileStream help { get; set; }
-        public FileStream in_out { get; set; }
+        public HttpPostedFileBase help { get; set; }
+        public HttpPostedFileBase in_out { get; set; }
         public int an { get; set; }
         public string clasa { get; set; }
-        public bool privat;
+        public bool privat { get; set; }
 
 
     }
 
-    public class TemaAModel {
-        public string titlu { get; set; }
-        public string prof { get; set; }
-        public string liceu { get; set; }
-        public double rating { get; set; }
-        public DateTime data { get; set; }
-        public int id_tema { get; set; }
+
+
+
+    public class ChangeInfo
+    {
+        public string nume { get; set; }
+        public string prenume { get; set; }
+        public string email { get; set; }
+        public string parola { get; set; }
+        public string clasa { get; set; }
+        public int anStudiu { get; set; }
+
     }
 
-   
+    public class TemaAModel { 
+        public string titlu { get; set; } 
+        public string prof { get; set; } 
+        public string liceu { get; set; } 
+        public double rating { get; set; } 
+        public DateTime data { get; set; } 
+        public int id_tema { get; set; } }
 
 }
