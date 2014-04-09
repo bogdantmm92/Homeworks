@@ -347,6 +347,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Homeworks\Teme.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
+    <Content Include="Views\Homeworks\Profesori.cshtml" />
+    <Content Include="Views\Home\Cauta.cshtml" />
+    <Content Include="Views\Homeworks\Licee.cshtml" />
+    <Content Include="Views\Homeworks\ProfesoriLiceu.cshtml" />
+    <Content Include="Views\Homeworks\ListaTeme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

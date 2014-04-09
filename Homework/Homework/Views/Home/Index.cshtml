@@ -1,6 +1,21 @@
-﻿@{
+﻿@model Homework.Models.ProfesoriModel
+@{
     ViewBag.Title = "Home Page";
 }
+
+<div id="search" style="height:10px; width: 150px; float:right">
+
+    @using (Html.BeginForm("Profesori", "Homeworks"))
+                                { @Html.TextBoxFor(m => m.NumeProfesor)
+                                <input type="submit" value="Search" />
+                                }
+
+
+</div>
+
+<div id="search">
+    @Html.ActionLink("Lista Licee", "Licee", "Homeworks");
+</div>
 
 @section featured {
     @if (Request.IsAuthenticated) {
@@ -13,6 +28,7 @@
                     <h3>Homework 3</h3>
                 </hgroup>
             </div>
+
         </section>
     }
     else{
