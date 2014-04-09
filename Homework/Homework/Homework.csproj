@@ -356,6 +356,7 @@
     <Content Include="Views\Shared\_LayoutLoggedIn.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
     <Content Include="Views\Homeworks\SeeHomework.cshtml" />
+    <Content Include="Views\Homeworks\Sources.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -188,4 +188,13 @@ namespace Homework.Models
         public int id_user { get; set; }
     }
 
+    public class SourceModel
+    {
+        public int result { get; set; }
+        public string username { get; set; }
+        public int id_source { get; set; }
+        public int id_submit { get; set; }
+    }
+
+
 }

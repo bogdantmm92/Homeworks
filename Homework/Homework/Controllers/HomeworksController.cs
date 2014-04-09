@@ -99,5 +99,42 @@ namespace Homework.Controllers
         }
         */
 
+        public FileResult Download(int id_submit)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var submit = db.Submits.Where(a => a.id_submit == id_submit).FirstOrDefault();
+                var id_sursa = submit.id_sursa;
+                var file = db.Fisiers.Where(a => a.id_fisier == id_sursa).FirstOrDefault();
+                string path = file.cale;
+
+                //string path = @"E:\facultate an3\sem 2\ip project\Homework\Homework\Fisiere\file1.txt";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+                string fileName = System.IO.Path.GetFileName(path);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+        }
+
+        public ActionResult Sources(int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List <SourceModel> ();
+                var rez = db.Submits.Where(a => a.id_tema == id_tema).ToList();
+                foreach (var c in rez)
+                {
+                    SourceModel source = new SourceModel();
+                    source.result = c.rezultat;
+                    var user = db.Users.Where(a => a.id_user == c.id_user).FirstOrDefault();
+                    source.username = user.nume + " " + user.prenume;
+                    source.id_source = c.id_sursa;
+                    source.id_submit = c.id_submit;
+                    model.Add(source);
+                }
+
+                return View(model);
+            }
+        }
+
     }
 }
