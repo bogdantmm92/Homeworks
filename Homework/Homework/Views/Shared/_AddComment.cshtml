@@ -2,7 +2,7 @@
 @{ string actionKeyword = ViewData["ActionKeyword"].ToString(); }
 <div id="addComm">
 
-    @using (Html.BeginForm("AddComment","Homeworks"))
+    @using (Html.BeginForm("AddComment", "Homeworks", new { id_tema = Model.Hm.id_tema }, FormMethod.Post))
     { <p>Text: @Html.TextAreaFor(m => Model.c.text) </p>
 
         <input type="submit" name="addComment" value="Submit" />

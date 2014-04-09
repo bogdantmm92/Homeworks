@@ -8,6 +8,7 @@ using Homework.Models;
 using WebMatrix.WebData;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Web.Routing;
 
 namespace Homework.Controllers
 {
@@ -15,53 +16,54 @@ namespace Homework.Controllers
     public class HomeworksController : Controller
     {
 
-      /*  public ActionResult Teme()
+        /*  public ActionResult Teme()
+          {
+              using (var db = new HomeworkContext())
+              {
+                  var model = new TemeModel();
+                  model.teme = db.Temas.Where(a => a.id_tema <= 2).ToList();
+
+                  return View(model);
+              }
+          }*/
+        [HttpPost]
+        public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model)
         {
             using (var db = new HomeworkContext())
             {
-                var model = new TemeModel();
-                model.teme = db.Temas.Where(a => a.id_tema <= 2).ToList();
-
-                return View(model);
-            }
-        }*/
-        [HttpPost]
-        public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model) 
-        { 
-            using (var db = new HomeworkContext())
-            { if (ModelState.IsValid) 
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    var f = new Comentariu();
-                    f.data = DateTime.Now;
-                    f.id_tema = 1;
-                    f.id_user = 1;
-                    f.text = model.c.text;
-                    
-
-                    db.Comentarius.Add(f);
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        var f = new Comentariu();
+                        f.data = DateTime.Now;
+                        f.id_tema = model.id_tema;
+                        f.id_user = 1;
+                        f.text = model.c.text;
+
+
+                        db.Comentarius.Add(f);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
                         {
-                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            }
                         }
                     }
+                    return RedirectToAction("ShowHomework" , new RouteValueDictionary( new { controller  = "Homeworks", action ="ShowHomework" , id_tema = model.id_tema }));
                 }
-              return RedirectToAction("ShowHomework"); } 
-              return View(model); 
-            } 
+                return View(model);
+            }
         }
-        public ActionResult ShowHomework()
+        public ActionResult ShowHomework(int id_tema)
         {
             using (var db = new HomeworkContext())
             {
-                int id_tema=1;
                 var m = new SeeHomeworkModel();
                 var model = new HomeworkModel();
                 var rt = new RatingModel();
@@ -70,19 +72,26 @@ namespace Homework.Controllers
                 var tema = db.Temas.Where(t => t.id_tema == id_tema).FirstOrDefault();
                 model.Title = tema.titlu;
                 model.Text = tema.enunt;
+
                 int id_prof = tema.id_prof;
                 var nume_prof = db.Users.Where(t => t.id_user == id_prof).FirstOrDefault();
-                model.Professor = nume_prof.nume +" "+nume_prof.prenume;
+                model.Professor = nume_prof.nume + " " + nume_prof.prenume;
+
                 var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
                 var rat = rating.Average(a => a.rating1);
                 model.rating = rat;
-                int id_fis = (int)tema.id_help;
-                var fisier = db.Fisiers.Where( a => a.id_fisier == id_fis).FirstOrDefault();
-                model.help = fisier.cale;
+
+                if (tema.id_help != null)
+                {
+                    int id_fis = (int)tema.id_help;
+                    var fisier = db.Fisiers.Where(a => a.id_fisier == id_fis).FirstOrDefault();
+                    model.help = fisier.cale;
+                }
+
 
                 model.comentariu = new List<CommentModel>();
-                var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).OrderBy( a=> a.data).ToList();
-                foreach(var c in lista_com)
+                var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).OrderBy(a => a.data).ToList();
+                foreach (var c in lista_com)
                 {
                     CommentModel com = new CommentModel();
                     com.data = c.data;
@@ -92,12 +101,13 @@ namespace Homework.Controllers
                     model.comentariu.Add(com);
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
-               // Session["user_id"] = 1; // ------------------------- Aici e harcodat
+                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
                 model.grade = db.Submits.Where(a => a.id_user == 1).FirstOrDefault().rezultat;
-
+                model.id_tema = id_tema;
                 m.Hm = model;
                 m.r = rt;
                 m.c = cm;
+                m.id_tema = id_tema;
                 return View(m);
 
 
@@ -115,12 +125,26 @@ namespace Homework.Controllers
                     var tm = new TemaAModel();
                     tm.data = t.deadline;
                     tm.titlu = t.titlu;
+
                     var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
                     tm.prof = prof.nume + " " + prof.prenume;
+
                     var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault();
-                    var r = db.Ratings.Where( a => a.id_tema == t.id_tema).ToList();
-                    tm.rating = r.Average(a => a.rating1);
                     tm.liceu = l.nume;
+
+                    var list2 = new List<double>();
+                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
+                        list2.Add(rat.rating1);
+
+                    if (list2.Count > 0)
+                    {
+                        var p = list2.Average();
+                        tm.rating = p;
+                    }
+                    else
+                    { tm.rating = 0; }
+
+                    tm.id_tema = t.id_tema;
 
                     model.Add(tm);
                 }

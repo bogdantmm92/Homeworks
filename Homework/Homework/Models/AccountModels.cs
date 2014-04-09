@@ -133,15 +133,16 @@ namespace Homework.Models
 
     public class HomeworkModel
     {
-        public string Title;
-        public string Professor;
-        public DateTime deadline;
-        public int grade;
-        public double rating;
-        public string Text;
-        public string help;
-        public int current_grade;
-        public List<CommentModel> comentariu;
+        public string Title { get; set; }
+        public string Professor { get; set; }
+        public DateTime deadline { get; set; }
+        public int grade { get; set; }
+        public double rating { get; set; }
+        public string Text { get; set; }
+        public string help { get; set; }
+        public int current_grade { get; set; }
+        public List<CommentModel> comentariu { get; set; }
+        public int id_tema { get; set; }
     }
 
     public class CommentModel
@@ -159,7 +160,9 @@ namespace Homework.Models
     {
         public HomeworkModel Hm{ get; set; } 
         public RatingModel r{ get; set; } 
-        public CommentModel c{ get; set; } 
+        public CommentModel c{ get; set; }
+        public int id_tema { get; set; } 
+
     }
     public class AddHomeworkModel
     {
@@ -176,11 +179,12 @@ namespace Homework.Models
     }
 
     public class TemaAModel {
-        public string titlu;
-        public string prof;
-        public string liceu;
-        public double rating;
-        public DateTime data;
+        public string titlu { get; set; }
+        public string prof { get; set; }
+        public string liceu { get; set; }
+        public double rating { get; set; }
+        public DateTime data { get; set; }
+        public int id_tema { get; set; }
     }
 
    
