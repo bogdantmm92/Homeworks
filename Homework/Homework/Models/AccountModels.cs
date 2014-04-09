@@ -5,7 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.IO;
+using System.Web;
 using System.Web.Security;
+using System.Web.WebPages.Html;
 
 
 namespace Homework.Models
@@ -75,19 +77,45 @@ namespace Homework.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Nume")]
+        [DataType(DataType.Text)]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Prenume")]
+        [DataType(DataType.Text)]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Parola")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Confirma parola")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Liceu")]
+        public int selectedHighschool { get; set; }
+        public System.Web.Mvc.SelectList Highschools { get; set; }
+
+        [Display(Name = "An studiu")]
+        public int selectedYear { get; set; }
+        public System.Web.Mvc.SelectList Years { get; set; }
+
+        [Display(Name = "Clasa")]
+        public string selectedClass { get; set; }
+        public System.Web.Mvc.SelectList Classes { get; set; }
+
+        [Display(Name = "Tip")]
+        public int type { get; set; }
     }
 
     public class ExternalLogin
@@ -135,38 +163,72 @@ namespace Homework.Models
 
     public class HomeworkModel
     {
-        public string Title;
-        public string Professor;
-        public DateTime deadline;
-        public int grade;
-        public double rating;
-        public string Text;
-        public string help;
-        public int current_grade;
-        public List<CommentModel> comentariu;
-
-
-
+        public string Title { get; set; }
+        public string Professor { get; set; }
+        public DateTime deadline { get; set; }
+        public int grade { get; set; }
+        public double rating { get; set; }
+        public string Text { get; set; }
+        public string help { get; set; }
+        public int current_grade { get; set; }
+        public List<CommentModel> comentariu { get; set; }
+        public int id_tema { get; set; }
     }
+
     public class CommentModel
     {
-        public string username;
-        public string text;
-        public DateTime data;
+        public string username { get; set; }
+        public string text { get; set; }
+        public DateTime data { get; set; }
     }
+    public class RatingModel
+    {
+        public int rating { get; set; }
+        public int id_tema { get; set; }
+        public int id_user { get; set; }
+    }
+    public class SeeHomeworkModel
+    {
+        public HomeworkModel Hm { get; set; }
+        public RatingModel r { get; set; }
+        public CommentModel c { get; set; }
+        public int id_tema { get; set; }
 
+    }
     public class AddHomeworkModel
     {
-        public string title;
+        public string title { get; set; }
         public string enunt { get; set; }
         public DateTime deadline { get; set; }
-        public FileStream help { get; set; }
-        public FileStream in_out { get; set; }
+        public HttpPostedFileBase help { get; set; }
+        public HttpPostedFileBase in_out { get; set; }
         public int an { get; set; }
         public string clasa { get; set; }
-        public bool privat;
+        public bool privat { get; set; }
 
 
     }
+
+
+
+
+    public class ChangeInfo
+    {
+        public string nume { get; set; }
+        public string prenume { get; set; }
+        public string email { get; set; }
+        public string parola { get; set; }
+        public string clasa { get; set; }
+        public int anStudiu { get; set; }
+
+    }
+
+    public class TemaAModel { 
+        public string titlu { get; set; } 
+        public string prof { get; set; } 
+        public string liceu { get; set; } 
+        public double rating { get; set; } 
+        public DateTime data { get; set; } 
+        public int id_tema { get; set; } }
 
 }

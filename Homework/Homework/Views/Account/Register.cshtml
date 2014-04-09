@@ -16,6 +16,14 @@
         <legend>Registration Form</legend>
         <ol>
             <li>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Surname)
+                @Html.TextBoxFor(m => m.Surname)
+            </li>
+            <li>
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
             </li>
@@ -26,6 +34,24 @@
             <li>
                 @Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.selectedHighschool)
+                @Html.DropDownListFor(m => m.selectedHighschool, Model.Highschools)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.selectedYear)
+                @Html.DropDownListFor(m => m.selectedYear, Model.Years)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.selectedClass)
+                @Html.DropDownListFor(m => m.selectedClass, Model.Classes)
+            </li>
+            <li>
+                @Html.RadioButtonFor(m => m.type, 1, new { id = "student-radio" , @checked = "checked"}) Student
+                <br />
+                @Html.RadioButtonFor(m => m.type, 2, new { id = "profesor-radio" }) Profesor
             </li>
         </ol>
         <input type="submit" value="Register" />

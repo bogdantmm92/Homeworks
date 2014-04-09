@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using Homework.Filters;
 using Homework.Models;
+using Homework.Utils;
 
 namespace Homework.Controllers
 {
@@ -37,6 +38,8 @@ namespace Homework.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                Session["UserId"] = WebSecurity.GetUserId(model.UserName);
+                //int id = (int)Session["UserId"];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -63,7 +66,38 @@ namespace Homework.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var registerModel = new RegisterModel();
+
+            using (var db = new HomeworkContext())
+            {
+                registerModel.selectedHighschool = 0;
+                var highschools = db.Liceus.ToList().Select(a => new SelectListItem(){
+                    Value = a.id_liceu + "",
+                    Text = a.nume
+                }).ToList();
+                registerModel.Highschools = new SelectList(highschools, "Value", "Text");
+            }
+
+            registerModel.selectedYear = 9;
+            var years = new List<int>() { 9, 10, 11, 12 }.
+                Select(a => new SelectListItem()
+                {
+                    Value = a + "",
+                    Text = a + ""
+                }).ToList();
+            registerModel.Years = new SelectList(years, "Value", "Text");
+
+            registerModel.selectedClass = "A";
+            var classes = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" }.
+                Select(a => new SelectListItem()
+                {
+                    Value = a + "",
+                    Text = a + ""
+                }).ToList();
+            registerModel.Classes = new SelectList(classes, "Value", "Text");
+
+
+            return View(registerModel);
         }
 
         //
@@ -81,6 +115,14 @@ namespace Homework.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+
+                    Session["UserId"] = WebSecurity.GetUserId(User.Identity.Name);
+                    using (var db = new HomeworkContext())
+                    {
+                        AccountUtil.registerUser(db, model, (int)Session["UserId"]);
+                        db.SaveChanges();
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -90,7 +132,7 @@ namespace Homework.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Register();
         }
 
         //
