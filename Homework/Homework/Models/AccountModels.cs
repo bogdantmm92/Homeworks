@@ -150,6 +150,13 @@ namespace Homework.Models
         public string NumeProfesor { get; set; }
     }
 
+    public class LiceuModel
+    {
+        public int id_liceu;
+        public string nume;
+        public string rating_total;
+    }
+
     public class LiceeModel
     {
         public List<Liceu> licee { get; set; }
