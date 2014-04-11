@@ -11,155 +11,34 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <!-- <link href="@Url.Content("~/Content/StyleSheetHw.css")" rel="stylesheet" type="text/css" />     -->
-  
-
-@section Scripts
-{
-
-
-        <script type="text/javascript">
-            /*
-            $(document).ready(function () {
-
-                $(".wrapper").each(function (i) {
-
-                    $(this).find(".question").stars({
-                        //captionEl: $(this).find(".caption")
-                    });
-                });
-            });*/
-            /*
-            $(document).load(function () {
-                alert("GFD");
-                $(".star_rating").stars();
-                
-
-            });
-            
-            (function ($) {
-
-                $.fn.stars = function (op) {
-
-                    var starHtml = "<div><ul class=\"stars clearfix\"><li><a href=\"#1\" class=\"star_1\" rating=\"1\"><span class=\"selected\"></span></a></li><li><a href=\"#2\" class=\"star_2\" rating=\"2\"><span class=\"selected\"></span></a></li><li><a href=\"#3\" class=\"star_3\" rating=\"3\"><span class=\"selected\"></span></a></li><li><a href=\"#4\" class=\"star_4\" rating=\"4\"><span></span></a></li><li><a href=\"#5\" class=\"star_5\" rating=\"5\"><span></span></a></li></ul></div>";
-
-                    return this.each(function () {
-
-                        var wrap = $(this),
-                            html = $(starHtml),
-                            d = $(".dd", html),
-                            a = $("a", html),
-                            currentRating = wrap.attr("rating"),
-                            isReadOnly = true;
-
-                        if (typeof currentRating == "undefined") {
-                            currentRating = "0";
-                            isReadOnly = false;
-                        }
-
-                        //rating
-                        html.addClass("stars_" + currentRating);
-
-                        //bind events if is not read only
-                        if (isReadOnly) {
-
-                            //return false on click
-                            a.click(function () {
-                                return false;
-                            });
-
-                            //kills link default cursor
-                            a.css("cursor", "default");
-
-                        }
-                        else {
-
-                            //add default rating (0)
-                            wrap.val(currentRating);
-
-                            //click
-                            a.click(function () {
-
-                                var _this = $(this),
-                                r = _this.attr("rating");
-
-                                //add value
-                                wrap.val(r);
-
-                                //remove class
-                                var currentClass = html.attr("class");
-                                html.removeClass(currentClass);
-
-                                //add current class
-                                html.addClass("stars_" + r);
-
-                                //update current
-                                currentRating = r;
-
-                                return false;
-
-                            });
-
-                            //hover
-                            a.hover(function () {
-                                var _this = $(this),
-                                r = _this.attr("rating");
-
-                                //add value
-                                wrap.val(r);
-
-                                //remove class
-                                var currentClass = html.attr("class");
-                                html.removeClass(currentClass);
-
-                                //add current class
-                                html.addClass("hover_" + r);
-
-                                return false;
-                            },
-                            function () {
-
-                                var currentClass = html.attr("class");
-                                html.removeClass(currentClass);
-
-                                //add current class
-                                html.addClass("stars_" + currentRating);
-
-                                currentRating
-
-                                return false;
-                            });
-
-                        }
+    <link href="@Url.Content("~/Content/jquery.rating.css")" rel="stylesheet" type="text/css" />
+    <!--
+    <script src="<%= Url.Content ('~/>Scripts/jquery.form.js') %>" type="text/javascript"></script>
+    <script src="<%= Url.Content ('~/>Scripts/jquery.js') %>" type="text/javascript"></script>
+    <script src="<%= Url.Content ('~/>Scripts/jquery.MetaData.js') %>" type="text/javascript"></script>
+    <script src="<%= Url.Content ('~/>Scripts/jquery.rating.js') %>" type="text/javascript"></script> 
+    <script src="<%= Url.Content ('~/>Scripts/jquery.rating.pack.js') %>" type="text/javascript"></script>
+    <script src="<%= Url.Content ('~/>Scripts/jquery-1.9.1.min.js') %>" type="text/javascript"></script>-->
 
 
-                        //put on page
-                        wrap.after(html).hide();
-
-                    });
-
-                };
 
 
-            })(jQuery);
-            */
-        </script>
-}
+
 
 </head>
 <body>
-    <!--
+
     <form>
         <div class="wrapper">
-            <div id="stars1" class="question">
-                <!--
+       <!--     <div id="stars1" class="question">
+
         <input type="radio" name="rating" class="star" value="1" />
         <input type="radio" name="rating" class="star" value="2" />
         <input type="radio" name="rating" class="star" value="3" checked="checked" />
         <input type="radio" name="rating" class="star" value="4" />
         <input type="radio" name="rating" class="star" value="5" />
             
-
+                   
                 <input id="rating1A" name="newrate1" value="1" title="Strongly Disagree" type="radio" />
                 <input name="rating1B" value="2" title="Disagree" type="radio" />
                 <input name="rating1C" value="3" title="Neutral" type="radio" checked="checked" />
@@ -180,14 +59,22 @@
 
                 <p>Rate With Stars</p>
                 <input name="rating" value="0" class="star_rating" />
-                   
+                   -->
+
+            
+                <input name="star1" type="radio" class="star" />
+                <input name="star1" type="radio" class="star" />
+                <input name="star1" type="radio" class="star" />
+                <input name="star1" type="radio" class="star" />
+                <input name="star1" type="radio" class="star" />
+
             </div>
-        </div>
+        
 
 
     </form>
-        
-    -->
+
+
 
 
 </body>

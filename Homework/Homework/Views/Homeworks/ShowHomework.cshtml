@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Homework.Models.SeeHomeworkModel
+@{
     ViewBag.Title = "ShowHomework";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,12 +14,24 @@
 <div>     @Model.Hm.Text     </div>
 <div>     @Model.Hm.help     </div>
 
-@Html.Partial("_AddComment");
+@if (Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0)
+{
+    @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
+}
 
+@Html.Partial("_AddComment")
 
 <div id="allComments">
     @foreach (var comm in Model.Hm.comentariu)
-    { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
+    { <div>
+        <p>
+            <strong>@comm.username :</strong>
+        </p>
+        <p>
+            <i>@comm.data</i>
+        </p>
+        <p>@comm.text</p>
+     </div>
 
         <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
 </div>

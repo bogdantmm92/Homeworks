@@ -8,20 +8,27 @@
 
 
 <div id="allSources">
-    @foreach (var source in Model)
+
+    @if(Model.Any())
     {
-        <div>
-            <p><strong>@source.username :</strong></p>
-            <p>@source.result</p>
-            <p>@Html.ActionLink("Descarca", "Download", "Homeworks", new { id_submit = source.id_submit }, null) </p>
-        </div>
+        foreach (var source in Model)
+        {
+            <div>
+                <p><strong>@source.username </strong></p>
+                <p>Rezultat: @source.result</p>
+                <p>@Html.ActionLink("Descarca", "Download", "Homeworks", new { id_submit = source.id_submit }, null) </p>
+            </div>
 
-        <center>
-            <div style="height: 3px; width: 800px; background-color: black"></div>
-        </center>
-
+            <center>
+                <div style="height: 3px; width: 800px; background-color: black"></div>
+            </center>
+        }
     }
-</div>
-<div class="pager">
-    <%= Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount) %>
+    else
+    {
+        <p>
+            Ne pare rau, nu exista surse pentru aceasta tema
+        </p>
+    }
+    
 </div>

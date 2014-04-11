@@ -158,6 +158,7 @@ namespace Homework.Models
         public int current_grade { get; set; }
         public List<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
+        public int privat { get; set; }
     }
 
     public class CommentModel
@@ -195,13 +196,6 @@ namespace Homework.Models
         public string clasa { get; set; }
         public bool privat { get; set; }
 
-    }
-
-    public class RatingModel
-    {
-        public int rating { get; set; }
-        public int id_tema { get; set; }
-        public int id_user { get; set; }
     }
 
 
