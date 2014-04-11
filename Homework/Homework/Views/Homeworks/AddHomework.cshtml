@@ -16,27 +16,60 @@
 
     <div>
 
-        @using (Html.BeginForm("AddHomework", "Homeworks", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <p> Titlu: @Html.EditorFor(m => Model.title) </p>
-            <p> Enunt: @Html.TextAreaFor(m => Model.enunt)</p>
-            <p> Deadline: @Html.EditorFor(m => Model.deadline)</p>
-            <p> Fisier Help: <input type="file" name="help" id="help"></p>
-            <p> Fisier In Out: <input type="file" name="in_out" id="in_out"></p>
-            <p>
-                An:
-                @for (int i = 9; i < 13; i++)
-                {
-                    @Html.RadioButtonFor(b => b.an, 1) @i
-                }
-            </p>
-            <p> Clasa:@Html.EditorFor(m => Model.clasa)</p>
-            <p> Privat: @Html.CheckBoxFor(m => Model.privat) </p>
+        @using( Html.BeginForm( "AddHomework", "Homeworks", FormMethod.Post, new { enctype = "multipart/form-data"} ) ) {
+    
+        <ul style="list-style-type:none;">
 
-            <input type="submit" name="addhomework" value="creeaza" />
+        <li>
+            @Html.LabelFor( m => Model.title )
+            @Html.EditorFor( m => Model.title )
+        </li>
 
-        }
+        <li>
+            @Html.LabelFor( m => Model.enunt )
+            @Html.TextAreaFor( m => Model.enunt )
+        </li>
 
-    </div>
+        <li>
+            @Html.LabelFor( m => Model.deadline )
+            @Html.EditorFor( m => Model.deadline )
+        </li>
+
+        <li>
+            Fisier Help: 
+            <br/>
+            <input type="file" name="help" id="help">
+        </li>
+    
+        <li>
+            Fisier In Out: 
+            <br/>
+            <input type="file" name="in_out" id="in_out">
+        </li>
+    
+        <li>
+            An:
+            @for( int i = 9; i <= 12; i++ ) {
+                @Html.RadioButtonFor( b => b.an, i ) @i
+            }
+        </li>
+
+        <li>
+            @Html.LabelFor( m => Model.clasa )
+            @Html.EditorFor( m => Model.clasa )
+        </li>
+
+        <li>
+            @Html.LabelFor( m => Model.privat )
+            @Html.CheckBoxFor( m => Model.privat )
+        </li>
+
+        </ul>
+            
+        <input type="submit" name="addhomework" value="creeaza" />
+
+       }
+
+</div>
 </body>
 </html>

@@ -11,6 +11,7 @@ namespace Homework
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Tema
     {
@@ -21,14 +22,28 @@ namespace Homework
             this.Ratings = new HashSet<Rating>();
             this.Submits = new HashSet<Submit>();
         }
-    
+
+        [Required]
         public int id_tema { get; set; }
+
+        [Required]
         public string enunt { get; set; }
+
+        [Required]
         public string titlu { get; set; }
+
+        [Required]
         public int id_prof { get; set; }
+
+        [Required]
         public int id_in_out { get; set; }
+
         public Nullable<int> id_help { get; set; }
+
+        [Required]
         public System.DateTime deadline { get; set; }
+
+        [Required]
         public int privat { get; set; }
     
         public virtual ICollection<Comentariu> Comentarius { get; set; }
@@ -39,4 +54,5 @@ namespace Homework
         public virtual ICollection<Submit> Submits { get; set; }
         public virtual User User { get; set; }
     }
+
 }
