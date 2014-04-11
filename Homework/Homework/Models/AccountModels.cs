@@ -140,7 +140,8 @@ namespace Homework.Models
         public int grade { get; set; }
         public double rating { get; set; }
         public string Text { get; set; }
-        public string help { get; set; }
+        public int help { get; set; }
+        public int in_out { get; set; }
         public int current_grade { get; set; }
         public List<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
@@ -200,6 +201,16 @@ namespace Homework.Models
         public string liceu { get; set; } 
         public double rating { get; set; } 
         public DateTime data { get; set; } 
-        public int id_tema { get; set; } }
+        public int id_tema { get; set; }
+    }
+
+    public class NotaModel {
+        public string Nume { get; set; }
+        public int Nota { get; set; }
+        public int An { get; set; }
+        public string Clasa { get; set; }
+    }
+
+
 
 }
