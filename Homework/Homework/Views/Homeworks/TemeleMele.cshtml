@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 class="Titlu">@ViewBag.Title</h2>
+<br>
 
 <div id="allHomeworks">
 
@@ -13,10 +14,9 @@
         
         <div> 
     
-            <p>Titlu : <strong>@tm.titlu </strong></p> 
-            <p>Deadline : <i>@tm.data</i></p> 
-            <p>Creata de : @tm.prof din @tm.liceu </p> 
-            <p> Rating : @tm.rating </p> 
+            <p><strong>Titlu :</strong> @tm.titlu </p> 
+            <p><strong>Deadline : </strong><i>@tm.data</i></p> 
+            <p><strong> Rating :</strong> @tm.rating </p> 
             <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p> 
 
         </div>

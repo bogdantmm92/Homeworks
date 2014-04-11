@@ -245,11 +245,17 @@ namespace Homework.Models
 
     public class ChangeInfo
     {
+        [Display(Name = "Nume")]
         public string nume { get; set; }
+        [Display(Name = "Prenume")]
         public string prenume { get; set; }
+        [Display(Name = "Email")]
         public string email { get; set; }
+        [Display(Name = "Parola")]
         public string parola { get; set; }
+        [Display(Name = "Clasa")]
         public string clasa { get; set; }
+        [Display(Name = "An de Studiu")]
         public int anStudiu { get; set; }
 
     }

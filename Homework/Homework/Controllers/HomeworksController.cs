@@ -46,6 +46,7 @@ namespace Homework.Controllers {
                    tm.data = t.deadline;
                    tm.titlu = t.titlu;
                    var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
+                   tm.prof = prof.nume + " " + prof.prenume;
                    var list2 = new List<double>();
                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
                        list2.Add(rat.rating1);
@@ -197,7 +198,7 @@ namespace Homework.Controllers {
         [HttpGet]
         public ActionResult AddHomework() {
 
-            if( !(bool)Session ["prof"] ) {
+            if( !(bool)Session ["isProf"] ) {
                 //TO DO: De pus 'Index.cshtml' la shared ?
                 return View( "~/Views/Home/Index.cshtml" );
             }
@@ -454,7 +455,7 @@ namespace Homework.Controllers {
             using( var db = new HomeworkContext() ) {
                 var model = new List<TemaAModel>();
                 var id = (int)Session ["UserId"];
-                bool isProf = (bool)Session ["prof"];
+                bool isProf = (bool)Session ["isProf"];
                 var user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
                 //TO DO: De scris metode pt isProf is userId
                 if( isProf ) {
@@ -518,18 +519,26 @@ namespace Homework.Controllers {
             {
                 var model = new List<NotaModel>();
 
+                var participanti  = new List<int>();
+                foreach (var p in db.Participas.Where(a => a.id_tema == id_tema))
+                {
+                    participanti.Add(p.id_user);
+                }
 
                 foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
                 {
                     var nota = new NotaModel();
                     int user_id = submit.Key;
-                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
-                    nota.Nume = name.nume + " " + name.prenume;
-                    nota.An = (int)name.an_studiu;
-                    nota.Clasa = name.clasa;
-                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
+                    if (participanti.Contains(user_id))
+                    {
+                        var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
+                        nota.Nume = name.nume + " " + name.prenume;
+                        nota.An = (int)name.an_studiu;
+                        nota.Clasa = name.clasa;
+                        nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
 
-                    model.Add(nota);
+                        model.Add(nota);
+                    }
 
                 }
 
