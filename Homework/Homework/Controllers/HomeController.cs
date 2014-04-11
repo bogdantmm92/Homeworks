@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace Homework.Controllers
 {
     public class HomeController : Controller
@@ -12,6 +13,11 @@ namespace Homework.Controllers
         /*
         public ActionResult Index()
         {
+=======
+namespace Homework.Controllers {
+    public class HomeController : Controller {
+        public ActionResult Index() {
+>>>>>>> 14afc4c624d83c517f9e795a3e802d1f37a3a7ab
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
@@ -77,15 +83,13 @@ namespace Homework.Controllers
 
         }
 
-        public ActionResult About()
-        {
+        public ActionResult About() {
             ViewBag.Message = "Your app description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
-        {
+        public ActionResult Contact() {
             ViewBag.Message = "Your contact page.";
 
             return View();

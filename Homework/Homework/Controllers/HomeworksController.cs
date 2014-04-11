@@ -3,6 +3,7 @@ using Homework.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,23 +12,21 @@ using System.Web.Mvc;
 using WebMatrix.WebData;
 using System.Web.Routing;
 
-namespace Homework.Controllers
-{
+namespace Homework.Controllers {
     [Authorize]
     [InitializeSimpleMembership]
-    public class HomeworksController : Controller
-    {
+    public class HomeworksController : Controller {
 
-        /*public ActionResult Teme()
-        {
-            using (var db = new HomeworkContext())
-            {
+        public ActionResult Teme() {
+            using( var db = new HomeworkContext() ) {
+
                 var model = new TemeModel();
-                model.teme = db.Temas.Where(a => a.id_tema <= 2).ToList();
+                model.teme = db.Temas.Where( a => a.id_tema <= 2 ).ToList();
 
-                return View(model);
+                return View( model );
             }
-        }*/
+        }
+
         [HttpPost]
         public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model)
         {
@@ -40,7 +39,7 @@ namespace Homework.Controllers
                         var f = new Comentariu();
                         f.data = DateTime.Now;
                         f.id_tema = model.id_tema;
-                        f.id_user = 1;
+                        f.id_user = (int)Session["UserId"];
                         f.text = model.c.text;
 
 
@@ -81,8 +80,14 @@ namespace Homework.Controllers
                 model.Professor = nume_prof.nume + " " + nume_prof.prenume;
 
                 var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
-                var rat = rating.Average(a => a.rating1);
-                model.rating = rat;
+
+                if(rating.Count == 0) {
+                    model.rating = 0.0;
+                } else {
+                    var rat = rating.Average( a => a.rating1 );
+                    model.rating = rat;
+                }
+                
 
                 if (tema.id_help != null)
                 {
@@ -194,72 +199,97 @@ namespace Homework.Controllers
 
 
         [HttpGet]
-        [Authorize]
-        public ActionResult AddHomework()
-        {
+        public ActionResult AddHomework() {
+
+            if( !(bool)Session ["prof"] ) {
+                //TO DO: De pus 'Index.cshtml' la shared ?
+                return View( "~/Views/Home/Index.cshtml" );
+            }
+
             ViewBag.Title = "Creeaza Tema";
             return View();
         }
 
         [HttpPost]
-        [Authorize]
-        
-        public ActionResult AddHomework(AddHomeworkModel model)
-        {
+        public ActionResult AddHomework( AddHomeworkModel model ) {
+
+            //Unlikely event
+            if( !(bool)Session ["prof"] ) {
+                //TO DO: De pus 'Index.cshtml' la shared ?
+                return View( "~/Views/Home/Index.cshtml" );
+            }
+
             ViewBag.Title = "Creeaza Tema";
-            using (var db = new HomeworkContext())
-            {
+            using( var db = new HomeworkContext() ) {
                 var tema = new Tema();
-                var fisierInOut = new Fisier();
-                var fisierHelp = new Fisier();
 
                 tema.deadline = model.deadline;
                 tema.enunt = model.enunt;
-                
-                var fileName = Path.GetFileName(model.in_out.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                model.in_out.SaveAs(path);
+
+                var fisierInOut = new Fisier();
+                var fisierHelp = new Fisier();
+
+                var fileName = Path.GetFileName( model.in_out.FileName );
+                var path = Path.Combine( Server.MapPath( "~/App_Data/uploads" ), fileName );
+                model.in_out.SaveAs( path );
 
                 fisierInOut.cale = path;
 
-                fileName = Path.GetFileName(model.help.FileName);
-                path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                model.help.SaveAs(path);
-
-                fisierHelp.cale = path;
-
-                db.Fisiers.Add(fisierInOut);
-                db.Fisiers.Add(fisierHelp);
-                //db.SaveChanges();
+                db.Fisiers.Add( fisierInOut );
 
                 tema.Fisier = fisierInOut;
-                tema.Fisier1 = fisierHelp;
-
                 tema.id_in_out = fisierInOut.id_fisier;
-                tema.id_help = fisierHelp.id_fisier;
 
-                //WebSecurity.InitializeDatabaseConnection;
-                tema.id_prof = (int)Session["UserId"];
+                if( model.help != null ) {
+
+                    fileName = Path.GetFileName( model.help.FileName );
+                    path = Path.Combine( Server.MapPath( "~/App_Data/uploads" ), fileName );
+                    model.help.SaveAs( path );
+
+                    fisierHelp.cale = path;
+
+
+                    db.Fisiers.Add( fisierHelp );
+
+                    tema.Fisier1 = fisierHelp;
+                    tema.id_help = fisierHelp.id_fisier;
+
+                } else {
+                    tema.Fisier1 = null;
+                    tema.id_help = null;
+                }
+
+                tema.id_prof = (int)Session ["UserId"];
                 tema.privat = model.privat == true ? 1 : 0;
 
                 tema.titlu = model.title;
 
-                db.Temas.Add(tema);
+                db.Temas.Add( tema );
 
-                try
-                {
-                    db.SaveChanges();
+                string classes = model.clasa.Replace( " ", "" ).Replace( ",", "" );
+
+                int idLiceu = (int)Session ["LiceuId"];
+
+                var users = db.Users.Where( a => a.an_studiu == model.an && classes.Contains( a.clasa ) && a.id_liceu == idLiceu && a.tip == 1 ).ToList();
+
+                //TO DO: Un 'bulk insert'
+                foreach( var user in users ) {
+                    db.Participas.Add( new Participa {
+                        id_tema = tema.id_tema,
+                        id_user = user.id_user
+                    } );
                 }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
+
+                try {
+                    db.SaveChanges();
+                } catch( DbEntityValidationException e ) {
+
+                    foreach( var eve in e.EntityValidationErrors ) {
+                        Debug.WriteLine( "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State );
+                        foreach( var ve in eve.ValidationErrors ) {
+                            Debug.WriteLine( "- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage );
                         }
                     }
                     throw;
@@ -272,17 +302,14 @@ namespace Homework.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult ChangeInfo()
-        {
+        public ActionResult ChangeInfo() {
             ViewBag.Title = "Creeaza Tema";
             var model = new ChangeInfo();
 
-            using (var db = new HomeworkContext())
-            {
+            using( var db = new HomeworkContext() ) {
                 var user = new User();
-                var id = (int)Session["UserId"];
-                user = db.Users.Where(a => a.id_user == id).FirstOrDefault();
+                var id = (int)Session ["UserId"];
+                user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
 
                 model.nume = user.nume;
                 model.prenume = user.prenume;
@@ -290,25 +317,22 @@ namespace Homework.Controllers
                 model.parola = user.parola;
                 model.clasa = user.clasa;
                 model.anStudiu = (int)user.an_studiu;
-                
+
             }
 
-            return View(model);
+            return View( model );
 
 
         }
 
         [HttpPost]
-        [Authorize]
-        public ActionResult ChangeInfo(ChangeInfo model)
-        {
+        public ActionResult ChangeInfo( ChangeInfo model ) {
             ViewBag.Title = "Creeaza Tema";
 
-            using (var db = new HomeworkContext())
-            {
+            using( var db = new HomeworkContext() ) {
                 var user = new User();
-                var id = (int)Session["UserId"];
-                user = db.Users.Where(a => a.id_user == id).FirstOrDefault();
+                var id = (int)Session ["UserId"];
+                user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
 
                 user.nume = model.nume;
                 user.prenume = model.prenume;
@@ -326,54 +350,97 @@ namespace Homework.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult TemeleMele()
-        {
-            using (var db = new HomeworkContext())
-            {
+        public ActionResult TemeleMele() {
+
+            using( var db = new HomeworkContext() ) {
                 var model = new List<TemaAModel>();
 
-                var id = (int)Session["UserId"];
+                var id = (int)Session ["UserId"];
+                bool isProf = (bool)Session ["prof"];
 
-                var teme = db.Temas.Join(db.Participas, a => a.id_tema, b => b.id_tema, (a, b) => new { user = b, tema = a }).Where( a => a.user.id_user == id ).ToList();
+                var user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
 
-                foreach (var t in teme)
-                {
-                    var tm = new TemaAModel(); 
-                    tm.data = t.tema.deadline;
-                    tm.titlu = t.tema.titlu;
+                //TO DO: De scris metode pt isProf is userId
+                if( isProf ) {
 
-                    var prof = db.Users.Where(a => a.id_user == t.tema.id_prof).FirstOrDefault(); 
-                    tm.prof = prof.nume + " " + prof.prenume;
+                    var teme = db.Temas.Where( a => a.id_prof == id ).ToList();
 
-                    var l = db.Liceus.Where(a => a.id_liceu == prof.id_liceu).FirstOrDefault(); 
-                    tm.liceu = l.nume;
+                    foreach( var t in teme ) {
 
-                    var list2 = new List<double>();
+                        var tm = new TemaAModel();
+                        tm.data = t.deadline;
+                        tm.titlu = t.titlu;
 
-                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.tema.id_tema)) { 
-                        list2.Add(rat.rating1);
-                   }
+                        var prof = db.Users.Where( a => a.id_user == t.id_prof ).FirstOrDefault();
+                        tm.prof = prof.nume + " " + prof.prenume;
 
-                    if (list2.Count > 0) { 
-                        var p = list2.Average(); 
-                        tm.rating = p; 
-                    } else { 
-                        tm.rating = 0; 
+                        var l = db.Liceus.Where( a => a.id_liceu == prof.id_liceu ).FirstOrDefault();
+                        tm.liceu = l.nume;
+
+                        var list2 = new List<double>();
+
+                        foreach( var rat in db.Ratings.Where( a => a.id_tema == t.id_tema ) ) {
+                            list2.Add( rat.rating1 );
+                        }
+
+                        if( list2.Count > 0 ) {
+                            var p = list2.Average();
+                            tm.rating = p;
+                        } else {
+                            tm.rating = 0;
+                        }
+
+                        tm.id_tema = t.id_tema;
+
+                        model.Add( tm );
+
                     }
 
-                    tm.id_tema = t.tema.id_tema;
+                } else {
 
-                    model.Add(tm);
+                    var teme = db.Temas.Join( db.Participas, a => a.id_tema, b => b.id_tema, ( a, b ) => new {
+                        user = b,
+                        tema = a
+                    } ).Where( a => a.user.id_user == id ).ToList();
+
+                    foreach( var t in teme ) {
+
+                        var tm = new TemaAModel();
+                        tm.data = t.tema.deadline;
+                        tm.titlu = t.tema.titlu;
+
+                        var prof = db.Users.Where( a => a.id_user == t.tema.id_prof ).FirstOrDefault();
+                        tm.prof = prof.nume + " " + prof.prenume;
+
+                        var l = db.Liceus.Where( a => a.id_liceu == prof.id_liceu ).FirstOrDefault();
+                        tm.liceu = l.nume;
+
+                        var list2 = new List<double>();
+
+                        foreach( var rat in db.Ratings.Where( a => a.id_tema == t.tema.id_tema ) ) {
+                            list2.Add( rat.rating1 );
+                        }
+
+                        if( list2.Count > 0 ) {
+                            var p = list2.Average();
+                            tm.rating = p;
+                        } else {
+                            tm.rating = 0;
+                        }
+
+                        tm.id_tema = t.tema.id_tema;
+
+                        model.Add( tm );
+
+                    }
+
                 }
 
-                return View(model);
-                
+                return View( model );
+
             }
 
-            
         }
-
 
         public ActionResult SeeHomework()
         {
@@ -382,11 +449,6 @@ namespace Homework.Controllers
 
 
 
-    
-
     }
-
-
-
 
 }
