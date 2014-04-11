@@ -1,19 +1,30 @@
-﻿@{
+﻿@model Homework.Models.SeeHomeworkModel
+@{
     ViewBag.Title = "ShowHomework";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ShowHomework</h2>
+<h2>Titlul temei :   @Model.Hm.Title</h2>
+<div>  Creata de   @Model.Hm.Professor</div>
 
-<div>     @Model.Hm.Title    </div>
-<div>     @Model.Hm.deadline </div>
-<div>     @Model.Hm.Professor</div>
-<div>     @Model.Hm.rating   </div>
-<div>     @Model.Hm.grade    </div>
-<div>     @Model.Hm.Text     </div>
-<div>     @Model.Hm.help     </div>
+<div>  Deadline:   @Model.Hm.deadline </div>
+<div>  Rating :   @Model.Hm.rating   </div>
+<div>  Nota mea:   @Model.Hm.grade    </div>
+<div>  Enuntul temei :   @Model.Hm.Text     </div>
 
-@Html.Partial("_AddComment");
+
+<div>
+    Fisiere pentru tema : 
+    <div> 
+
+    @{if(Model.Hm.help != null)
+        {@Html.ActionLink("Descarca Fisier Help", "DownloadHelp", "Homeworks", new { id_help = Model.Hm.help }, null);} }</div>
+    <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
+</div>
+<div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div>
+
+
+@Html.Partial("_AddComment")
 
 
 <div id="allComments">

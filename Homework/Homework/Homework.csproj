@@ -358,6 +358,7 @@
     <Content Include="Views\Homeworks\TemeleMele.cshtml" />
     <Content Include="Views\Homeworks\ArhivaTeme.cshtml" />
     <Content Include="Views\Homeworks\ShowHomework.cshtml" />
+	<Content Include="Views\Homeworks\VeziNote.cshtml" />
     <Content Include="Views\Shared\_AddComment.cshtml" />
 
   </ItemGroup>

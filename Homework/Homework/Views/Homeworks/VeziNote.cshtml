@@ -1,0 +1,28 @@
+﻿@model List<Homework.Models.NotaModel> 
+@{
+    ViewBag.Title = "VeziNote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notele studentilor</h2>
+
+@if (Model.Count>0) { 
+<div id="allGrades">
+    <table>
+        <tr><td><strong>Numele</strong></td><td><strong>Anul</strong></td><td><strong>Clasa</strong></td><td><strong>Rezultatul</strong></td></tr>
+    @foreach (var nota in Model)
+    { <tr>
+        <td>@nota.Nume</td>
+        <td>@nota.An</td>
+        <td>@nota.Clasa</td>
+        <td>@nota.Nota</td>
+     </tr>
+     }
+    </table>
+</div>}
+      else
+{ 
+    <div> Nici un student nu a trimis tema pana acum </div>
+}
+      
+      

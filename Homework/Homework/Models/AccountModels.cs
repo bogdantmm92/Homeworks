@@ -116,6 +116,7 @@ namespace Homework.Models
 
         [Display(Name = "Tip")]
         public int type { get; set; }
+
     }
 
     public class ExternalLogin
@@ -176,7 +177,8 @@ namespace Homework.Models
         public int grade { get; set; }
         public double rating { get; set; }
         public string Text { get; set; }
-        public string help { get; set; }
+        public int? help { get; set; }
+        public int in_out { get; set; }
         public int current_grade { get; set; }
         public List<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
@@ -204,13 +206,35 @@ namespace Homework.Models
     }
     public class AddHomeworkModel
     {
+        [Required]
+        [Display( Name = "Titlu" )]
         public string title { get; set; }
+
+        [Required]
+        [Display( Name = "Enunt" )]
         public string enunt { get; set; }
+        
+        [Required]
+        [Display( Name = "Deadline" )]
         public DateTime deadline { get; set; }
+
+        [Display( Name = "Fisier Help" )]
         public HttpPostedFileBase help { get; set; }
+
+        [Required]
+        [Display( Name = "Fisiere In-Out" )]
         public HttpPostedFileBase in_out { get; set; }
+
+        [Required]
+        [Display( Name = "An Studiu" )]
         public int an { get; set; }
+
+        [Required]
+        [Display( Name = "Clasa" )]
         public string clasa { get; set; }
+
+        [Required]
+        [Display( Name = "Privat" )]
         public bool privat { get; set; }
 
 
@@ -236,6 +260,16 @@ namespace Homework.Models
         public string liceu { get; set; } 
         public double rating { get; set; } 
         public DateTime data { get; set; } 
-        public int id_tema { get; set; } }
+        public int id_tema { get; set; }
+    }
+
+    public class NotaModel {
+        public string Nume { get; set; }
+        public int Nota { get; set; }
+        public int An { get; set; }
+        public string Clasa { get; set; }
+    }
+
+
 
 }

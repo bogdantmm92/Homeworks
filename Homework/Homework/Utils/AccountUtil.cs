@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using WebMatrix.WebData;
 
-namespace Homework.Utils
-{
-    public class AccountUtil
-    {
-        public static void registerUser(HomeworkContext db, RegisterModel model, int userId)
-        {
+namespace Homework.Utils {
+    public class AccountUtil {
+
+        public static void registerUser( HomeworkContext db, RegisterModel model, int userId ) {
             var user = new User();
             user.id_user = userId;
             user.nume = model.Name;
@@ -21,8 +20,8 @@ namespace Homework.Utils
             user.tip = model.type;
             user.clasa = model.selectedClass;
             user.an_studiu = model.selectedYear;
-            user.Liceu = db.Liceus.Where(a => a.id_liceu == model.selectedHighschool).First();
-            db.Users.Add(user);
+            user.Liceu = db.Liceus.Where( a => a.id_liceu == model.selectedHighschool ).First();
+            db.Users.Add( user );
         }
     }
 }
