@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Homework.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,17 @@ namespace Homework.Controllers {
             return View();
         }
 
+        [HttpPost]
+
+        public ActionResult Cauta(SearchModel model)
+        {
+            return View();
+        }
+
+        
+
         public ActionResult About() {
+
             ViewBag.Message = "Your app description page.";
 
             return View();
