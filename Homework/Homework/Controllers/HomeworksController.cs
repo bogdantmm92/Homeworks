@@ -61,40 +61,6 @@ namespace Homework.Controllers {
                 return View(model);
             }
         }
-
-        public FileResult DownloadHelp(int id_help) 
-        { 
-            using (var db = new HomeworkContext()) 
-           { 
-            var help = db.Temas.Where(a => a.id_help == id_help).FirstOrDefault();
-            var id_h = help.id_help;
-                var file = db.Fisiers.Where(a => a.id_fisier == id_h).FirstOrDefault(); 
-                string path = file.cale;
-
-//string path = @"E:\facultate an3\sem 2\ip project\Homework\Homework\Fisiere\file1.txt"; 
-                byte[] fileBytes = System.IO.File.ReadAllBytes(path); 
-                string fileName = System.IO.Path.GetFileName(path);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName); 
-            } 
-        }
-
-
-        public FileResult DownloadIn_Out(int id_io)
-        {
-            using (var db = new HomeworkContext())
-            {
-                var inp = db.Temas.Where(a => a.id_in_out == id_io).FirstOrDefault();
-                var id_i = inp.id_in_out;
-                var file = db.Fisiers.Where(a => a.id_fisier == id_i).FirstOrDefault();
-                string path = file.cale;
-
-                //string path = @"E:\facultate an3\sem 2\ip project\Homework\Homework\Fisiere\file1.txt"; 
-                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
-                string fileName = System.IO.Path.GetFileName(path);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-            }
-        }
-
         public ActionResult ShowHomework(int id_tema)
         {
             using (var db = new HomeworkContext())
@@ -113,28 +79,14 @@ namespace Homework.Controllers {
                 model.Professor = nume_prof.nume + " " + nume_prof.prenume;
 
                 var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
-
                 var rat = 0.0;
                 if (rating.Count > 0)
                 { rat = rating.Average(a => a.rating1); }
-                
+
                 model.rating = rat;
 
-
-                if(rating.Count == 0) {
-                    model.rating = 0.0;
-                } else {
-                    var rat = rating.Average( a => a.rating1 );
-                    model.rating = rat;
-                }
+                model.help = tema.id_help;
                 
-
-                if (tema.id_help != null)
-                {
-                   // int id_fis = (int)tema.id_help;
-                   // var fisier = db.Fisiers.Where(a => a.id_fisier == id_fis).FirstOrDefault();
-                    model.help = (int)tema.id_help;
-                }
                 model.in_out = tema.id_in_out;
 
 
@@ -162,7 +114,6 @@ namespace Homework.Controllers {
 
             }
         }
-
         public ActionResult ArhivaTeme()
         {
             using (var db = new HomeworkContext())
@@ -417,40 +368,10 @@ namespace Homework.Controllers {
                         var prof = db.Users.Where( a => a.id_user == t.tema.id_prof ).FirstOrDefault();
                         tm.prof = prof.nume + " " + prof.prenume;
 
-
-        public ActionResult VeziNote(int id_tema)
-        {
-            using (var db = new HomeworkContext())
-            {
-                var model = new List<NotaModel>();
-
-               
-                foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
-                {
-                    var nota = new NotaModel();
-                    int user_id = submit.Key;
-                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
-                    nota.Nume = name.nume + " " + name.prenume;
-                    nota.An = (int)name.an_studiu;
-                    nota.Clasa = name.clasa;
-                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
-
-                    model.Add(nota);
-
-                }
-
-                return View(model);
-            }
-        }
-
-    
-    }
-
                         var l = db.Liceus.Where( a => a.id_liceu == prof.id_liceu ).FirstOrDefault();
                         tm.liceu = l.nume;
 
                         var list2 = new List<double>();
-
 
                         foreach( var rat in db.Ratings.Where( a => a.id_tema == t.tema.id_tema ) ) {
                             list2.Add( rat.rating1 );
@@ -475,6 +396,32 @@ namespace Homework.Controllers {
 
             }
 
+        }
+
+
+        public ActionResult VeziNote(int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List<NotaModel>();
+
+
+                foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
+                {
+                    var nota = new NotaModel();
+                    int user_id = submit.Key;
+                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
+                    nota.Nume = name.nume + " " + name.prenume;
+                    nota.An = (int)name.an_studiu;
+                    nota.Clasa = name.clasa;
+                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
+
+                    model.Add(nota);
+
+                }
+
+                return View(model);
+            }
         }
 
     }

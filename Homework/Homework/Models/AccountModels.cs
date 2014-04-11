@@ -141,7 +141,7 @@ namespace Homework.Models
         public int grade { get; set; }
         public double rating { get; set; }
         public string Text { get; set; }
-        public int help { get; set; }
+        public int? help { get; set; }
         public int in_out { get; set; }
         public int current_grade { get; set; }
         public List<CommentModel> comentariu { get; set; }
