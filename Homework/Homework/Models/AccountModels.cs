@@ -135,26 +135,38 @@ namespace Homework.Models
 
     public class HomeworkModel
     {
-        public string Title;
-        public string Professor;
-        public DateTime deadline;
-        public int grade;
-        public double rating;
-        public string Text;
-        public string help;
-        public int current_grade;
-        public List<CommentModel> comentariu;
-
-
-
+        public string Title { get; set; }
+        public string Professor { get; set; }
+        public DateTime deadline { get; set; }
+        public int grade { get; set; }
+        public double rating { get; set; }
+        public string Text { get; set; }
+        public string help { get; set; }
+        public int current_grade { get; set; }
+        public List<CommentModel> comentariu { get; set; }
+        public int id_tema { get; set; }
     }
+
     public class CommentModel
     {
-        public string username;
-        public string text;
-        public DateTime data;
+        public string username { get; set; }
+        public string text { get; set; }
+        public DateTime data { get; set; }
     }
+    public class RatingModel
+    {
+        public int rating { get; set; }
+        public int id_tema { get; set; }
+        public int id_user { get; set; }
+    }
+    public class SeeHomeworkModel
+    {
+        public HomeworkModel Hm { get; set; }
+        public RatingModel r { get; set; }
+        public CommentModel c { get; set; }
+        public int id_tema { get; set; }
 
+    }
     public class AddHomeworkModel
     {
         [Required]
@@ -190,6 +202,9 @@ namespace Homework.Models
 
 
     }
+
+
+
 
     public class ChangeInfo
     {
