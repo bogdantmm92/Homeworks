@@ -19,16 +19,14 @@ namespace Homework.Controllers {
 
         public ActionResult Teme() {
             using( var db = new HomeworkContext() ) {
-        /*public ActionResult Teme()
-        {
-            using (var db = new HomeworkContext())
-            {
+
                 var model = new TemeModel();
                 model.teme = db.Temas.Where( a => a.id_tema <= 2 ).ToList();
 
                 return View( model );
             }
-        }*/
+        }
+
         [HttpPost]
         public ActionResult AddComment(/*int id_tema,*/ SeeHomeworkModel model)
         {
@@ -41,7 +39,7 @@ namespace Homework.Controllers {
                         var f = new Comentariu();
                         f.data = DateTime.Now;
                         f.id_tema = model.id_tema;
-                        f.id_user = 1;
+                        f.id_user = (int)Session["UserId"];
                         f.text = model.c.text;
 
 
@@ -81,8 +79,14 @@ namespace Homework.Controllers {
                 model.Professor = nume_prof.nume + " " + nume_prof.prenume;
 
                 var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
-                var rat = rating.Average(a => a.rating1);
-                model.rating = rat;
+
+                if(rating.Count == 0) {
+                    model.rating = 0.0;
+                } else {
+                    var rat = rating.Average( a => a.rating1 );
+                    model.rating = rat;
+                }
+                
 
                 if (tema.id_help != null)
                 {
