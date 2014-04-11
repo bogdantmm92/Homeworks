@@ -1,4 +1,6 @@
+
 ﻿@model Homework.Models.ProfesoriModel
+
 @{
     ViewBag.Title = "Home Page";
 }
@@ -16,7 +18,13 @@
 
 
 @section featured {
-    @if (Request.IsAuthenticated) {
+    @if (Request.IsAuthenticated)
+    {
+
+
+
+
+        
         <section class="featured">
             <div class="content-wrapper">
                 <hgroup class="title">
@@ -27,9 +35,15 @@
                 </hgroup>
             </div>
 
-        </section>
+        </section> 
+
+
+
+      
+
     }
-    else{
+    else
+    {
         <section class="featured">
             <div class="content-wrapper">
                 <hgroup class="title">
@@ -39,5 +53,7 @@
                 </hgroup>
             </div>
         </section>
+
+
     }
 }

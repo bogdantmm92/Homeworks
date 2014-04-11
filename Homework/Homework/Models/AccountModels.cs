@@ -151,6 +151,21 @@ namespace Homework.Models
         public string NumeProfesor { get; set; }
     }
 
+
+
+
+    public class UserModel
+    {
+        public string username { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string highschool { get; set; }
+        public char className { get; set; }
+        public int year { get; set; }
+        public int type { get; set; }
+    }
+
+
     public class LiceuModel
     {
         public int id_liceu;
@@ -169,6 +184,7 @@ namespace Homework.Models
       
    }
 
+
     public class HomeworkModel
     {
         public string Title { get; set; }
@@ -182,6 +198,7 @@ namespace Homework.Models
         public int current_grade { get; set; }
         public List<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
+        public int privat { get; set; }
     }
 
     public class CommentModel
@@ -189,12 +206,14 @@ namespace Homework.Models
         public string username { get; set; }
         public string text { get; set; }
         public DateTime data { get; set; }
+
     }
     public class RatingModel
     {
         public int rating { get; set; }
         public int id_tema { get; set; }
         public int id_user { get; set; }
+
     }
     public class SeeHomeworkModel
     {
@@ -203,7 +222,9 @@ namespace Homework.Models
         public CommentModel c { get; set; }
         public int id_tema { get; set; }
 
+
     }
+
     public class AddHomeworkModel
     {
         [Required]
@@ -237,10 +258,16 @@ namespace Homework.Models
         [Display( Name = "Privat" )]
         public bool privat { get; set; }
 
-
     }
 
 
+    public class SourceModel
+    {
+        public int result { get; set; }
+        public string username { get; set; }
+        public int id_source { get; set; }
+        public int id_submit { get; set; }
+    }
 
 
     public class ChangeInfo

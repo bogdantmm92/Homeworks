@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace Homework.Controllers
 {
-   
     public class AddHomeworkController : Controller
     {
         //

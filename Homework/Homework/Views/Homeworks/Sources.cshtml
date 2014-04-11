@@ -1,0 +1,34 @@
+﻿@model List<Homework.Models.SourceModel>
+@{
+    ViewBag.Title = "Sources";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sources</h2>
+
+
+<div id="allSources">
+
+    @if(Model.Any())
+    {
+        foreach (var source in Model)
+        {
+            <div>
+                <p><strong>@source.username </strong></p>
+                <p>Rezultat: @source.result</p>
+                <p>@Html.ActionLink("Descarca", "Download", "Homeworks", new { id_submit = source.id_submit }, null) </p>
+            </div>
+
+            <center>
+                <div style="height: 3px; width: 800px; background-color: black"></div>
+            </center>
+        }
+    }
+    else
+    {
+        <p>
+            Ne pare rau, nu exista surse pentru aceasta tema
+        </p>
+    }
+    
+</div>
