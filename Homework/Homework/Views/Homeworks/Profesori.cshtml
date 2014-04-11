@@ -1,0 +1,45 @@
+﻿@model List<Homework.Models.ProfesoriModel>
+
+@{
+    ViewBag.Title = "Lista de profesori";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profesori</title>
+
+</head>
+<body>
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+    </hgroup>
+    <div>
+
+        @if (Model.Any())
+        {
+        foreach (var prof in Model)
+        {
+
+            string NumeProf = prof.nume + " " + prof.prenume;
+            <div>
+
+                <p><strong>@Html.ActionLink(NumeProf, "ListaTeme", "Homeworks", new { id_prof = prof.id_prof }, null)</strong> </p>
+                <p><i>@prof.liceu</i></p>
+                <p>Numar de teme incarcate: @prof.numar_teme </p>
+                <p>Rating : @prof.rating </p>
+            </div>
+
+            <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
+        }
+        }
+
+        else
+        {
+            <p><strong>Nu exista profesor cu numele acesta!</strong></p>
+        }
+    </div>
+</body>
+</html>

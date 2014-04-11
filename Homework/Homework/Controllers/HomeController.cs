@@ -83,7 +83,17 @@ namespace Homework.Controllers {
 
         }
 
+        [HttpPost]
+
+        public ActionResult Cauta(SearchModel model)
+        {
+            return View();
+        }
+
+        
+
         public ActionResult About() {
+
             ViewBag.Message = "Your app description page.";
 
             return View();

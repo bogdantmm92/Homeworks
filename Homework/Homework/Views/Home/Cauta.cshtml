@@ -1,0 +1,20 @@
+﻿@model Homework.Models.SearchModel
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cauta</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Profesori", "Homeworks"))
+{
+      @Html.TextBoxFor(m => m.NumeProfesor)
+     <input type="submit" value="Search" />
+}
+    </div>
+</body>
+</html>

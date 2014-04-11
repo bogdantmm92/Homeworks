@@ -128,10 +128,29 @@ namespace Homework.Models
 
 
     //Other models
-    public class TemeModel
+    public class TemaModel
     {
-        public List<Tema> teme;
+        public string titlu { get; set; }
+        public string prof { get; set; }
+        public string liceu { get; set; }
+        public double rating { get; set; }
+        public DateTime data { get; set; }
+        public int id_tema { get; set; }
     }
+
+  
+
+    public class ProfesoriModel
+    {
+        public int id_prof;
+        public string nume;
+        public string prenume;
+        public string liceu;
+        public double rating;
+        public int numar_teme;
+        public string NumeProfesor { get; set; }
+    }
+
 
 
 
@@ -145,6 +164,25 @@ namespace Homework.Models
         public int year { get; set; }
         public int type { get; set; }
     }
+
+
+    public class LiceuModel
+    {
+        public int id_liceu;
+        public string nume;
+        public string rating_total;
+    }
+
+    public class LiceeModel
+    {
+        public List<Liceu> licee { get; set; }
+    }
+
+   public class SearchModel
+   {
+       public string NumeProfesor { get; set; }
+      
+   }
 
 
     public class HomeworkModel
