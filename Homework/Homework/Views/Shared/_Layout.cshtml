@@ -32,8 +32,19 @@
         <div id="body">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
+                @if (Session["UseId"] != null) { 
+                <div>
+                    <ul id="menu2">
+                        @if((bool) Session["isProf"]){<li>@Html.ActionLink("Add Homework", "AddHomework", "Homeworks")</li>}
+                        <li>@Html.ActionLink("My Homeworks", "TemeleMele", "Homeworks")</li>
+                        <li>@Html.ActionLink("Homeworks Archive", "ArhivaTeme", "Homeworks")</li>
+                        <li>@Html.ActionLink("My Profile", "ChangeInfo", "Homeworks")</li>
+                    </ul>
+
+                </div>}
                 @RenderBody()
             </section>
+            
         </div>
         <footer>
             <div class="content-wrapper">

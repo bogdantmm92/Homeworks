@@ -80,21 +80,15 @@ namespace Homework.Controllers {
                 model.Professor = nume_prof.nume + " " + nume_prof.prenume;
 
                 var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
+                var rat = 0.0;
+                if (rating.Count > 0)
+                { rat = rating.Average(a => a.rating1); }
 
-                if(rating.Count == 0) {
-                    model.rating = 0.0;
-                } else {
-                    var rat = rating.Average( a => a.rating1 );
-                    model.rating = rat;
-                }
+                model.rating = rat;
+
+                model.help = tema.id_help;
                 
-
-                if (tema.id_help != null)
-                {
-                    int id_fis = (int)tema.id_help;
-                    var fisier = db.Fisiers.Where(a => a.id_fisier == id_fis).FirstOrDefault();
-                    model.help = fisier.cale;
-                }
+                model.in_out = tema.id_in_out;
 
 
                 model.comentariu = new List<CommentModel>();
@@ -121,7 +115,6 @@ namespace Homework.Controllers {
 
             }
         }
-
         public ActionResult ArhivaTeme()
         {
             using (var db = new HomeworkContext())
@@ -442,11 +435,39 @@ namespace Homework.Controllers {
 
         }
 
+
         public ActionResult SeeHomework()
         {
             return View();
         }
 
+
+
+
+        public ActionResult VeziNote(int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List<NotaModel>();
+
+
+                foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
+                {
+                    var nota = new NotaModel();
+                    int user_id = submit.Key;
+                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
+                    nota.Nume = name.nume + " " + name.prenume;
+                    nota.An = (int)name.an_studiu;
+                    nota.Clasa = name.clasa;
+                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
+
+                    model.Add(nota);
+
+                }
+
+                return View(model);
+            }
+        }
 
 
     }
