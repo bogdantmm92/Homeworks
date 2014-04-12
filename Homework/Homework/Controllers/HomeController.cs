@@ -13,11 +13,10 @@ namespace Homework.Controllers
         /*
         public ActionResult Index()
         {
-=======
 namespace Homework.Controllers {
     public class HomeController : Controller {
         public ActionResult Index() {
->>>>>>> 14afc4c624d83c517f9e795a3e802d1f37a3a7ab
+
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();

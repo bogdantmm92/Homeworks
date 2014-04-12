@@ -144,8 +144,17 @@ namespace Homework.Controllers {
                     model.comentariu.Add(com);
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
-                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
-                model.grade = db.Submits.Where(a => a.id_user == 1).FirstOrDefault().rezultat;
+                var id = (int)Session["UserId"]; 
+               
+                var nota= db.Submits.Where(c => (c.id_user == id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).FirstOrDefault();
+                if (nota != null)
+                {
+                    model.grade = nota.rezultat;
+                }
+                else
+                {
+                    model.grade = 0;
+                }
                 model.id_tema = id_tema;
                 m.Hm = model;
                 m.r = rt;
@@ -383,7 +392,7 @@ namespace Homework.Controllers {
         
 
         [HttpPost]
-        public ActionResult Profesori(ProfesoriModel model)
+        public ActionResult Profesori(SearchModel model)
         {
             using (var db = new HomeworkContext())
             {
@@ -591,7 +600,7 @@ namespace Homework.Controllers {
             }
         }
 
-
+      
     }
 
 }
