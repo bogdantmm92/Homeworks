@@ -4,32 +4,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Titlul temei :   @Model.Hm.Title</h2>
-<div>  Creata de   @Model.Hm.Professor</div>
 
-<div>  Deadline:   @Model.Hm.deadline </div>
-<div>  Rating :   @Model.Hm.rating   </div>
-<div>  Nota mea:   @Model.Hm.grade    </div>
-<div>  Enuntul temei :   @Model.Hm.Text     </div>
-
-
-<div>
-    Fisiere pentru tema : 
-    <div> 
-
-    @{if(Model.Hm.help != null)
-        {@Html.ActionLink("Descarca Fisier Help", "DownloadHelp", "Homeworks", new { id_help = Model.Hm.help }, null);} }</div>
-    <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
+<h2 class="Titlu">Titlul temei :   @Model.Hm.Title</h2> <br>
+<div class="despre">
+    <div>  Creata de   @Model.Hm.Professor</div>
+    <div>  Deadline:   @Model.Hm.deadline </div>
+    <div>  Rating :   @Model.Hm.rating   </div>
+    @if (Session["isProf"] != null)
+    {
+        if ((bool)Session["isProf"] == false)
+        {
+            if(@Model.Hm.grade != null)
+            { <div>  Nota mea:   @Model.Hm.grade    </div>}
+    }
+     }
 </div>
-<div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div>
+    <div class="enunt">  Enuntul temei :   @Model.Hm.Text     </div>
+<br>
+
+    <div>
+        Fisiere pentru tema :
+        <div>
+
+            @{if (Model.Hm.help != null)
+            {@Html.ActionLink("Descarca Fisier Help", "DownloadHelp", "Homeworks", new { id_help = Model.Hm.help }, null);
+            } }
+        </div>
+    </div>
+    @if (Session["isProf"] != null)
+    {
+        if ((bool)Session["isProf"])
+        {
+          <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
+          <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div>
+        }
+    }
+@if (Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0)
+{
+    @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
+}
+
+    @Html.Partial("_AddComment")
 
 
-@Html.Partial("_AddComment")
+
+    <div id="allComments">
+        @foreach (var comm in Model.Hm.comentariu)
+        { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
 
 
-<div id="allComments">
-    @foreach (var comm in Model.Hm.comentariu)
-    { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
-
-        <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
-</div>
+            <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
+    </div>

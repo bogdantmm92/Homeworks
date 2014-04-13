@@ -46,6 +46,7 @@ namespace Homework.Controllers {
                    tm.data = t.deadline;
                    tm.titlu = t.titlu;
                    var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
+                   tm.prof = prof.nume + " " + prof.prenume;
                    var list2 = new List<double>();
                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
                        list2.Add(rat.rating1);
@@ -156,6 +157,7 @@ namespace Homework.Controllers {
                 var tema = db.Temas.Where(t => t.id_tema == id_tema).FirstOrDefault();
                 model.Title = tema.titlu;
                 model.Text = tema.enunt;
+                model.privat = tema.privat;
 
                 int id_prof = tema.id_prof;
                 var nume_prof = db.Users.Where(t => t.id_user == id_prof).FirstOrDefault();
@@ -185,8 +187,17 @@ namespace Homework.Controllers {
                     model.comentariu.Add(com);
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
-                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
-                model.grade = db.Submits.Where(a => a.id_user == 1).FirstOrDefault().rezultat;
+                var id = (int)Session["UserId"]; 
+               
+                var nota= db.Submits.Where(c => (c.id_user == id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).FirstOrDefault();
+                if (nota != null)
+                {
+                    model.grade = nota.rezultat;
+                }
+                else
+                {
+                    model.grade = 0;
+                }
                 model.id_tema = id_tema;
                 m.Hm = model;
                 m.r = rt;
@@ -237,10 +248,46 @@ namespace Homework.Controllers {
         }
 
 
+        public FileResult Download(int id_submit)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var submit = db.Submits.Where(a => a.id_submit == id_submit).FirstOrDefault();
+                var id_sursa = submit.id_sursa;
+                var file = db.Fisiers.Where(a => a.id_fisier == id_sursa).FirstOrDefault();
+                string path = file.cale;
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+                string fileName = System.IO.Path.GetFileName(path);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+        }
+
+        public ActionResult Sources(int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List <SourceModel> ();
+                var rez = db.Submits.Where(a => a.id_tema == id_tema).ToList();
+                foreach (var c in rez)
+                {
+                    SourceModel source = new SourceModel();
+                    source.result = c.rezultat;
+                    var user = db.Users.Where(a => a.id_user == c.id_user).FirstOrDefault();
+                    source.username = user.nume + " " + user.prenume;
+                    source.id_source = c.id_sursa;
+                    source.id_submit = c.id_submit;
+                    model.Add(source);
+                }
+                return View(model);
+            }
+        }
+
+
         [HttpGet]
         public ActionResult AddHomework() {
 
-            if( !(bool)Session ["prof"] ) {
+            if( !(bool)Session ["isProf"] ) {
                 //TO DO: De pus 'Index.cshtml' la shared ?
                 return View( "~/Views/Home/Index.cshtml" );
             }
@@ -388,7 +435,7 @@ namespace Homework.Controllers {
         
 
         [HttpPost]
-        public ActionResult Profesori(ProfesoriModel model)
+        public ActionResult Profesori(SearchModel model)
         {
             using (var db = new HomeworkContext())
             {
@@ -497,7 +544,7 @@ namespace Homework.Controllers {
             using( var db = new HomeworkContext() ) {
                 var model = new List<TemaAModel>();
                 var id = (int)Session ["UserId"];
-                bool isProf = (bool)Session ["prof"];
+                bool isProf = (bool)Session ["isProf"];
                 var user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
                 //TO DO: De scris metode pt isProf is userId
                 if( isProf ) {
@@ -555,24 +602,40 @@ namespace Homework.Controllers {
         }
 
 
+        public ActionResult SeeHomework()
+        {
+            return View();
+        }
+
+
+
+
         public ActionResult VeziNote(int id_tema)
         {
             using (var db = new HomeworkContext())
             {
                 var model = new List<NotaModel>();
 
+                var participanti  = new List<int>();
+                foreach (var p in db.Participas.Where(a => a.id_tema == id_tema))
+                {
+                    participanti.Add(p.id_user);
+                }
 
                 foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
                 {
                     var nota = new NotaModel();
                     int user_id = submit.Key;
-                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
-                    nota.Nume = name.nume + " " + name.prenume;
-                    nota.An = (int)name.an_studiu;
-                    nota.Clasa = name.clasa;
-                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
+                    if (participanti.Contains(user_id))
+                    {
+                        var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
+                        nota.Nume = name.nume + " " + name.prenume;
+                        nota.An = (int)name.an_studiu;
+                        nota.Clasa = name.clasa;
+                        nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
 
-                    model.Add(nota);
+                        model.Add(nota);
+                    }
 
                 }
 
@@ -580,6 +643,7 @@ namespace Homework.Controllers {
             }
         }
 
+      
     }
 
 }
