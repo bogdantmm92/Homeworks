@@ -3,7 +3,7 @@
 <div id="addComm">
 
     @using (Html.BeginForm("AddComment", "Homeworks", new { id_tema = Model.Hm.id_tema }))
-    { <p> Text: @Html.TextAreaFor(m => Model.c.text) </p>
+    { <p>Text: @Html.TextAreaFor(m => Model.c.text) </p>
 
         <input type="submit" name="addComment" value="Submit" />
 

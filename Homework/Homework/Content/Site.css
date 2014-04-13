@@ -1,42 +1,4 @@
-﻿.allHomeworks {
-    font-size: 1.2em;
-}
-
-
-.Titlu {
-    text-align:center
-}
-.despre {
-    text-align:right;
-    font-size: 1.2em;
-    font-weight: 600;
-    position:relative;
-    right:100px;
-}
-.enunt {
-    text-align:justify;
-    font-size: 1.1em;
-}
-ul#menu2 {
-    font-size: 1.3em;
-    font-weight: 600;
-    position:absolute;
-    top:130px;
-    left:5px;
-    list-style-type:none;
-}
-ul#menu2 li a {
-            background: none;
-            color: #999;
-            text-decoration: none;
-        }
-
-        ul#menu2 li a:hover {
-            color: #333;
-            text-decoration: none;
-        }
-ul#menu2 li a:link {text-decoration: none;}
-html {
+﻿html {
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;
@@ -133,7 +95,7 @@ h5, h6 {
 ----------------------------------------------------------*/
 .content-wrapper {
     margin: 0 auto;
-    max-width: 850px;
+    max-width: 960px;
 }
 
 #body {

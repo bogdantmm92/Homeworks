@@ -18,16 +18,6 @@ namespace Homework
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            /*
-            routes.MapRoute("Sources", "Homeworks/{Sources}/{startIndex}",
-            new
-            {
-                controller = "Homeworks",
-                action = "Sources",
-                startIndex = 0,
-                pageSize = 2
-            });*/
         }
     }
 }

@@ -7,8 +7,6 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-
-
     </head>
     <body>
         <header>
@@ -23,6 +21,7 @@
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
                         
@@ -35,17 +34,13 @@
         <div id="body">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
-                @if (Session["UserId"] != null) { 
+                @if (Session["UseId"] != null) { 
                 <div>
                     <ul id="menu2">
-                        @if(Session["isProf"] != null){
-                            if((bool)Session["isProf"] == true)
-                        {<li>@Html.ActionLink("Adauga tema", "AddHomework", "Homeworks")</li>}}
-                        <li>@Html.ActionLink("Temele mele", "TemeleMele", "Homeworks")</li>
-                        <li>@Html.ActionLink("Arhiva de teme", "ArhivaTeme", "Homeworks")</li>
-                        <li>@Html.ActionLink("Profilul meu", "ChangeInfo", "Homeworks")</li>
-                        <li id="search"> @Html.ActionLink("Lista Licee", "Licee", "Homeworks")</li>
-                        
+                        @if((bool) Session["isProf"]){<li>@Html.ActionLink("Add Homework", "AddHomework", "Homeworks")</li>}
+                        <li>@Html.ActionLink("My Homeworks", "TemeleMele", "Homeworks")</li>
+                        <li>@Html.ActionLink("Homeworks Archive", "ArhivaTeme", "Homeworks")</li>
+                        <li>@Html.ActionLink("My Profile", "ChangeInfo", "Homeworks")</li>
                     </ul>
 
                 </div>}
