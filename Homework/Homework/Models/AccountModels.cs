@@ -155,7 +155,7 @@ namespace Homework.Models
     {
         public int id_liceu;
         public string nume;
-        public string rating_total;
+        public double rating_total;
     }
 
     public class LiceeModel

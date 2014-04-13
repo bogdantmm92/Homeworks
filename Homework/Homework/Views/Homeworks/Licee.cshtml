@@ -15,11 +15,12 @@
     <title>Licee</title>
 </head>
 <body>
+   
     <div>
         @foreach (var liceu in Model.licee)
         {
             var NumeLiceu = liceu.nume;
-            <p><strong>@Html.ActionLink(NumeLiceu, "ProfesoriLiceu", "Homeworks", new { idd_liceu = liceu.id_liceu }, null)</strong></p>
+            <p><strong>@Html.ActionLink(NumeLiceu, "ProfesoriLiceu", "Homeworks",  new { idd_liceu = liceu.id_liceu }, null)</strong></p>
             <p>Rating : @liceu.rating_total</p>
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
         }

@@ -62,8 +62,51 @@ namespace Homework.Controllers {
                return View(model);
            }
        }
-        
 
+       public ActionResult Sorteaza(string Sorting_Order)
+       {
+           using (var db = new HomeworkContext())
+           {
+               if (String.IsNullOrEmpty(Sorting_Order)) Sorting_Order = "Alfabetic";
+
+              /* ViewBag.SortingName = String.IsNullOrEmpty(Sorting_Order) ? "Alfabetic" : "";
+               ViewBag.SortingRating = Sorting_Order == "Dupa rating";*/
+
+
+               var model = new List<LiceuModel>();
+             
+
+               if (Sorting_Order == "Dupa rating")
+                   foreach (var liceu in db.Liceus.OrderByDescending(m => m.rating_total))
+                   {
+                       var l = new LiceuModel();
+                       l.nume = liceu.nume;
+                       l.rating_total = liceu.rating_total;
+                       l.id_liceu = liceu.id_liceu;
+                       model.Add(l);
+               }
+                   
+               else 
+                 foreach(var liceu in db.Liceus.OrderBy(m => m.nume))
+               {
+                   var l = new LiceuModel();
+                   l.nume = liceu.nume;
+                   l.rating_total = liceu.rating_total;
+                   l.id_liceu = liceu.id_liceu;
+                   model.Add(l);
+               }
+               
+               return View(model);
+                      
+               }
+               
+           }
+
+       private ActionResult View(LiceeModel model, string Sorting_Order)
+       {
+           throw new NotImplementedException();
+       }
+       
                 
 
 
