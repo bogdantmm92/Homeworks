@@ -1,5 +1,8 @@
-﻿@model List<Homework.Models.TemaAModel> 
-       
+﻿@model PagedList.IPagedList<Homework.Models.TemaAModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{ 
     ViewBag.Title = "Temele Mele"; 
     Layout = "~/Views/Shared/_Layout.cshtml"; 
@@ -29,3 +32,9 @@
     }
 
 </div>
+
+<center>
+    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+</center>
+
+@Html.PagedListPager(Model, page => Url.Action("TemeleMele", new { page }))

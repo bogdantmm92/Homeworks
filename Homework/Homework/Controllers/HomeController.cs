@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 
 namespace Homework.Controllers
 {
@@ -18,7 +20,7 @@ namespace Homework.Controllers
 
 
 
-        public ActionResult Index()
+        public ActionResult Index(int ? page)
         {
             using (var db = new HomeworkContext())
             {
@@ -30,8 +32,8 @@ namespace Homework.Controllers
 
                     //var id = 2;
                     var liceu = db.Liceus.Join(db.Users, a => a.id_liceu, b => b.id_liceu, (a, b) => new { liceu = a, user = b }).Where(a => a.user.id_user == id).FirstOrDefault();
-                    var teme = db.Temas.Join(db.Users, a => a.id_prof, b => b.id_user, (a, b) => new { tema = a, user = b }).Where(a => a.user.id_liceu == liceu.liceu.id_liceu).ToList();
-
+                    var teme = db.Temas.Join(db.Users, a => a.id_prof, b => b.id_user, (a, b) => 
+                        new { tema = a, user = b }).Where(a => a.user.id_liceu == liceu.liceu.id_liceu && a.tema.deadline < DateTime.Now && a.tema.privat == 0).ToList();
                     foreach (var t in teme)
                     {
                         var tm = new TemaAModel();
@@ -65,13 +67,18 @@ namespace Homework.Controllers
 
                         model.Add(tm);
                     }
+                   
                 }
                 catch (Exception ex)
                 {
                     Console.Write(ex);
                 }
 
-                return View(model);
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(model.ToPagedList(pageNumber, pageSize));
+                
+                //return View(model);
 
             }
 

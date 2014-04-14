@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -136,19 +137,21 @@ namespace Homework.Models
         public double rating { get; set; }
         public DateTime data { get; set; }
         public int id_tema { get; set; }
+        public int id_prof { get; set; }
     }
 
   
 
     public class ProfesoriModel
     {
-        public int id_prof;
-        public string nume;
-        public string prenume;
-        public string liceu;
-        public double rating;
-        public int numar_teme;
+        public int id_prof { get; set; }
+        public string nume { get; set; }
+        public string prenume { get; set; }
+        public string liceu { get; set; }
+        public double rating { get; set; }
+        public int numar_teme { get; set; }
         public string NumeProfesor { get; set; }
+        public int id_liceu { get; set; }
     }
 
 
@@ -196,7 +199,8 @@ namespace Homework.Models
         public int? help { get; set; }
         public int in_out { get; set; }
         public int current_grade { get; set; }
-        public List<CommentModel> comentariu { get; set; }
+        //public List<CommentModel> comentariu { get; set; }
+        public PagedList<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
         public int privat { get; set; }
     }
@@ -221,7 +225,6 @@ namespace Homework.Models
         public RatingModel r { get; set; }
         public CommentModel c { get; set; }
         public int id_tema { get; set; }
-
 
     }
 

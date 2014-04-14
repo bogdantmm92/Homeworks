@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using System.Web.Routing;
+using PagedList.Mvc;
+using PagedList;
 
 namespace Homework.Controllers {
     [Authorize]
@@ -35,7 +37,7 @@ namespace Homework.Controllers {
 
       
 
-       public ActionResult ListaTeme(int id_prof)
+       public ActionResult ListaTeme(int id_prof, int? page)
        {
            using (var db = new HomeworkContext())
            {
@@ -57,9 +59,13 @@ namespace Homework.Controllers {
                    else
                    { tm.rating = 0; }
                    tm.id_tema = t.id_tema;
+                   tm.id_prof = t.id_prof;
                    model.Add(tm);
                }
-               return View(model);
+               int pageSize = 5;
+               int pageNumber = (page ?? 1);
+               return View(model.ToPagedList(pageNumber, pageSize));
+               //return View(model);
            }
        }
         
@@ -96,12 +102,13 @@ namespace Homework.Controllers {
                             }
                         }
                     }
+
                     return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
                 }
                 return View(model);
             }
         }
-        public ActionResult ShowHomework(int id_tema)
+        public ActionResult ShowHomework(int id_tema, int? page)
         {
             using (var db = new HomeworkContext())
             {
@@ -131,7 +138,9 @@ namespace Homework.Controllers {
                 model.in_out = tema.id_in_out;
 
 
-                model.comentariu = new List<CommentModel>();
+                //model.comentariu = new List<CommentModel>();
+                var comm = new List<CommentModel>();
+
                 var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).OrderBy(a => a.data).ToList();
                 foreach (var c in lista_com)
                 {
@@ -140,7 +149,8 @@ namespace Homework.Controllers {
                     com.text = c.text;
                     var sel = db.Users.Where(t => t.id_user == c.id_user).FirstOrDefault();
                     com.username = sel.nume + "  " + sel.prenume;
-                    model.comentariu.Add(com);
+                    //model.comentariu.Add(com);
+                    comm.Add(com);
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
                 // Session["user_id"] = 1; // ------------------------- Aici e harcodat
@@ -150,12 +160,17 @@ namespace Homework.Controllers {
                 m.r = rt;
                 m.c = cm;
                 m.id_tema = id_tema;
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                model.comentariu = new PagedList<CommentModel>(comm, pageNumber, pageSize);
+
                 return View(m);
 
 
             }
         }
-        public ActionResult ArhivaTeme()
+        public ActionResult ArhivaTeme(int ? page)
         {
             using (var db = new HomeworkContext())
             {
@@ -190,7 +205,10 @@ namespace Homework.Controllers {
                     model.Add(tm);
                 }
 
-                return View(model);
+                int pageSize = 3;
+                int pageNumber = (page ?? 1);
+                return View(model.ToPagedList(pageNumber, pageSize));
+                //return View(model);
             }
         }
 
@@ -327,7 +345,7 @@ namespace Homework.Controllers {
         }
 
 
-        public ActionResult ProfesoriLiceu(int idd_liceu)
+        public ActionResult ProfesoriLiceu(int idd_liceu, int ? page)
         {
             using (var db = new HomeworkContext())
             {
@@ -347,6 +365,7 @@ namespace Homework.Controllers {
                     foreach (var liceu in (db.Liceus.Where(a => a.id_liceu == id_liceu)).ToList())
                     {
                         prof.liceu = liceu.nume;
+                        prof.id_liceu = liceu.id_liceu;
                     }
 
                     var list2 = new List<double>();
@@ -374,7 +393,10 @@ namespace Homework.Controllers {
                     profi.Add(prof);
                 }
 
-                return View(profi);
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(profi.ToPagedList(pageNumber, pageSize));
+                //return View(profi);
             }
 
         }
@@ -382,7 +404,7 @@ namespace Homework.Controllers {
         
 
         [HttpPost]
-        public ActionResult Profesori(ProfesoriModel model)
+        public ActionResult Profesori(ProfesoriModel model, int? page)
         {
             using (var db = new HomeworkContext())
             {
@@ -403,6 +425,7 @@ namespace Homework.Controllers {
                         foreach (var liceu in (db.Liceus.Where(a => a.id_liceu == id_liceu)).ToList())
                         {
                             prof.liceu = liceu.nume;
+                            prof.id_liceu = liceu.id_liceu;
                         }
 
                         var list2 = new List<int>();
@@ -430,7 +453,9 @@ namespace Homework.Controllers {
 
                         profi.Add(prof);
                     }
-
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                //return View(profi.ToPagedList(pageNumber, pageSize));
                 return View(profi);
             }
 
@@ -487,7 +512,7 @@ namespace Homework.Controllers {
 
 
         [HttpGet]
-        public ActionResult TemeleMele() {
+        public ActionResult TemeleMele(int? page) {
             using( var db = new HomeworkContext() ) {
                 var model = new List<TemaAModel>();
                 var id = (int)Session ["UserId"];
@@ -544,7 +569,11 @@ namespace Homework.Controllers {
                         model.Add( tm );
                     }
                 }
-                return View( model );
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(model.ToPagedList(pageNumber, pageSize));
+                //return View( model );
             }
         }
 

@@ -1,4 +1,10 @@
 ﻿@model Homework.Models.SeeHomeworkModel
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "ShowHomework";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -46,3 +52,12 @@
 
         <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
 </div>
+
+@if(Model.Hm.comentariu.Any())
+{ 
+    <center>
+        <p> Page @(Model.Hm.comentariu.PageCount < Model.Hm.comentariu.PageNumber ? 0 : Model.Hm.comentariu.PageNumber) of @Model.Hm.comentariu.PageCount </p>
+    </center>
+
+    @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
+}

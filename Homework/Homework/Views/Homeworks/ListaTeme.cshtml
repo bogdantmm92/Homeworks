@@ -1,4 +1,8 @@
-﻿@model List<Homework.Models.TemaModel>
+﻿@model PagedList.IPagedList<Homework.Models.TemaModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "ListaTeme";
     // Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,5 +17,13 @@
         <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
 
     </div>
-        <center> <div style="height: 3px; width: 500px; background-color: black"></div> </center> }
+        <center> <div style="height: 3px; width: 500px; background-color: black"></div> </center> 
+        ViewBag.id_prof = tm.id_prof;
+    }
 </div>
+
+<center>
+    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+</center>
+
+@Html.PagedListPager(Model, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))

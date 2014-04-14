@@ -1,4 +1,7 @@
-@model List<Homework.Models.TemaAModel> 
+@model PagedList.IPagedList<Homework.Models.TemaAModel> 
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Home Page";
@@ -8,8 +11,9 @@
     @if (Request.IsAuthenticated)
 {
         <div id="hw" style="margin-left:200px">
-            @foreach (var tm in Model)
+            @foreach (var tm in Model)                
             {
+                
                 <div>
                     <p>Titlu : <strong>@tm.titlu </strong></p>
                     <p>Deadline : <i>@tm.data</i></p>
@@ -23,8 +27,15 @@
                     <div style="height: 3px; width: 800px; background-color: black; margin-left: -200px">
                     </div>
                 </center>
+                
             }
         </div>
+        
+        <center>
+            <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+        </center>
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
     
 
 
