@@ -1,0 +1,18 @@
+﻿@model List<Homework.Models.TemaModel>
+@{
+    ViewBag.Title = "ListaTeme";
+    // Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="Titlu">Lista de Teme</h2>
+<div id="teme incarcate">
+    @foreach (var tm in Model)
+{ <div>
+        <p><strong>Titlu : @tm.titlu </strong></p>
+        <p><strong>Creata de : @tm.prof</strong></p>
+        <p><strong>Deadline : </strong><i>@tm.data</i></p>
+        <p><strong>Rating : </strong>@tm.rating </p>
+        <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
+
+</div>
+        <center> <div style="height: 3px; width: 500px; background-color: black"></div> </center> }
+</div>

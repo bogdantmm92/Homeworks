@@ -227,6 +227,8 @@
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\jquery.rating.css" />
+    <Content Include="Content\StyleSheetHw.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -301,11 +303,22 @@
       <LastGenOutput>HomeworkModel.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\delete.gif" />
+    <Content Include="Images\star-grey.png" />
+    <Content Include="Images\star.gif" />
+    <Content Include="Images\star.jpg" />
+    <Content Include="Scripts\jquery-1.2.6.min.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.6b.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.MetaData.js" />
+    <Content Include="Scripts\jquery.rating.js" />
+    <Content Include="Scripts\jquery.rating.pack.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -315,6 +328,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\ui.stars.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -355,12 +369,22 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Homeworks\Teme.cshtml" />
+    <Content Include="Views\Shared\_LayoutLoggedIn.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
+    <Content Include="Views\Homeworks\SeeHomework.cshtml" />
+    <Content Include="Views\Homeworks\Sources.cshtml" />
+    <Content Include="Views\Homeworks\Profesori.cshtml" />
+    <Content Include="Views\Home\Cauta.cshtml" />
+    <Content Include="Views\Homeworks\Licee.cshtml" />
+    <Content Include="Views\Homeworks\ProfesoriLiceu.cshtml" />
+    <Content Include="Views\Homeworks\ListaTeme.cshtml" />
     <Content Include="Views\Homeworks\ChangeInfo.cshtml" />
     <Content Include="Views\Homeworks\TemeleMele.cshtml" />
     <Content Include="Views\Homeworks\ArhivaTeme.cshtml" />
     <Content Include="Views\Homeworks\ShowHomework.cshtml" />
+    <Content Include="Views\Homeworks\VeziNote.cshtml" />
     <Content Include="Views\Shared\_AddComment.cshtml" />
+    <Content Include="Views\Homeworks\Cauta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

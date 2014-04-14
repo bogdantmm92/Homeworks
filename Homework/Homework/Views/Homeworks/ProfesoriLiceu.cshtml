@@ -1,0 +1,40 @@
+﻿@model List<Homework.Models.ProfesoriModel>
+
+@{
+    ViewBag.Title = "Lista de profesori";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profesori</title>
+
+</head>
+<body>
+
+        <h2 class="Titlu">@ViewBag.Title</h2>
+
+    <div>
+
+
+
+        @foreach (var prof in Model)
+        {
+            string NumeProf = prof.nume + " " + prof.prenume;
+            <div>
+
+                <p><strong>@Html.ActionLink(NumeProf, "ListaTeme", "Homeworks", new { id_prof = prof.id_prof }, null)</strong> </p>
+                <p>@prof.liceu</p>
+                <p>Numar de teme incarcate: @prof.numar_teme </p>
+                <p>Rating : @prof.rating </p>
+            </div>
+
+            <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
+        }
+
+    </div>
+</body>
+</html>
+
