@@ -23,7 +23,6 @@
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
 
-
 <div>
     Fisiere pentru tema : 
     <div> 
@@ -35,23 +34,16 @@
 <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div>
 
 
-
 @Html.Partial("_AddComment")
+
 
 <div id="allComments">
     @foreach (var comm in Model.Hm.comentariu)
-    { <div>
-        <p>
-            <strong>@comm.username :</strong>
-        </p>
-        <p>
-            <i>@comm.data</i>
-        </p>
-        <p>@comm.text</p>
-     </div>
+    { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
 
         <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
 </div>
+
 
 @if(Model.Hm.comentariu.Any())
 { 
@@ -61,3 +53,4 @@
 
     @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
 }
+

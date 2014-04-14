@@ -3,9 +3,13 @@
 @using PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
+
+﻿@model Homework.Models.ProfesoriModel
+
 @{
     ViewBag.Title = "Home Page";
 }
+
 
 @section featured {
     @if (Request.IsAuthenticated)
@@ -41,6 +45,24 @@
 
 
             <!--
+
+<div id="search" style="height:10px; width: 150px; float:right">
+
+    @using (Html.BeginForm("Profesori", "Homeworks"))
+                                { @Html.TextBoxFor(m => m.NumeProfesor)
+                                <input type="submit" value="Search" />
+                                }
+
+
+</div>
+
+<div id="search">
+    @Html.ActionLink("Lista Licee", "Sorteaza", "Homeworks");
+</div>
+
+@section featured {
+    @if (Request.IsAuthenticated) {
+
         <section class="featured">
             <div class="content-wrapper">
                 <hgroup class="title">
@@ -51,6 +73,7 @@
                 </hgroup>
             </div>
 
+
         </section> -->
 
 
@@ -60,16 +83,15 @@
 }
     else
     {
+
         <section class="featured">
             <div class="content-wrapper">
                 <hgroup class="title">
                     <h1>Please login</h1>
-                    <br />
+                   <br />
                     <h2>Homeworks is an online educational platform that facilitates homework whatever</h2>
                 </hgroup>
             </div>
         </section>
-
-
     }
 }
