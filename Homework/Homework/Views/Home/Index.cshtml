@@ -4,32 +4,31 @@
     ViewBag.Title = "Home Page";
 }
 
-@section featured {
+
     @if (Request.IsAuthenticated)
     {
 
-        <section class="featured">
+        /*<section class="featured">*/
             
             <div class="content-wrapper">
                 <h2 class="Titlu">Temele din liceul meu</h2>
-                <hgroup class="title">                    
+                <hgroup class="title">          </hgroup>            
                     <div id="allHomeworks">
                                               <br>
                         @foreach (var tm in Model)
                         { <div>
-                            <p><strong>Titlu : @tm.titlu </strong></p>
+                              <strong><p><a href="./Homeworks/ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
                             <p><strong>Creata de : </strong>@tm.prof </p>
                             <p><strong>Deadline : </strong><i>@tm.data</i></p>
                             <p><strong> Rating :</strong> @tm.rating </p>
-                            <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
-                        </div>
+                         </div>
 
                             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
                     </div>
-                </hgroup>
+              
             </div>
 
-        </section> 
+      /*  </section> */
         
     }
     else
@@ -46,4 +45,3 @@
 
 
     }
-}

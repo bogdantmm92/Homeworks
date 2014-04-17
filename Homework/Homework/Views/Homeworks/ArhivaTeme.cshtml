@@ -8,15 +8,13 @@
 
 
 <div id="allHomeworks">
-    <h2 class="Titlu">ArhivaTeme</h2>
+    <h2 class="Titlu">Arhiva Teme</h2>
     <br>
     @foreach (var tm in Model)
     { <div>
-        <p><strong>Titlu : @tm.titlu </strong></p>
-        <p><strong>Creata de : </strong>@tm.prof din @tm.liceu </p>
-        <p><strong>Deadline : </strong><i>@tm.data</i></p>
-        <p><strong> Rating :</strong> @tm.rating </p>
-        <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
+        <strong><p><a href="./ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
+        <p><strong>Creata de : </strong>@tm.prof din @tm.liceu 
+        <strong> Rating :</strong> @tm.rating </p>
     </div>
 
         <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
