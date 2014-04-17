@@ -31,13 +31,17 @@ namespace Homework.Controllers {
             return (int)Session["LiceuId"];
         }
 
-        public ActionResult Licee()
+        public ActionResult Licee(int ? page)
 
         {
             using (var db = new HomeworkContext())
             {
                 var model = new LiceeModel();
-                model.licee = db.Liceus.ToList();
+                List <Homework.Liceu> l = db.Liceus.ToList();
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                model.licee = new PagedList<Liceu>(l, pageNumber, pageSize);
+                //model.licee = db.Liceus.ToList();
 
                 return View(model);
 
@@ -164,6 +168,53 @@ namespace Homework.Controllers {
             return View(model);
         }
 
+
+        [HttpPost]
+        public ActionResult ShowHomework(SeeHomeworkModel model)
+        {
+            using (var db = new HomeworkContext())
+            {
+                string classes = model.clase.Replace(" ", "").Replace(",", "");
+                int idLiceu = (int)Session["LiceuId"];
+                //int id_tema = ViewBag.id_tema;
+                var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
+                //TO DO: Un 'bulk insert'
+                foreach (var user in users)
+                {
+                    db.Participas.Add(new Participa
+                    {
+                        id_tema = model.id_tema,
+                        id_user = user.id_user
+                    });
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
+
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+
+            }
+
+            return View(model);
+        }
+
+
         public ActionResult ShowHomework(int id_tema, int? page)
         {
             using (var db = new HomeworkContext())
@@ -181,6 +232,7 @@ namespace Homework.Controllers {
                 int id_prof = tema.id_prof;
                 var nume_prof = db.Users.Where( t => t.id_user == id_prof ).FirstOrDefault();
                 model.Professor = nume_prof.nume + " " + nume_prof.prenume;
+                m.id_prof = id_prof;
 
                 var rating = db.Ratings.Where( t => t.id_tema == id_tema ).ToList();
 
@@ -194,9 +246,6 @@ namespace Homework.Controllers {
 
                 
                  model.help = tema.id_help;
-                
-
-                model.help = tema.id_help;
                 
                 model.in_out = tema.id_in_out;
 

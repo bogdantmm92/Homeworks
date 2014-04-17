@@ -10,18 +10,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Titlul temei :   @Model.Hm.Title</h2>
-<div>  Creata de   @Model.Hm.Professor</div>
+<script>
+    var see = "false";
+    function Arata() {
+        r = document.getElementById("red");
+        if (see == "false")
+        { see = "true"; }
+        else
+        { see = "false"; }
 
-<div>  Deadline:   @Model.Hm.deadline </div>
-<div>  Rating :   @Model.Hm.rating   </div>
-<div>  Nota mea:   @Model.Hm.grade    </div>
-<div>  Enuntul temei :   @Model.Hm.Text     </div>
+        if (see == "false")
+        { r.style.visibility = "hidden"; }
+        else
+        { r.style.visibility = "visible"; }
+    }
+</script>
 
-@if (Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0)
-{
-    @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
-}
+
+
+
+<h2 class="Titlu">Titlul temei :   @Model.Hm.Title</h2>
+<div class="despre">
+    <div>  Creata de   @Model.Hm.Professor</div>
+    <div>  Deadline:   @Model.Hm.deadline </div>
+    <div>  Rating :   @Model.Hm.rating   </div>
+    @if (Session["prof"] != null)
+    {
+        if ((bool)Session["prof"] == false)
+        {
+            if (@Model.Hm.grade != null)
+            { <div>  Nota mea:   @Model.Hm.grade    </div>}
+        }
+    }
+</div>
+<div class="enunt">  Enuntul temei :   @Model.Hm.Text     </div>
+<br>
 
 <div>
     Fisiere pentru tema : 
@@ -29,10 +52,35 @@
 
     @{if(Model.Hm.help != null)
         {@Html.ActionLink("Descarca Fisier Help", "DownloadHelp", "Homeworks", new { id_help = Model.Hm.help }, null);} }</div>
-    <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
 </div>
-<div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div>
 
+@if (Session["prof"] != null)
+{
+    if ((bool)Session["prof"] && (int)Session["UserId"] == Model.id_prof)
+    {
+        <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
+        <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div><br>
+        <div>
+            <a onclick="Arata()">Redirectioneaza</a>
+            @using (Html.BeginForm("ShowHomework", "Homeworks", FormMethod.Post))
+            {
+                ViewBag.id_tema = Model.id_tema;
+                @Html.HiddenFor(m => m.id_tema)
+                @Html.HiddenFor(m => m.id_prof)
+                <div id="red" style="visibility:hidden">
+                    An:  @Html.EditorFor(m => m.an)
+                    Clasele:  @Html.EditorFor(m => m.clase)
+
+                    <input type="Submit" value="Send">
+                </div>
+            }
+        </div>
+    }
+}
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["isProf"])
+{
+    @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
+}
 
 @Html.Partial("_AddComment")
 

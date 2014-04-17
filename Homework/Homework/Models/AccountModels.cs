@@ -163,7 +163,7 @@ namespace Homework.Models
 
     public class LiceeModel
     {
-        public List<Liceu> licee { get; set; }
+        public PagedList<Liceu> licee { get; set; }
     }
 
    public class SearchModel
@@ -207,6 +207,10 @@ namespace Homework.Models
         public RatingModel r { get; set; }
         public CommentModel c { get; set; }
         public int id_tema { get; set; }
+        public int id_prof { get; set; }
+
+        public string clase { get; set; }
+        public int an { get; set; }
 
     }
 
