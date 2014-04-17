@@ -11,39 +11,21 @@
 </head>
 <body>
 
-    <h2 class="Titlu">Profilul meu</h2>
+    <h1>@ViewBag.Title</h1>
 
-    <div class="profil">
+    <div>
 
         @using ( Html.BeginForm() )
         {
             
-            <p>
-               @Html.LabelFor(m => Model.nume)
-               @Html.EditorFor(m => Model.nume) 
-            </p>
-            <p> 
-                @Html.LabelFor(m => Model.prenume)
-                @Html.EditorFor(m => Model.prenume) 
-            </p>
-            <p>
-                @Html.LabelFor(m => Model.email)
-                @Html.EditorFor(m => Model.email) 
-            </p>
-            <p>
-                @Html.LabelFor(m => Model.parola)
-                @Html.EditorFor(m => Model.parola) 
-            </p>
-            <p>
-                @Html.LabelFor(m => Model.clasa)
-                @Html.EditorFor(m => Model.clasa) 
-            </p>
-            <p>
-                @Html.LabelFor(m => Model.anStudiu)
-                @Html.EditorFor(m => Model.anStudiu) 
-            </p>
+            <p> Nume: @Html.EditorFor(m => Model.nume) </p>
+            <p> Prenume: @Html.EditorFor(m => Model.prenume) </p>
+            <p> Email: @Html.EditorFor(m => Model.email) </p>
+            <p> Parola: @Html.EditorFor(m => Model.parola) </p>
+            <p> Clasa: @Html.EditorFor(m => Model.clasa) </p>
+            <p> An Studiu: @Html.EditorFor(m => Model.anStudiu) </p>
 
-            <input type="submit" name="changeinfo" value="Salveaza" />
+            <input type="submit" name="changeinfo" value="Save" />
 
         }
 

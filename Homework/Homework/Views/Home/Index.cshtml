@@ -1,4 +1,8 @@
-﻿@model List<Homework.Models.TemaAModel>
+﻿@model Homework.Models.IndexModel
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 
 @{
     ViewBag.Title = "Home Page";
@@ -7,12 +11,15 @@
 
     @if (Request.IsAuthenticated)
     {
+        <!--<section class="featured">-->
+            <div class="content-wrapper">
+                @Html.Partial("SearchBox")
 
-        /*<section class="featured">*/
+        <section class="featured">
             
             <div class="content-wrapper">
                 <h2 class="Titlu">Temele din liceul meu</h2>
-                <hgroup class="title">          </hgroup>            
+                <hgroup class="title">                    
                     <div id="allHomeworks">
                                               <br>
                         @foreach (var tm in Model)
@@ -23,16 +30,28 @@
                             <p><strong> Rating :</strong> @tm.rating </p>
                          </div>
 
-                            <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
+                            </div>
+                            <center>
+                                <div style="height: 3px; width: 800px; background-color: black;">
+                                </div>
+                            </center>
+                        }                        
                     </div>
-              
-            </div>
+                </hgroup>
 
-      /*  </section> */
-        
+        <center>
+            <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
+        </center>
+
+        @Html.PagedListPager(Model.teme, page => Url.Action("Index", new { page }))
+
+
+                    </div>
+       
     }
     else
     {
+
         <section class="featured">
             <div class="content-wrapper">
                 <hgroup class="title">
@@ -42,6 +61,4 @@
                 </hgroup>
             </div>
         </section>
-
-
     }

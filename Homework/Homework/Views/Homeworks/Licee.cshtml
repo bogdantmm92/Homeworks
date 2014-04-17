@@ -1,20 +1,15 @@
 ﻿@model Homework.Models.LiceeModel
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Lista de licee";
 }
 
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
 
-    <h2 class="Titlu">@ViewBag.Title</h2>
-
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Licee</title>
-</head>
-<body>
     <div>
         @foreach (var liceu in Model.licee)
         {
@@ -24,5 +19,10 @@
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
         }
     </div>
-</body>
-</html>
+    @if (Model.licee.Any()) { 
+        <center>
+            <p> Page @(Model.licee.PageCount < Model.licee.PageNumber ? 0 : Model.licee.PageNumber) of @Model.licee.PageCount </p>
+        </center>
+
+        @Html.PagedListPager(Model.licee, page => Url.Action("Licee", new { page }))
+    }

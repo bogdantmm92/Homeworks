@@ -164,3 +164,9 @@
   cursor: not-allowed;
   background-color: #ffffff;
 }
+
+
+div.pagination-container
+{
+    text-align: center;
+}

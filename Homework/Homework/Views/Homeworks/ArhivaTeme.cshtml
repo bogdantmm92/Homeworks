@@ -1,14 +1,18 @@
-﻿@{
+﻿@model PagedList.IPagedList<Homework.Models.TemaAModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
     ViewBag.Title = "ArhivaTeme";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
+<h2>ArhivaTeme</h2>
 
 
 <div id="allHomeworks">
-    <h2 class="Titlu">Arhiva Teme</h2>
+    <h2 class="Titlu">ArhivaTeme</h2>
     <br>
     @foreach (var tm in Model)
     { <div>
@@ -17,5 +21,15 @@
         <strong> Rating :</strong> @tm.rating </p>
     </div>
 
-        <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
+        <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> 
+    }
 </div>
+
+@if (Model.Any())
+{ 
+<center>
+    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+</center>
+
+@Html.PagedListPager(Model, page => Url.Action("ArhivaTeme", new { page }))
+}
