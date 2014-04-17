@@ -4,15 +4,14 @@
 
     @using (Html.BeginForm("AddComment", "Homeworks", new { id_tema = Model.Hm.id_tema }))
 
-    { <p>   @Html.LabelFor(m => Model.c.text)
+    { 
+        <p>
+            @Html.LabelFor(m => Model.c.text)
             @Html.TextAreaFor(m => Model.c.text) 
-    </p>
-
-    { <p>Text: @Html.TextAreaFor(m => Model.c.text) </p>
+        </p>
 
         <input type="submit" name="addComment" value="Submit" />
 
-    }
 	}
 
 </div>

@@ -13,8 +13,6 @@ using WebMatrix.WebData;
 using System.Web.Routing;
 using PagedList.Mvc;
 using PagedList;
-using PagedList;
-using PagedList.Mvc;
 
 namespace Homework.Controllers {
     [Authorize]
@@ -81,7 +79,7 @@ namespace Homework.Controllers {
        }
 
 
-       public ActionResult Sorteaza(string Sorting_Order)
+       public ActionResult Sorteaza(string Sorting_Order, int? page)
        {
            using (var db = new HomeworkContext())
            {
@@ -113,8 +111,11 @@ namespace Homework.Controllers {
                    l.id_liceu = liceu.id_liceu;
                    model.Add(l);
                }
-               
-               return View(model);
+
+               int pageSize = 5;
+               int pageNumber = (page ?? 1);
+               return View(model.ToPagedList(pageNumber, pageSize));
+               //return View(model);
                       
                }
                
@@ -160,13 +161,13 @@ namespace Homework.Controllers {
             }
         }
 
+            return View(model);
+        }
+
         public ActionResult ShowHomework(int id_tema, int? page)
         {
             using (var db = new HomeworkContext())
             {
-
-            using( var db = new HomeworkContext() ) {
-
                 var m = new SeeHomeworkModel();
                 var model = new HomeworkModel();
                 var rt = new RatingModel();
@@ -175,6 +176,7 @@ namespace Homework.Controllers {
                 var tema = db.Temas.Where( t => t.id_tema == id_tema ).FirstOrDefault();
                 model.Title = tema.titlu;
                 model.Text = tema.enunt;
+                model.privat = tema.privat;
 
                 int id_prof = tema.id_prof;
                 var nume_prof = db.Users.Where( t => t.id_user == id_prof ).FirstOrDefault();
@@ -190,18 +192,9 @@ namespace Homework.Controllers {
                 }
 
 
-                if( tema.id_help != null ) {
-                    int id_fis = (int)tema.id_help;
-                    var fisier = db.Fisiers.Where( a => a.id_fisier == id_fis ).FirstOrDefault();
-                    model.help = fisier.cale;
-                }
-
-                var rating = db.Ratings.Where(t => t.id_tema == id_tema).ToList();
-                var rat = 0.0;
-                if (rating.Count > 0)
-                { rat = rating.Average(a => a.rating1); }
-
-                model.rating = rat;
+                
+                 model.help = tema.id_help;
+                
 
                 model.help = tema.id_help;
                 
@@ -214,19 +207,14 @@ namespace Homework.Controllers {
                 var lista_com = db.Comentarius.Where(a => a.id_tema == id_tema).OrderBy(a => a.data).ToList();
                 foreach (var c in lista_com)
                 {
-                model.comentariu = new List<CommentModel>();
-                var lista_com = db.Comentarius.Where( a => a.id_tema == id_tema ).OrderBy( a => a.data ).ToList();
-                foreach( var c in lista_com ) {
-
                     CommentModel com = new CommentModel();
                     com.data = c.data;
                     com.text = c.text;
                     var sel = db.Users.Where( t => t.id_user == c.id_user ).FirstOrDefault();
                     com.username = sel.nume + "  " + sel.prenume;
-                    //model.comentariu.Add(com);
                     comm.Add(com);
 
-                    model.comentariu.Add( com );
+                    //model.comentariu.Add( com );
 
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
@@ -263,12 +251,10 @@ namespace Homework.Controllers {
                 int pageNumber = (page ?? 1);
                 model.comentariu = new PagedList<CommentModel>(comm, pageNumber, pageSize);
 
-
                 return View( m );
 
             }
         }
-		}
 
         public ActionResult ArhivaTeme(int ? page)
         {
@@ -411,8 +397,6 @@ namespace Homework.Controllers {
                 tema.privat = model.privat == true ? 1 : 0;
                 tema.titlu = model.title;
 
-                db.Temas.Add( tema );
-
                 string classes = model.clasa.Replace( " ", "" ).Replace( ",", "" );
 
                 int idLiceu = (int)Session["LiceuId"];
@@ -420,11 +404,7 @@ namespace Homework.Controllers {
                 var users = db.Users.Where( a => a.an_studiu == model.an && classes.Contains( a.clasa ) && a.id_liceu == idLiceu && a.tip == 1 ).ToList();
 
                 db.Temas.Add(tema);
-                string classes = model.clasa.Replace(" ", "").Replace(",", "");
-                int idLiceu = (int)Session["LiceuId"];
-                var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
 
-				
                 //TO DO: Un 'bulk insert'
                 foreach (var user in users)
                 {
@@ -516,7 +496,7 @@ namespace Homework.Controllers {
         
 
         [HttpPost]
-        public ActionResult Profesori(ProfesoriModel model, int? page)
+        public ActionResult Profesori(ProfesoriModel model)
         {
             using (var db = new HomeworkContext())
             {
@@ -565,9 +545,6 @@ namespace Homework.Controllers {
 
                         profi.Add(prof);
                     }
-                int pageSize = 5;
-                int pageNumber = (page ?? 1);
-                //return View(profi.ToPagedList(pageNumber, pageSize));
                 return View(profi);
             }
 

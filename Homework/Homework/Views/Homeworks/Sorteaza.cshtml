@@ -1,4 +1,7 @@
-﻿@model List<Homework.Models.LiceuModel>
+﻿@model PagedList.IPagedList<Homework.Models.LiceuModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Lista de licee";
@@ -44,5 +47,12 @@
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
         }
     </div>
+
+    <center>
+        <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+    </center>
+
+    @Html.PagedListPager(Model, page => Url.Action("Sorteaza", new { page }))
+
 </body>
 </html>

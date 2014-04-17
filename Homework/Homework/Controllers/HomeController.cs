@@ -25,6 +25,7 @@ namespace Homework.Controllers
             using (var db = new HomeworkContext())
             {
                 var model = new List<TemaAModel>();
+                var model2 = new IndexModel();
 
                 try
                 {
@@ -76,27 +77,12 @@ namespace Homework.Controllers
 
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);
-                return View(model.ToPagedList(pageNumber, pageSize));
-                
-                //return View(model);
+                model2.teme = (PagedList<TemaAModel>)model.ToPagedList(pageNumber, pageSize);
+                return View(model2);
 
             }
 
 
-
-namespace Homework.Controllers {
-    public class HomeController : Controller {
-        public ActionResult Index() {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
-        }
-
-        [HttpPost]
-
-        public ActionResult Cauta(SearchModel model)
-        {
-            return View();
         }
 
 

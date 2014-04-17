@@ -1,10 +1,8 @@
-@model PagedList.IPagedList<Homework.Models.TemaAModel> 
+@model Homework.Models.IndexModel
 @using PagedList.Mvc;
 @using PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-
-﻿@model Homework.Models.ProfesoriModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -14,10 +12,12 @@
 @section featured {
     @if (Request.IsAuthenticated)
 {
+        
+        @Html.Partial("SearchBox")
+        
         <div id="hw" style="margin-left:200px">
-            @foreach (var tm in Model)                
-            {
-                
+            @foreach (var tm in Model.teme)
+               { 
                 <div>
                     <p>Titlu : <strong>@tm.titlu </strong></p>
                     <p>Deadline : <i>@tm.data</i></p>
@@ -26,59 +26,19 @@
                     <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
 
                 </div>
-
                 <center>
                     <div style="height: 3px; width: 800px; background-color: black; margin-left: -200px">
                     </div>
                 </center>
-                
-            }
+               }
         </div>
         
         <center>
-            <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+            <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
         </center>
 
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-    
+        @Html.PagedListPager(Model.teme, page => Url.Action("Index", new { page }))
 
-
-
-            <!--
-
-<div id="search" style="height:10px; width: 150px; float:right">
-
-    @using (Html.BeginForm("Profesori", "Homeworks"))
-                                { @Html.TextBoxFor(m => m.NumeProfesor)
-                                <input type="submit" value="Search" />
-                                }
-
-
-</div>
-
-<div id="search">
-    @Html.ActionLink("Lista Licee", "Sorteaza", "Homeworks");
-</div>
-
-@section featured {
-    @if (Request.IsAuthenticated) {
-
-        <section class="featured">
-            <div class="content-wrapper">
-                <hgroup class="title">
-                    <h1>My Homeworks</h1>
-                    <h3>Homework 1</h3>
-                    <h3>Homework 2</h3>
-                    <h3>Homework 3</h3>
-                </hgroup>
-            </div>
-
-
-        </section> -->
-
-
-
-      
 
 }
     else

@@ -186,6 +186,7 @@ namespace Homework.Models
         //public List<CommentModel> comentariu { get; set; }
         public PagedList<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
+        public int privat { get; set; }
     }
 
     public class CommentModel
@@ -208,6 +209,7 @@ namespace Homework.Models
         public int id_tema { get; set; }
 
     }
+
     public class AddHomeworkModel
     {
         [Required]
@@ -281,6 +283,11 @@ namespace Homework.Models
         public int id_source { get; set; }
         public int id_submit { get; set; }
     }
+        public class IndexModel
+        {
+            public PagedList<TemaAModel> teme { get; set; }
+            public string NumeProfesor { get; set; }
+        }
 
 
 
