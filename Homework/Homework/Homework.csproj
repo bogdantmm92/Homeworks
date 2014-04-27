@@ -212,6 +212,8 @@
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\AccountUtil.cs" />
+    <Compile Include="Utils\Ideone_ServiceService.cs" />
+    <Compile Include="Utils\Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
@@ -376,6 +378,7 @@
     <Content Include="Views\Homeworks\VeziNote.cshtml" />
     <Content Include="Views\Shared\_AddComment.cshtml" />
     <Content Include="Views\Homeworks\Cauta.cshtml" />
+    <Compile Include="Utils\SubmissionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -244,7 +244,7 @@ namespace Homework.Controllers {
         [HttpGet]
         public ActionResult AddHomework() {
 
-            if( !(bool)Session ["isProf"] ) {
+            if( !(bool)Session ["prof"] ) {
                 //TO DO: De pus 'Index.cshtml' la shared ?
                 return View( "~/Views/Home/Index.cshtml" );
             }
@@ -501,7 +501,7 @@ namespace Homework.Controllers {
             using( var db = new HomeworkContext() ) {
                 var model = new List<TemaAModel>();
                 var id = (int)Session ["UserId"];
-                bool isProf = (bool)Session ["isProf"];
+                bool isProf = (bool)Session ["prof"];
                 var user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
                 //TO DO: De scris metode pt isProf is userId
                 if( isProf ) {

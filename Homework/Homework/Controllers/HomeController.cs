@@ -1,9 +1,11 @@
 ﻿using Homework.Models;
+using Homework.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 
 
 namespace Homework.Controllers
@@ -101,6 +103,18 @@ namespace Homework.Controllers {
         public ActionResult Contact() {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            string source =
+@"
+v = input().split()
+print(int(v[0]) * int(v[1]))
+";
+
+            SubmissionHelper._Instance.uploadSource(source, "2 7");
             return View();
         }
     }

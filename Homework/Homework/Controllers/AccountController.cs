@@ -41,9 +41,9 @@ namespace Homework.Controllers {
                     var user = db.Users.Where( a => a.id_user == id ).FirstOrDefault();
 
                     if( user.tip == 2 ) {
-                        Session ["isProf"] = true;
+                        Session ["prof"] = true;
                     } else {
-                        Session ["isProf"] = false;
+                        Session ["prof"] = false;
                     }
 
                    // bool isProf = (bool)Session ["isProf"];

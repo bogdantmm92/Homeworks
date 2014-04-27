@@ -38,8 +38,8 @@
                 @if (Session["UserId"] != null) { 
                 <div>
                     <ul id="menu2">
-                        @if(Session["isProf"] != null){
-                            if((bool)Session["isProf"] == true)
+                        @if(Session["prof"] != null){
+                            if((bool)Session["prof"] == true)
                         {<li>@Html.ActionLink("Adauga tema", "AddHomework", "Homeworks")</li>}}
                         <li>@Html.ActionLink("Temele mele", "TemeleMele", "Homeworks")</li>
                         <li>@Html.ActionLink("Arhiva de teme", "ArhivaTeme", "Homeworks")</li>
