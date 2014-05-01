@@ -138,7 +138,8 @@ namespace Homework.Controllers {
         public ActionResult AddComment( SeeHomeworkModel model ) {
             using( var db = new HomeworkContext() ) {
                 if( ModelState.IsValid ) {
-                    try {
+                    try
+                    {
                         var f = new Comentariu();
                         f.data = DateTime.Now;
                         f.id_tema = model.id_tema;
@@ -146,22 +147,25 @@ namespace Homework.Controllers {
                         f.text = model.c.text;
 
 
-                        db.Comentarius.Add( f );
+                        db.Comentarius.Add(f);
                         db.SaveChanges();
-                    } catch( DbEntityValidationException dbEx ) {
-                        foreach( var validationErrors in dbEx.EntityValidationErrors ) {
-                            foreach( var validationError in validationErrors.ValidationErrors ) {
-                                Trace.TraceInformation( "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage );
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
                             }
                         }
-
+                    }
                 return RedirectToAction( "ShowHomework", new RouteValueDictionary( new {
                         controller = "Homeworks",
                         action = "ShowHomework",
                         id_tema = model.id_tema
                     } ) );
-                }
-                return View( model );
+                
             }
         }
 
@@ -742,6 +746,15 @@ namespace Homework.Controllers {
                 return View(model);
             }
         }
+
+
+
+        public ActionResult SeeHomework()
+        {
+
+            return View();
+        }
+
 
     }
 
