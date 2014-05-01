@@ -11,7 +11,10 @@ using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using System.Web.Routing;
+<<<<<<< HEAD
+=======
 using PagedList.Mvc;
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
 using PagedList;
 
 namespace Homework.Controllers {
@@ -61,7 +64,6 @@ namespace Homework.Controllers {
                    tm.data = t.deadline;
                    tm.titlu = t.titlu;
                    var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
-                   tm.prof = prof.nume + " " + prof.prenume;
                    var list2 = new List<double>();
                    foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
                        list2.Add(rat.rating1);
@@ -156,153 +158,115 @@ namespace Homework.Controllers {
                             }
                         }
 
-              
-                }
-                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new
-                    {
+                return RedirectToAction( "ShowHomework", new RouteValueDictionary( new {
                         controller = "Homeworks",
                         action = "ShowHomework",
                         id_tema = model.id_tema
-                    })); 
-               // return View( model );
-            }
-        }
-            
-            return null;
-           // return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult SeeStudents2(SeeHomeworkModel model, string[] tags)
-        {
-
-            if (tags == null)
-            {
-                return View("Index");
-            }
-
-            using (var db = new HomeworkContext())
-            {
-                foreach (var tag in tags)
-                {
-                    int id = int.Parse(tag);
-
-                    db.Participas.Add(new Participa
-                    {
-                        id_tema = model.id_tema,
-                        id_user = id
-
-                    });
-
-                        db.SaveChanges();
-
+                    } ) );
                 }
-
+                return View( model );
             }
-
-            return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
-
-           // return View("~/Views/Home/Index.cshtml");
-
         }
-        
-
-        [HttpPost]
-        public ActionResult SeeStudents(SeeHomeworkModel model)
-        {
-            using (var db = new HomeworkContext())
-            {
-                string classes = model.clase.Replace(" ", "").Replace(",", "");
-                int idLiceu = (int)Session["LiceuId"];
-                var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
-
-                List<Elev> lista = new List<Elev>();
-                foreach (var e in users)
-                {
-                    Elev p = new Elev();
-                    p.nume = e.nume;
-                    p.prenume = e.prenume;
-                    p.id_elev = e.id_user;
-                    p.isChecked = false;
-                    lista.Add(p);
-                }
-                model.elev = lista;
-            }
 
             return View(model);
-
         }
 
-        /*
+
         [HttpPost]
         public ActionResult ShowHomework(SeeHomeworkModel model)
         {
             using (var db = new HomeworkContext())
             {
-                if (model.Show)
+                string classes = model.clase.Replace(" ", "").Replace(",", "");
+                int idLiceu = (int)Session["LiceuId"];
+                //int id_tema = ViewBag.id_tema;
+                var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
+                //TO DO: Un 'bulk insert'
+                foreach (var user in users)
                 {
-                    string classes = model.clase.Replace(" ", "").Replace(",", "");
-                    int idLiceu = (int)Session["LiceuId"];
-                    var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
-
-                    List<Elev> lista = new List<Elev>();
-                    foreach(var e in users)
+                    db.Participas.Add(new Participa
                     {
-                        Elev p = new Elev();
-                        p.nume = e.nume;
-                        p.prenume = e.prenume;
-                        p.id_elev = e.id_user;
-                        p.isChecked = false;
-                        lista.Add(p);
-                    }
-                    model.elev = lista;
-                    ViewBag.Show = true;
+                        id_tema = model.id_tema,
+                        id_user = user.id_user
+                    });
+                }
+
+                try
+                {
+                    db.SaveChanges();
                     return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
 
                 }
-                else
+                catch (DbEntityValidationException e)
                 {
-                    string classes = model.clase.Replace(" ", "").Replace(",", "");
-                    int idLiceu = (int)Session["LiceuId"];
-                    var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
-                    foreach (var user in users)
+                    foreach (var eve in e.EntityValidationErrors)
                     {
-                        db.Participas.Add(new Participa
+                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
                         {
-                            id_tema = model.id_tema,
-                            id_user = user.id_user
-                        });
-                    }
-
-                    try
-                    {
-                        db.SaveChanges();
-                        return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
-
-                    }
-                    catch (DbEntityValidationException e)
-                    {
-                        foreach (var eve in e.EntityValidationErrors)
-                        {
-                            Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                            foreach (var ve in eve.ValidationErrors)
-                            {
-                                Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                    ve.PropertyName, ve.ErrorMessage);
-                            }
+                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
                         }
-                        throw;
                     }
-
+                    throw;
                 }
+
             }
 
             return View(model);
         }
-        */
+<<<<<<< HEAD
+        [HttpPost]
+        public ActionResult ShowHomework(SeeHomeworkModel model)
+        {
+            using (var db = new HomeworkContext())
+            {
+                string classes = model.clase.Replace(" ", "").Replace(",", "");
+                int idLiceu = (int)Session["LiceuId"];
+                //int id_tema = ViewBag.id_tema;
+                var users = db.Users.Where(a => a.an_studiu == model.an && classes.Contains(a.clasa) && a.id_liceu == idLiceu && a.tip == 1).ToList();
+                //TO DO: Un 'bulk insert'
+                foreach (var user in users)
+                {
+                    db.Participas.Add(new Participa
+                    {
+                        id_tema = model.id_tema,
+                        id_user = user.id_user
+                    });
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new { controller = "Homeworks", action = "ShowHomework", id_tema = model.id_tema }));
+                
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+
+            }
+
+            return View(model);
+        }
+        public ActionResult ShowHomework(int id_tema)
+=======
+
 
         public ActionResult ShowHomework(int id_tema, int? page)
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
         {
             using (var db = new HomeworkContext())
             {
@@ -381,7 +345,11 @@ namespace Homework.Controllers {
                 m.r = rt;
                 m.c = cm;
                 m.id_tema = id_tema;
-                //m.Show = false;
+<<<<<<< HEAD
+               
+                return View(m);
+=======
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
 
 
                 int pageSize = 5;
@@ -798,6 +766,8 @@ namespace Homework.Controllers {
                     }
                 }
 
+<<<<<<< HEAD
+=======
                 int pageSize = 5;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
@@ -806,32 +776,25 @@ namespace Homework.Controllers {
         }
 
 
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
         public ActionResult VeziNote(int id_tema)
         {
             using (var db = new HomeworkContext())
             {
                 var model = new List<NotaModel>();
 
-                var participanti  = new List<int>();
-                foreach (var p in db.Participas.Where(a => a.id_tema == id_tema))
-                {
-                    participanti.Add(p.id_user);
-                }
 
                 foreach (var submit in db.Submits.Where(a => a.id_tema == id_tema).GroupBy(b => b.id_user))
                 {
                     var nota = new NotaModel();
                     int user_id = submit.Key;
-                    if (participanti.Contains(user_id))
-                    {
-                        var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
-                        nota.Nume = name.nume + " " + name.prenume;
-                        nota.An = (int)name.an_studiu;
-                        nota.Clasa = name.clasa;
-                        nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
+                    var name = db.Users.Where(c => c.id_user == user_id).FirstOrDefault();
+                    nota.Nume = name.nume + " " + name.prenume;
+                    nota.An = (int)name.an_studiu;
+                    nota.Clasa = name.clasa;
+                    nota.Nota = db.Submits.Where(c => (c.id_user == user_id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).First().rezultat;
 
-                        model.Add(nota);
-                    }
+                    model.Add(nota);
 
                 }
 

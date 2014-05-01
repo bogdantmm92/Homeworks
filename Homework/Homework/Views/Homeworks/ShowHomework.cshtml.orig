@@ -19,6 +19,22 @@
          else
          { see = "false"; }
 
+<<<<<<< HEAD
+         if (see == "false")
+         { r.style.visibility = "hidden"; }
+         else
+         { r.style.visibility = "visible"; }
+     }
+     </script>
+=======
+<script>
+    var see = "false";
+    function Arata() {
+        r = document.getElementById("red");
+        if (see == "false")
+        { see = "true"; }
+        else
+        { see = "false"; }
 
         if (see == "false")
         { r.style.visibility = "hidden"; }
@@ -27,6 +43,7 @@
     }
 </script>
 
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
 
 
 
@@ -63,23 +80,50 @@
         <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div><br>
         <div>
             <a onclick="Arata()">Redirectioneaza</a>
-            @using (Html.BeginForm("SeeStudents", "Homeworks", FormMethod.Post))
+            @using (Html.BeginForm("ShowHomework", "Homeworks", FormMethod.Post))
             {
                 ViewBag.id_tema = Model.id_tema;
                 @Html.HiddenFor(m => m.id_tema)
                 @Html.HiddenFor(m => m.id_prof)
                 <div id="red" style="visibility:hidden">
-                    An:  @Html.TextBoxFor(m => m.an, new  { @Value = "9" })
-                    Clasele:  @Html.TextBoxFor(m => m.clase, new { @Value = "A" })
-                    
-                    <button type="submit" name="Show" value="False">Send to all</button>
-                    
+                    An:  @Html.EditorFor(m => m.an)
+                    Clasele:  @Html.EditorFor(m => m.clase)
+
+                    <input type="Submit" value="Send">
                 </div>
             }
         </div>
+<<<<<<< HEAD
+    </div>
+    @if (Session["isProf"] != null)
+    {
+        if ((bool)Session["isProf"] && (int)Session["UserId"]==Model.id_prof)
+        {
+          <div> @Html.ActionLink("Descarca InputOutput", "DownloadIn_Out", "Homeworks", new { id_io = Model.Hm.in_out }, null) </div>
+          <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div><br>
+          <div>
+              <a onclick="Arata()" >Redirectioneaza</a>
+              @using (Html.BeginForm("ShowHomework", "Homeworks", FormMethod.Post))
+              {
+                  ViewBag.id_tema = Model.id_tema;
+                  @Html.HiddenFor(m => m.id_tema)
+                  @Html.HiddenFor(m => m.id_prof)
+                  <div id="red" style="visibility:hidden">
+                     An:  @Html.TextBoxFor(m => m.an, new  { @Value = "9" })
+                     Clasele:  @Html.TextBoxFor(m => m.clase, new { @Value = "A" })
+                   
+                     <input type="Submit" value="Send">
+                 </div>
+              }
+          </div>
+        }
+    }
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0 ) || (bool)Session["isProf"])
+=======
     }
 }
-@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["Prof"])
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["isProf"])
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
 {
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }

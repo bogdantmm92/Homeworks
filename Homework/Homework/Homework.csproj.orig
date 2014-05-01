@@ -44,8 +44,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
+<<<<<<< HEAD
+    <Reference Include="PagedList.Mvc">
+=======
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -229,7 +233,10 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\jquery.rating.css" />
     <Content Include="Content\PagedList.css" />
+<<<<<<< HEAD
+=======
     <Content Include="Content\rating.css" />
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
     <Content Include="Content\StyleSheetHw.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -381,7 +388,6 @@
     <Content Include="Views\Homeworks\Sorteaza.cshtml" />
     <Content Include="Views\Shared\SearchBox.cshtml" />
     <Content Include="Views\Homeworks\Sources.cshtml" />
-    <Content Include="Views\Homeworks\SeeStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

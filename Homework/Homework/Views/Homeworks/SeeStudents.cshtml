@@ -1,0 +1,42 @@
+﻿@model Homework.Models.SeeHomeworkModel
+@{
+    ViewBag.Title = "SeeStudents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>See Students</h2>
+@section Javascript{
+    <script type="text/javascript">
+        function checkAll() {
+            
+            var c = document.getElementById("all");
+
+            var list = document.getElementsByTagName("input");
+            if (c.checked) { bool = true; }
+            else { bool = false;}
+            for (var i = 1; i < list.length; i++) {
+                list[i].checked = bool;
+            }
+
+        }
+
+        </script>
+    }
+
+@using (Html.BeginForm("SeeStudents2", "Homeworks", new { id_tema = Model.id_tema, id_prof = Model.id_prof, an=Model.an, clase = Model.clase }, FormMethod.Post))
+{
+    ViewBag.id_tema = Model.id_tema;
+    Html.HiddenFor(m => m.id_tema);
+    Html.HiddenFor(m => m.id_prof) ;
+    <input type="checkbox" id="all" name="checkall" onchange="checkAll();"><span>Check All</span><br/>
+
+        foreach (var elev in Model.elev)
+        {
+            <input type="checkbox" id="id1" name="tags" value="@elev.id_elev">@(elev.nume + " " + @elev.prenume) <br/>
+
+        }
+
+        <input type="submit" name="Send" value="Send">
+
+   
+}
