@@ -1,5 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
+
     <head>
         <meta charset="utf-8" />
         <title>@ViewBag.Title - Team B9</title>
@@ -12,6 +14,9 @@
             @RenderSection("CtrlJavascript");
         }
         @RenderSection("javascript",required: false);
+        
+
+        
     </head>
     <body>
         <header>
@@ -46,9 +51,12 @@
                             <li>@Html.ActionLink("Add Homework", "AddHomework", "Homeworks")</li>}
                         <li>@Html.ActionLink("My Homeworks", "TemeleMele", "Homeworks")</li>
                         <li>@Html.ActionLink("Homeworks Archive", "ArhivaTeme", "Homeworks")</li>
-
+<<<<<<< HEAD
+                        <li>@Html.ActionLink("My Profile", "ChangeInfo", "Homeworks")</li>
                         <li id="search"> @Html.ActionLink("Lista Licee", "Sorteaza", "Homeworks")</li>
-
+=======
+                        <li id="search"> @Html.ActionLink("Lista Licee", "Licee", "Homeworks")</li>
+>>>>>>> 30e63a29c089296db73d30d3e57e20458126ea61
                     </ul>
 
                 </div>}
@@ -64,7 +72,7 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
+        @*@Scripts.Render("~/bundles/jquery")*@
         @RenderSection("scripts", required: false)
     </body>
 </html>

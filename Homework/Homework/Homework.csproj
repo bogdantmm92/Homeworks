@@ -227,7 +227,6 @@
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\jquery.rating.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\rating.css" />
     <Content Include="Content\StyleSheetHw.css" />
@@ -285,6 +284,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\ui.stars.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="HomeworkModel.edmx">
@@ -305,9 +305,14 @@
       <LastGenOutput>HomeworkModel.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\delete.gif" />
+    <Content Include="Images\Empty_Star.png" />
+    <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\jquery-1.2.6.min.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.6b.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -380,6 +385,7 @@
     <Content Include="Views\Shared\SearchBox.cshtml" />
     <Content Include="Views\Homeworks\Sources.cshtml" />
     <Content Include="Views\Homeworks\SeeStudents.cshtml" />
+    <Content Include="Views\Shared\_AddRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

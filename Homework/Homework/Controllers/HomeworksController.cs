@@ -48,21 +48,63 @@ namespace Homework.Controllers {
             }
         }
 
+       public ActionResult ListaTeme(int id_prof, string sort, int ? page)
+       {
+           using (var db = new HomeworkContext())
+           {
+               var model = new List<TemaModel>();
+               var model2 = new TemeProfModel();
+               foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof)))
+               {
+                   var tm = new TemaModel();
+                   tm.data = t.deadline;
+                   tm.titlu = t.titlu;
+                   var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
+                   tm.prof = prof.nume + "  " + prof.prenume;
+                   var list2 = new List<double>();
+                   foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
+                       list2.Add(rat.rating1);
+                   if (list2.Count > 0)
+                   {
+                       var p = list2.Average();
+                       tm.rating = p;
+                   }
+                   else
+                   { tm.rating = 0; }
+                   tm.id_tema = t.id_tema;
+                   model.Add(tm);
+               }
+                              
+               var model3 = new TemeProfModel();
+               model3.id_prof = id_prof;
+               var mo = new List<TemaModel>();
 
+               if (sort == "Dupa rating")
+               {
+                   var ceva = model.OrderByDescending(m => m.rating).ToList();
+                   foreach (var t in ceva)
+                   {
+                       mo.Add(t);
+                   }
+               }
+               else
+               {
+                   var ceva = model.OrderBy(m => m.data).ToList();
+                   foreach (var t in ceva)
+                   {
+                       mo.Add(t);
+                   }
+               }
 
-        public ActionResult ListaTeme(int id_prof, string sort, int? page)
-        {
-            using (var db = new HomeworkContext())
-            {
-                var model = new List<TemaModel>(); var model2 = new TemeProfModel(); foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof))) { var tm = new TemaModel(); tm.data = t.deadline; tm.titlu = t.titlu; var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault(); tm.prof = prof.nume + " " + prof.prenume; var list2 = new List<double>(); foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema)) list2.Add(rat.rating1); if (list2.Count > 0) { var p = list2.Average(); tm.rating = p; } else { tm.rating = 0; } tm.id_tema = t.id_tema; model.Add(tm); } var model3 = new TemeProfModel(); model3.id_prof = id_prof; var mo = new List<TemaModel>();
+               int pageSize = 5;
+               int pageNumber = (page ?? 1);
+               var PagedModel = mo.ToPagedList(pageNumber, pageSize);
+               model3.teme = (PagedList<TemaModel>)PagedModel;
 
-                if (sort == "Dupa rating") { var ceva = model.OrderByDescending(m => m.rating).ToList(); foreach (var t in ceva) { mo.Add(t); } } else { var ceva = model.OrderBy(m => m.data).ToList(); foreach (var t in ceva) { mo.Add(t); } }
+               return View(model3);
+           }
+       }
 
-                int pageSize = 5; int pageNumber = (page ?? 1); var PagedModel = mo.ToPagedList(pageNumber, pageSize); model3.teme = (PagedList<TemaModel>)PagedModel;
-
-                return View(model3);
-            }
-        }
 
        public ActionResult Sorteaza(string Sorting_Order, int? page)
        {
@@ -110,47 +152,51 @@ namespace Homework.Controllers {
        {
            throw new NotImplementedException();
        }
-       
-                
 
 
 
-        [HttpPost]
-        public ActionResult AddComment( SeeHomeworkModel model ) {
-            using( var db = new HomeworkContext() ) {
-                if( ModelState.IsValid ) {
-                    try {
-                        var f = new Comentariu();
-                        f.data = DateTime.Now;
-                        f.id_tema = model.id_tema;
-                        f.id_user = (int)Session["UserId"];
-                        f.text = model.c.text;
 
 
-                        db.Comentarius.Add( f );
-                        db.SaveChanges();
-                    } catch( DbEntityValidationException dbEx ) {
-                        foreach( var validationErrors in dbEx.EntityValidationErrors ) {
-                            foreach( var validationError in validationErrors.ValidationErrors ) {
-                                Trace.TraceInformation( "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage );
-                            }
-                        }
+       [HttpPost]
+       public ActionResult AddComment(SeeHomeworkModel model)
+       {
+           using (var db = new HomeworkContext())
+           {
+               if (ModelState.IsValid)
+               {
+                   try
+                   {
+                       var f = new Comentariu();
+                       f.data = DateTime.Now;
+                       f.id_tema = model.id_tema;
+                       f.id_user = (int)Session["UserId"];
+                       f.text = model.c.text;
 
-              
-                }
-                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new
-                    {
-                        controller = "Homeworks",
-                        action = "ShowHomework",
-                        id_tema = model.id_tema
-                    })); 
-               // return View( model );
-            }
-        }
-            
-            return null;
-           // return View(model);
-        }
+
+                       db.Comentarius.Add(f);
+                       db.SaveChanges();
+                   }
+                   catch (DbEntityValidationException dbEx)
+                   {
+                       foreach (var validationErrors in dbEx.EntityValidationErrors)
+                       {
+                           foreach (var validationError in validationErrors.ValidationErrors)
+                           {
+                               Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                           }
+                       }
+                   }
+                       return RedirectToAction("ShowHomework", new RouteValueDictionary(new
+                       {
+                           controller = "Homeworks",
+                           action = "ShowHomework",
+                           id_tema = model.id_tema
+                       }));                   
+                   
+               }
+               return View(model);
+           }
+       }
 
         [HttpPost]
         public ActionResult SeeStudents2(SeeHomeworkModel model, string[] tags)
@@ -363,6 +409,12 @@ namespace Homework.Controllers {
                 m.id_tema = id_tema;
                 //m.Show = false;
 
+                //verific daca am mai votat
+                Session["votat"] = "nu";
+                int user_id = userId();
+                var r = db.Ratings.Where(a => (a.id_tema == id_tema && a.id_user == user_id)).FirstOrDefault();
+                if (r != null)
+                    Session["votat"] = "da";
 
                 int pageSize = 5;
                 int pageNumber = (page ?? 1);
@@ -817,6 +869,80 @@ namespace Homework.Controllers {
 
                 }
 
+                return View(model);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult AddRating(SeeHomeworkModel model, int id_tema)
+        {
+            using (var db = new HomeworkContext())
+            {
+                
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var r = new Rating();
+                        r.id_tema = id_tema;
+                        r.id_user = (int)Session["UserId"];
+                        r.rating1 = model.rating;
+
+                        db.Ratings.Add(r);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            }
+                        }
+                    }
+
+                    //calculez rating liceu
+                    var tm = db.Temas.Where(a => a.id_tema == id_tema).FirstOrDefault();
+                    var user = db.Users.Where(a => a.id_user == tm.id_prof).FirstOrDefault();
+                    var liceu = db.Liceus.Where(a => a.id_liceu == user.id_liceu).FirstOrDefault();
+
+                    var list2 = new List<int>();
+                    var list = new List<double>();
+                    var list3 = new List<double>();
+
+                    foreach(var prof in db.Users.Where(a => a.id_liceu == liceu.id_liceu))
+                    {
+                        foreach (var tema in db.Temas.Where(a => a.id_prof == prof.id_user))
+                        {
+                            foreach (var rat in db.Ratings.Where(r => r.id_tema == tema.id_tema))
+                                list2.Add(rat.rating1);
+
+                            if (list2.Count() != 0)
+                            {
+                                list.Add(list2.Average());
+                            }                           
+                        }
+
+                        if (list.Count() != 0)
+                            list3.Add(list.Average());
+                    }
+
+
+                    liceu.rating_total = list3.Average();
+                    db.SaveChanges();
+
+
+                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new
+                    {
+                        controller = "Homeworks",
+                        action = "ShowHomework",
+                        id_tema = model.id_tema
+                    })); 
+
+                }
                 return View(model);
             }
         }

@@ -19,10 +19,14 @@
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
         }
     </div>
-    @if (Model.licee.Any()) { 
+    @if (Model.licee.Any())
+    {
+        if (Model.licee.PageCount > 1)
+        { 
         <center>
             <p> Page @(Model.licee.PageCount < Model.licee.PageNumber ? 0 : Model.licee.PageNumber) of @Model.licee.PageCount </p>
         </center>
 
         @Html.PagedListPager(Model.licee, page => Url.Action("Licee", new { page }))
+    }
     }
