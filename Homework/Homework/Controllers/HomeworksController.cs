@@ -48,41 +48,21 @@ namespace Homework.Controllers {
             }
         }
 
-      
 
-       public ActionResult ListaTeme(int id_prof, int? page)
-       {
-           using (var db = new HomeworkContext())
-           {
-               var model = new List<TemaModel>();
-               foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof)))
-               {
-                   var tm = new TemaModel();
-                   tm.data = t.deadline;
-                   tm.titlu = t.titlu;
-                   var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault();
-                   tm.prof = prof.nume + " " + prof.prenume;
-                   var list2 = new List<double>();
-                   foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema))
-                       list2.Add(rat.rating1);
-                   if (list2.Count > 0)
-                   {
-                       var p = list2.Average();
-                       tm.rating = p;
-                   }
-                   else
-                   { tm.rating = 0; }
-                   tm.id_tema = t.id_tema;
-                   tm.id_prof = t.id_prof;
-                   model.Add(tm);
-               }
-               int pageSize = 5;
-               int pageNumber = (page ?? 1);
-               return View(model.ToPagedList(pageNumber, pageSize));
-               //return View(model);
-           }
-       }
 
+        public ActionResult ListaTeme(int id_prof, string sort, int? page)
+        {
+            using (var db = new HomeworkContext())
+            {
+                var model = new List<TemaModel>(); var model2 = new TemeProfModel(); foreach (var t in db.Temas.Where(a => (a.id_prof == id_prof))) { var tm = new TemaModel(); tm.data = t.deadline; tm.titlu = t.titlu; var prof = db.Users.Where(a => a.id_user == t.id_prof).FirstOrDefault(); tm.prof = prof.nume + " " + prof.prenume; var list2 = new List<double>(); foreach (var rat in db.Ratings.Where(a => a.id_tema == t.id_tema)) list2.Add(rat.rating1); if (list2.Count > 0) { var p = list2.Average(); tm.rating = p; } else { tm.rating = 0; } tm.id_tema = t.id_tema; model.Add(tm); } var model3 = new TemeProfModel(); model3.id_prof = id_prof; var mo = new List<TemaModel>();
+
+                if (sort == "Dupa rating") { var ceva = model.OrderByDescending(m => m.rating).ToList(); foreach (var t in ceva) { mo.Add(t); } } else { var ceva = model.OrderBy(m => m.data).ToList(); foreach (var t in ceva) { mo.Add(t); } }
+
+                int pageSize = 5; int pageNumber = (page ?? 1); var PagedModel = mo.ToPagedList(pageNumber, pageSize); model3.teme = (PagedList<TemaModel>)PagedModel;
+
+                return View(model3);
+            }
+        }
 
        public ActionResult Sorteaza(string Sorting_Order, int? page)
        {
@@ -97,7 +77,7 @@ namespace Homework.Controllers {
                var model = new List<LiceuModel>();
              
 
-               if (Sorting_Order == "Dupa rating")
+               if (Sorting_Order == "Rating")
                    foreach (var liceu in db.Liceus.OrderByDescending(m => m.rating_total))
                    {
                        var l = new LiceuModel();
@@ -477,7 +457,8 @@ namespace Homework.Controllers {
             if( !(bool)Session["prof"] ) {
 
                 //TO DO: De pus 'Index.cshtml' la shared ?
-                return View( "~/Views/Home/Index.cshtml" );
+                //return View( "~/Views/Home/Index.cshtml" );
+                return RedirectToAction("Index","Home");
             }
 
             ViewBag.Title = "Creeaza Tema";
@@ -497,7 +478,8 @@ namespace Homework.Controllers {
             if( !(bool)Session["prof"] ) {
 
                 //TO DO: De pus 'Index.cshtml' la shared ?
-                return View("~/Views/Home/Index.cshtml");
+                return RedirectToAction("Index", "Home");
+               // return View("~/Views/Home/Index.cshtml");
             }
             ViewBag.Title = "Creeaza Tema";
             using (var db = new HomeworkContext())

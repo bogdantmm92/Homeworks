@@ -336,7 +336,10 @@ namespace Homework.Models
         public DateTime data { get; set; } 
         public int id_tema { get; set; }
     }
-
+    public class TemeProfModel 
+    { public PagedList<TemaModel> teme { get; set; } 
+        public int id_prof { get; set; } 
+    }
     public class NotaModel {
         public string Nume { get; set; }
         public int Nota { get; set; }
