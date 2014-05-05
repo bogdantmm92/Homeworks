@@ -383,9 +383,12 @@
     <Content Include="Views\Homeworks\Sorteaza.cshtml" />
     <Content Include="Views\Shared\SearchBox.cshtml" />
     <Content Include="Views\Homeworks\Sources.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Shared\_AddSource.cshtml" />
+=======
     <Content Include="Views\Homeworks\SeeStudents.cshtml" />
+>>>>>>> ceb7571508d6cfe90cea1f8adfe51073e0cf3ba2
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

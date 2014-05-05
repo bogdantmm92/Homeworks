@@ -8,16 +8,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>ArhivaTeme</h2>
 
 
 <div id="allHomeworks">
-    <h2 class="Titlu">ArhivaTeme</h2>
+<<<<<<< HEAD
+    <h2 class="Titlu">Arhiva Teme</h2>
     <br>
     @foreach (var tm in Model)
     { <div>
         <strong><p><a href="./ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
         <p><strong>Creata de : </strong>@tm.prof din @tm.liceu 
         <strong> Rating :</strong> @tm.rating </p>
+=======
+    @foreach (var tm in Model)
+    { <div>
+        <p>Titlu : <strong>@tm.titlu </strong></p>
+        <p>Deadline : <i>@tm.data</i></p>
+        <p>Creata de : @tm.prof din @tm.liceu </p>
+        <p> Rating : @tm.rating </p>
+        <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
     </div>
 
         <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> 

@@ -21,8 +21,12 @@
     <add key="UnobtrusiveJavaScriptEnabled" value="true" />
   </appSettings>
   <system.web>
+<<<<<<< HEAD
+    <sessionState mode="StateServer" stateConnectionString="tcpip=localhost:42424" cookieless="false" timeout="20" />
+=======
     <sessionState mode="StateServer" stateConnectionString="tcpip=localhost:42424" cookieless="false" timeout="3600"/>
 
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
     <compilation debug="true" targetFramework="4.5" />
     <httpRuntime targetFramework="4.5" />
     <authentication mode="Forms">
