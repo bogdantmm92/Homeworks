@@ -106,8 +106,6 @@ namespace Homework.Controllers {
        }
 
 
-
-
        public ActionResult Sorteaza(string Sorting_Order, int? page)
        {
            using (var db = new HomeworkContext())
@@ -121,7 +119,7 @@ namespace Homework.Controllers {
                var model = new List<LiceuModel>();
              
 
-               if (Sorting_Order == "Dupa rating")
+               if (Sorting_Order == "Rating")
                    foreach (var liceu in db.Liceus.OrderByDescending(m => m.rating_total))
                    {
                        var l = new LiceuModel();
@@ -511,7 +509,8 @@ namespace Homework.Controllers {
             if( !(bool)Session["prof"] ) {
 
                 //TO DO: De pus 'Index.cshtml' la shared ?
-                return View( "~/Views/Home/Index.cshtml" );
+                //return View( "~/Views/Home/Index.cshtml" );
+                return RedirectToAction("Index","Home");
             }
 
             ViewBag.Title = "Creeaza Tema";
@@ -531,7 +530,8 @@ namespace Homework.Controllers {
             if( !(bool)Session["prof"] ) {
 
                 //TO DO: De pus 'Index.cshtml' la shared ?
-                return View("~/Views/Home/Index.cshtml");
+                return RedirectToAction("Index", "Home");
+               // return View("~/Views/Home/Index.cshtml");
             }
             ViewBag.Title = "Creeaza Tema";
             using (var db = new HomeworkContext())

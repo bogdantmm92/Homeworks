@@ -370,14 +370,12 @@
     <Content Include="Views\Shared\_LayoutLoggedIn.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
     <Content Include="Views\Homeworks\SeeHomework.cshtml" />
-    <Content Include="Views\Homeworks\Teme.cshtml" />
     <Content Include="Views\Homeworks\AddHomework.cshtml" />
     <Content Include="Views\Homeworks\Profesori.cshtml" />
     <Content Include="Views\Home\Cauta.cshtml" />
     <Content Include="Views\Homeworks\Licee.cshtml" />
     <Content Include="Views\Homeworks\ProfesoriLiceu.cshtml" />
     <Content Include="Views\Homeworks\ListaTeme.cshtml" />
-    <Content Include="Views\Homeworks\ChangeInfo.cshtml" />
     <Content Include="Views\Homeworks\TemeleMele.cshtml" />
     <Content Include="Views\Homeworks\ArhivaTeme.cshtml" />
     <Content Include="Views\Homeworks\ShowHomework.cshtml" />

@@ -43,6 +43,36 @@ namespace Homework.Models
 
     public class LocalPasswordModel
     {
+        [Display( Name = "Nume" )]
+        public string nume {
+            get;
+            set;
+        }
+
+        [Display( Name = "Prenume" )]
+        public string prenume {
+            get;
+            set;
+        }
+
+        [Display( Name = "Email" )]
+        public string email {
+            get;
+            set;
+        }
+
+        [Display( Name = "Clasa" )]
+        public string clasa {
+            get;
+            set;
+        }
+
+        [Display( Name = "An" )]
+        public int an {
+            get;
+            set;
+        }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -306,7 +336,10 @@ namespace Homework.Models
         public DateTime data { get; set; } 
         public int id_tema { get; set; }
     }
-
+    public class TemeProfModel 
+    { public PagedList<TemaModel> teme { get; set; } 
+        public int id_prof { get; set; } 
+    }
     public class NotaModel {
         public string Nume { get; set; }
         public int Nota { get; set; }
@@ -325,12 +358,6 @@ namespace Homework.Models
         {
             public PagedList<TemaAModel> teme { get; set; }
             public string NumeProfesor { get; set; }
-        }
-
-        public class TemeProfModel
-        {
-            public PagedList<TemaModel> teme { get; set; }
-            public int id_prof { get; set; }
         }
 
 

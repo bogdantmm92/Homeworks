@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "ShowHomework";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Homework.Models.CommentModel
+
+<h2>ShowHomework</h2>
+
+
+<div id="addComment">
+    <center> 
+        <strong> Comentarii</strong>
+    </center>
+
+    @using (Html.BeginForm())
+    {        
+        @Html.TextAreaFor(m => Model.text);
+        <input type="submit" value="Submit" id="submitComment"/>
+    }
+</div>

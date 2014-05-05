@@ -2,73 +2,74 @@
 <html lang="en">
 
 
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - Team B9</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @if (IsSectionDefined("CtrlJavascript"))
-        {
-            @RenderSection("CtrlJavascript");
-        }
-        @RenderSection("javascript",required: false);
-        
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Team B9</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @if (IsSectionDefined("CtrlJavascript"))
+    {
+        @RenderSection("CtrlJavascript");
+    }
+    @RenderSection("javascript", required: false);
 
-        
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Homeworks", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                        
-                          
-                        
-                    </nav>
-                </div>
+
+
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title">@Html.ActionLink("Homeworks", "Index", "Home")</p>
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @if (Session["UserId"] != null) { 
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <nav>
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+
+
+
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @if (Session["UserId"] != null)
+            {
                 <div>
                     <ul id="menu2">
-                        @if((bool) Session["prof"]){
+                        @if ((bool)Session["prof"])
+                        {
                             <li>@Html.ActionLink("Add Homework", "AddHomework", "Homeworks")</li>}
                         <li>@Html.ActionLink("My Homeworks", "TemeleMele", "Homeworks")</li>
                         <li>@Html.ActionLink("Homeworks Archive", "ArhivaTeme", "Homeworks")</li>
-                        <li>@Html.ActionLink("My Profile", "ChangeInfo", "Homeworks")</li>
                         <li id="search"> @Html.ActionLink("Lista Licee", "Sorteaza", "Homeworks")</li>
                     </ul>
 
                 </div>}
-                @RenderBody()
-            </section>
-            
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Team B9</p>
-                </div>
-            </div>
-        </footer>
+            @RenderBody()
+        </section>
 
-        @*@Scripts.Render("~/bundles/jquery")*@
-        @RenderSection("scripts", required: false)
-    </body>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - Team B9</p>
+            </div>
+        </div>
+    </footer>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @RenderSection("scripts", required: false)
+</body>
 </html>
