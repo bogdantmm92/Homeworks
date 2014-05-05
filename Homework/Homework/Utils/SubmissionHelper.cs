@@ -29,7 +29,7 @@ namespace Homework.Utils
             client = new Ideone_ServiceService();
         }
 
-        public Dictionary<string, string> uploadSource(string source, string input, int language = 116)
+        public Dictionary<string, string> uploadSource(string source, string input, int language = 1)
         {
             var submission = getResult(client.createSubmission(username, password, source, language, input, true, false));
 

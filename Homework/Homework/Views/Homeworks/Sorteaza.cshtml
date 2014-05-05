@@ -1,0 +1,58 @@
+﻿@model PagedList.IPagedList<Homework.Models.LiceuModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Lista de licee";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sorteaza</title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <th>
+                    @Html.ActionLink("Alfabetic", "Sorteaza", "Homeworks", new { Sorting_Order = "Alfabetic" }, null)
+                </th>
+                <th> <div>|  |</div> </th>
+                <th>
+                    @Html.ActionLink("Dupa Rating", "Sorteaza", "Homeworks", new { Sorting_Order = "Dupa rating" }, null)
+                </th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+    
+    <div>
+
+
+
+      
+        @foreach (var liceu in Model)
+        {
+            var NumeLiceu = liceu.nume;
+            <p><strong>@Html.ActionLink(NumeLiceu, "ProfesoriLiceu", "Homeworks", new { idd_liceu = liceu.id_liceu }, null)</strong></p>
+            <p>Rating : @liceu.rating_total</p>
+            <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
+        }
+    </div>
+
+    <center>
+        <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+    </center>
+
+    @Html.PagedListPager(Model, page => Url.Action("Sorteaza", new { page }))
+
+</body>
+</html>

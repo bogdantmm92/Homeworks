@@ -46,7 +46,7 @@ namespace Homework.Controllers {
                         Session ["prof"] = false;
                     }
 
-                   // bool isProf = (bool)Session ["isProf"];
+                    bool isProf = (bool)Session ["prof"];
 
                     Session ["LiceuId"] = user.id_liceu;
                 }

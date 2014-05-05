@@ -5,30 +5,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml;
-
+using PagedList.Mvc;
+using PagedList;
 
 namespace Homework.Controllers
 {
     public class HomeController : Controller
-    {
-        /*
+    {/*
         public ActionResult Index()
         {
-namespace Homework.Controllers {
-    public class HomeController : Controller {
-        public ActionResult Index() {
-
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
         }*/
 
-        public ActionResult Index()
+
+
+        public ActionResult Index(int ? page)
         {
             using (var db = new HomeworkContext())
             {
                 var model = new List<TemaAModel>();
+                var model2 = new IndexModel();
 
                 try
                 {
@@ -36,8 +34,8 @@ namespace Homework.Controllers {
 
                     //var id = 2;
                     var liceu = db.Liceus.Join(db.Users, a => a.id_liceu, b => b.id_liceu, (a, b) => new { liceu = a, user = b }).Where(a => a.user.id_user == id).FirstOrDefault();
-                    var teme = db.Temas.Join(db.Users, a => a.id_prof, b => b.id_user, (a, b) => new { tema = a, user = b }).Where(a => a.user.id_liceu == liceu.liceu.id_liceu).ToList();
-
+                    var teme = db.Temas.Join(db.Users, a => a.id_prof, b => b.id_user, (a, b) => 
+                        new { tema = a, user = b }).Where(a => a.user.id_liceu == liceu.liceu.id_liceu && a.tema.deadline < DateTime.Now && a.tema.privat == 0).ToList();
                     foreach (var t in teme)
                     {
                         var tm = new TemaAModel();
@@ -71,36 +69,35 @@ namespace Homework.Controllers {
 
                         model.Add(tm);
                     }
+                   
                 }
                 catch (Exception ex)
                 {
                     Console.Write(ex);
                 }
 
-                return View(model);
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                model2.teme = (PagedList<TemaAModel>)model.ToPagedList(pageNumber, pageSize);
+                return View(model2);
 
             }
 
 
         }
 
-        [HttpPost]
 
-        public ActionResult Cauta(SearchModel model)
+
+        public ActionResult About()
         {
-            return View();
-        }
-
-        
-
-        public ActionResult About() {
 
             ViewBag.Message = "Your app description page.";
 
             return View();
         }
 
-        public ActionResult Contact() {
+        public ActionResult Contact()
+        {
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -110,8 +107,15 @@ namespace Homework.Controllers {
         {
             string source =
 @"
-v = input().split()
-print(int(v[0]) * int(v[1]))
+#include <iostream>
+using namespace std;
+
+int main() {
+	int a, b;
+	cin >> a >> b;
+	cout << a * b;
+	return 0;
+}
 ";
 
             SubmissionHelper._Instance.uploadSource(source, "2 7");

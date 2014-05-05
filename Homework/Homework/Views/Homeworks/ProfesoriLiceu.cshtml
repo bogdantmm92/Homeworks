@@ -1,5 +1,8 @@
-﻿@model List<Homework.Models.ProfesoriModel>
+﻿@model PagedList.IPagedList<Homework.Models.ProfesoriModel>
+@using PagedList.Mvc;
+@using PagedList;
 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Lista de profesori";
 }
@@ -13,9 +16,9 @@
 
 </head>
 <body>
-
-        <h2 class="Titlu">@ViewBag.Title</h2>
-
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+    </hgroup>
     <div>
 
 
@@ -32,8 +35,17 @@
             </div>
 
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
+            ViewBag.id_liceu = prof.id_liceu;
         }
 
+        @if(Model.Any())
+        { 
+        <center>
+            <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
+        </center>
+
+        @Html.PagedListPager(Model, page => Url.Action("ProfesoriLiceu", new { page, idd_liceu = ViewBag.id_liceu }))
+        }
     </div>
 </body>
 </html>

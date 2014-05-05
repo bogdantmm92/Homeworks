@@ -1,0 +1,11 @@
+﻿@model Homework.Models.IndexModel
+
+
+<div id="searchForm" style="height:10px; width: 150px; position:absolute; right:200px;">
+        @using (Html.BeginForm("Profesori", "Homeworks"))
+        { 
+            @Html.TextBoxFor(m => m.NumeProfesor, new { style = "width:150px", @Value = "nume profesor" })        
+            <input type="submit" value="Search"  />
+        }
+
+</div>

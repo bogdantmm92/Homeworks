@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -136,46 +137,33 @@ namespace Homework.Models
         public double rating { get; set; }
         public DateTime data { get; set; }
         public int id_tema { get; set; }
+        public int id_prof { get; set; }
     }
 
   
 
     public class ProfesoriModel
     {
-        public int id_prof;
-        public string nume;
-        public string prenume;
-        public string liceu;
-        public double rating;
-        public int numar_teme;
+        public int id_prof { get; set; }
+        public string nume { get; set; }
+        public string prenume { get; set; }
+        public string liceu { get; set; }
+        public double rating { get; set; }
+        public int numar_teme { get; set; }
         public string NumeProfesor { get; set; }
+        public int id_liceu { get; set; }
     }
-
-
-
-
-    public class UserModel
-    {
-        public string username { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string highschool { get; set; }
-        public char className { get; set; }
-        public int year { get; set; }
-        public int type { get; set; }
-    }
-
 
     public class LiceuModel
     {
         public int id_liceu;
         public string nume;
-        public string rating_total;
+        public double rating_total;
     }
 
     public class LiceeModel
     {
-        public List<Liceu> licee { get; set; }
+        public PagedList<Liceu> licee { get; set; }
     }
 
    public class SearchModel
@@ -183,7 +171,6 @@ namespace Homework.Models
        public string NumeProfesor { get; set; }
       
    }
-
 
     public class HomeworkModel
     {
@@ -196,7 +183,8 @@ namespace Homework.Models
         public int? help { get; set; }
         public int in_out { get; set; }
         public int current_grade { get; set; }
-        public List<CommentModel> comentariu { get; set; }
+        //public List<CommentModel> comentariu { get; set; }
+        public PagedList<CommentModel> comentariu { get; set; }
         public int id_tema { get; set; }
         public int privat { get; set; }
     }
@@ -206,14 +194,12 @@ namespace Homework.Models
         public string username { get; set; }
         public string text { get; set; }
         public DateTime data { get; set; }
-
     }
     public class RatingModel
     {
         public int rating { get; set; }
         public int id_tema { get; set; }
         public int id_user { get; set; }
-
     }
     public class SeeHomeworkModel
     {
@@ -221,7 +207,10 @@ namespace Homework.Models
         public RatingModel r { get; set; }
         public CommentModel c { get; set; }
         public int id_tema { get; set; }
+        public int id_prof { get; set; }
 
+        public string clase { get; set; }
+        public int an { get; set; }
 
     }
 
@@ -258,31 +247,19 @@ namespace Homework.Models
         [Display( Name = "Privat" )]
         public bool privat { get; set; }
 
+
     }
 
 
-    public class SourceModel
-    {
-        public int result { get; set; }
-        public string username { get; set; }
-        public int id_source { get; set; }
-        public int id_submit { get; set; }
-    }
 
 
     public class ChangeInfo
     {
-        [Display(Name = "Nume")]
         public string nume { get; set; }
-        [Display(Name = "Prenume")]
         public string prenume { get; set; }
-        [Display(Name = "Email")]
         public string email { get; set; }
-        [Display(Name = "Parola")]
         public string parola { get; set; }
-        [Display(Name = "Clasa")]
         public string clasa { get; set; }
-        [Display(Name = "An de Studiu")]
         public int anStudiu { get; set; }
 
     }
@@ -302,6 +279,19 @@ namespace Homework.Models
         public int An { get; set; }
         public string Clasa { get; set; }
     }
+	
+	    public class SourceModel
+    {
+        public int result { get; set; }
+        public string username { get; set; }
+        public int id_source { get; set; }
+        public int id_submit { get; set; }
+    }
+        public class IndexModel
+        {
+            public PagedList<TemaAModel> teme { get; set; }
+            public string NumeProfesor { get; set; }
+        }
 
 
 
