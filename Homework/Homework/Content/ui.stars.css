@@ -1,5 +1,5 @@
 /* Stars */
-.ui-stars-cancel,
+/*.ui-stars-cancel,
 .ui-stars-star {
 	float:left;
 	width:17px;
@@ -12,7 +12,7 @@
 }
 .ui-stars-cancel,
 .ui-stars-cancel a { /* background:  url('/Images/star.jpg') left center no-repeat; */
-	background:url('/Images/delete.gif') no-repeat 0 -16px ;
+/*	background:url('/Images/delete.gif') no-repeat 0 -16px ;
 }
 .ui-stars-star,
 .ui-stars-star a {
@@ -55,6 +55,7 @@
 .ui-stars-cancel-disabled a,.ui-stars-star-disabled,.ui-stars-star-disabled a {cursor:default !important}
 .ui-stars-star {background:transparent!important;overflow:hidden!important}
 */
+/*
     .rating
     {
         padding-bottom:3px;        
@@ -69,4 +70,27 @@
 
 .question input[type="radio"] {
     background:url('/Images/star.gif') no-repeat 0 0px;
-}
+}*/
+
+    .ratingStar
+    {
+        font-size: 0pt;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        display: block;
+    }
+
+    .filledRatingStar
+    {
+        background-image: url('Images/star.jpeg');
+        background-size: 12px;
+    }
+
+
+    .emptyRatingStar
+    {
+        background-image: url('Images/Empty_Star.png');
+        background-size: 12px;
+    }

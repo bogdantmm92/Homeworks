@@ -154,21 +154,6 @@ namespace Homework.Models
         public int id_liceu { get; set; }
     }
 
-
-
-
-    public class UserModel
-    {
-        public string username { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string highschool { get; set; }
-        public char className { get; set; }
-        public int year { get; set; }
-        public int type { get; set; }
-    }
-
-
     public class LiceuModel
     {
         public int id_liceu;
@@ -225,20 +210,16 @@ namespace Homework.Models
         public int id_tema { get; set; }
         public int id_prof { get; set; }
 
+<<<<<<< HEAD
+        public int id_prof { get; set; }
+
         public string clase { get; set; }
         public int an { get; set; }
 
-        public List<Elev> elev;
-
-        public bool send { get; set; }
-        public int rating { get; set; }
-    }
-
-    public class Elev {
-        public string nume { get; set; }
-        public int id_elev { get; set; }
-        public string prenume { get; set; }
-        public bool isChecked { get; set; }
+=======
+        public string clase { get; set; }
+        public int an { get; set; }
+>>>>>>> 8d57a5bf6b3fed4c4a5f0b2c4b2584253e7426d0
 
     }
 
@@ -283,17 +264,11 @@ namespace Homework.Models
 
     public class ChangeInfo
     {
-        [Display(Name = "Nume")]
         public string nume { get; set; }
-        [Display(Name = "Prenume")]
         public string prenume { get; set; }
-        [Display(Name = "Email")]
         public string email { get; set; }
-        [Display(Name = "Parola")]
         public string parola { get; set; }
-        [Display(Name = "Clasa")]
         public string clasa { get; set; }
-        [Display(Name = "An de Studiu")]
         public int anStudiu { get; set; }
 
     }
@@ -325,12 +300,6 @@ namespace Homework.Models
         {
             public PagedList<TemaAModel> teme { get; set; }
             public string NumeProfesor { get; set; }
-        }
-
-        public class TemeProfModel
-        {
-            public PagedList<TemaModel> teme { get; set; }
-            public int id_prof { get; set; }
         }
 
 

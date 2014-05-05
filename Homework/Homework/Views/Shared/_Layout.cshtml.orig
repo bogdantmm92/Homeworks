@@ -13,10 +13,14 @@
         {
             @RenderSection("CtrlJavascript");
         }
-        @RenderSection("javascript",required: false);
+<<<<<<< HEAD
         
 
+        @RenderSection("JavaScript", required: false)
         
+=======
+        @RenderSection("javascript",required: false);
+>>>>>>> d7e32691eb1c18e6be9111be3936b46706a491ca
     </head>
     <body>
         <header>
@@ -52,7 +56,7 @@
                         <li>@Html.ActionLink("My Homeworks", "TemeleMele", "Homeworks")</li>
                         <li>@Html.ActionLink("Homeworks Archive", "ArhivaTeme", "Homeworks")</li>
                         <li>@Html.ActionLink("My Profile", "ChangeInfo", "Homeworks")</li>
-                        <li id="search"> @Html.ActionLink("Lista Licee", "Sorteaza", "Homeworks")</li>
+                        <li id="search"> @Html.ActionLink("Lista Licee", "Licee", "Homeworks")</li>
                     </ul>
 
                 </div>}
@@ -68,7 +72,7 @@
             </div>
         </footer>
 
-        @*@Scripts.Render("~/bundles/jquery")*@
+        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
 </html>

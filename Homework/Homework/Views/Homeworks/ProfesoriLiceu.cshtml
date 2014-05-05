@@ -39,12 +39,15 @@
         }
 
         @if(Model.Any())
-        { 
+        {
+            if (Model.PageCount > 1)
+            { 
         <center>
             <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
         </center>
 
         @Html.PagedListPager(Model, page => Url.Action("ProfesoriLiceu", new { page, idd_liceu = ViewBag.id_liceu }))
+        }
         }
     </div>
 </body>

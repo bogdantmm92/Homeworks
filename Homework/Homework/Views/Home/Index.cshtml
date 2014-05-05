@@ -1,4 +1,4 @@
-@model Homework.Models.IndexModel
+﻿@model Homework.Models.IndexModel
 @using PagedList.Mvc;
 @using PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -9,42 +9,45 @@
 }
 
 
-
     @if (Request.IsAuthenticated)
     {
         <!--<section class="featured">-->
             <div class="content-wrapper">
                 @Html.Partial("SearchBox")
 
+        
+            
                 <h2 class="Titlu">Temele din liceul meu</h2>
                 <hgroup class="title">
                     <div id="allHomeworks">
                         <br>
                         @foreach (var tm in Model.teme)
-                        {
-                            <div>
-                                <p>Titlu : <strong>@tm.titlu </strong></p>
-                                <p>Deadline : <i>@tm.data</i></p>
-                                <p>Creata de : @tm.prof din @tm.liceu </p>
-                                <p> Rating : @tm.rating </p>
-                                <p>@Html.ActionLink("Vezi Tema", "ShowHomework", "Homeworks", new { id_tema = @tm.id_tema }, null)</p>
+                        { <div>
+                            <strong><p><a href="./Homeworks/ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
+                            <p><strong>Creata de : </strong>@tm.prof </p>
+                            <p><strong>Deadline : </strong><i>@tm.data</i></p>
+                            <p><strong> Rating :</strong> @tm.rating </p>
+                        </div>
 
-                            </div>
+
                             <center>
                                 <div style="height: 3px; width: 800px; background-color: black;">
                                 </div>
                             </center>
-                        }                        
+                        }
                     </div>
-                </hgroup>
-
+                    </hgroup>                      
+                   
+           
+@if(Model.teme.PageCount > 1)
+{ 
         <center>
             <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
         </center>
 
         @Html.PagedListPager(Model.teme, page => Url.Action("Index", new { page }))
 
-
+}
                     </div>
        
     }
@@ -56,7 +59,7 @@
                 <hgroup class="title">
                     <h1>Please login</h1>
                     <br />
-                    <h2>Homeworks is an online educational platform that facilitates homework whatever</h2>
+                    <h2>Homeworks is an online educational platform</h2>
                 </hgroup>
             </div>
         </section>

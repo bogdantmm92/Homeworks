@@ -32,14 +32,15 @@
 
 </div>
 
-@if (Model.Any())
-{ 
-    if(Model.PageCount > 1)
-    { 
+<<<<<<< HEAD
+@if (Model.Any()) { 
 <center>
+=======
+@if (Model.Any())
+{<center>
+>>>>>>> d7e32691eb1c18e6be9111be3936b46706a491ca
     <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
 </center>
 
 @Html.PagedListPager(Model, page => Url.Action("TemeleMele", new { page }))
-}
 }
