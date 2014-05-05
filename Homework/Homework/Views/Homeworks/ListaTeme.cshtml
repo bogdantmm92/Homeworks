@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Homework.Models.TemaModel>
+﻿@model Homework.Models.TemeProfModel
 @using PagedList.Mvc;
 @using PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -9,21 +9,37 @@
 }
 <h2>ListaTeme</h2>
 <div id="teme incarcate">
-    @foreach (var tm in Model)
+    <div>
+        <table>
+            <tr>
+                <th>
+                    @Html.ActionLink("Data", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa data" }, null)
+                </th>
+                <th> <div> |</div> </th>
+                <th>
+                    @Html.ActionLink("Rating", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa rating" }, null)
+                </th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+    @foreach (var tm in Model.teme)
     { <div>
-         <strong><p><a href="./ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
+        <strong><p><a href="./ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
 
         <p>Deadline : <i>@tm.data</i></p>
         <p>Rating : @tm.rating </p>
-       
+
     </div>
-        <center> <div style="height: 3px; width: 500px; background-color: black"></div> </center> 
+        <center> <div style="height: 3px; width: 500px; background-color: black"></div> </center>
         ViewBag.id_prof = tm.id_prof;
     }
 </div>
+@if (Model.teme.PageCount > 1)
+{
+    <center>
+        <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
+    </center>
 
-<center>
-    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
-</center>
-
-@Html.PagedListPager(Model, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))
+    @Html.PagedListPager(Model.teme, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))
+}
