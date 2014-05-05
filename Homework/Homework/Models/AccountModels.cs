@@ -222,6 +222,11 @@ namespace Homework.Models
         public HomeworkModel Hm { get; set; }
         public RatingModel r { get; set; }
         public CommentModel c { get; set; }
+
+        [Required]
+        [Display(Name = "Source code")]
+        public HttpPostedFileBase source_code { get; set; }
+
         public int id_tema { get; set; }
         public int id_prof { get; set; }
 
@@ -321,6 +326,7 @@ namespace Homework.Models
         public int id_source { get; set; }
         public int id_submit { get; set; }
     }
+
         public class IndexModel
         {
             public PagedList<TemaAModel> teme { get; set; }

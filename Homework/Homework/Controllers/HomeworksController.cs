@@ -13,6 +13,7 @@ using WebMatrix.WebData;
 using System.Web.Routing;
 using PagedList.Mvc;
 using PagedList;
+using Homework.Utils;
 
 namespace Homework.Controllers {
     [Authorize]
@@ -156,9 +157,6 @@ namespace Homework.Controllers {
                             }
                         }
                     }
-
-              
-                }
                     return RedirectToAction("ShowHomework", new RouteValueDictionary(new
                     {
                         controller = "Homeworks",
@@ -167,6 +165,58 @@ namespace Homework.Controllers {
                     } ) );
                 }
                 return View( model );
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SubmitSource(SeeHomeworkModel model)
+        {
+            //Should not happen
+            if( (bool)Session["prof"] ) {
+                return View( "~/Views/Home/Index.cshtml" );
+            }
+            using (var db = new HomeworkContext())
+            {
+                var sourceFile = new Fisier();
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                var sourceDirectory = String.Format("source_codes/homework{0}/{1}", model.id_tema, userId());
+                var sourceFileName = String.Format("submission{0}.txt", db.Submits.Count());
+
+                var sourceRelativePath = Path.Combine(sourceDirectory, sourceFileName);
+
+                var sourceDirectoryPath = Path.Combine(defaultDirectory, sourceDirectory);
+                var sourcePath = Path.Combine(defaultDirectory, sourceRelativePath);
+
+                System.IO.Directory.CreateDirectory(sourceDirectoryPath);
+                model.source_code.SaveAs(sourcePath);
+
+                sourceFile.cale = sourceRelativePath;
+                db.Fisiers.Add(sourceFile);
+
+                Submit submit = new Submit();
+                submit.Fisier = sourceFile;
+                submit.id_tema = model.id_tema;
+                db.Submits.Add(submit);
+
+                //Source code
+                string sourceCode;
+                using (StreamReader sr = new StreamReader(sourcePath))
+                {
+                    sourceCode = sr.ReadToEnd();
+                }
+
+                //input
+                string[] inputs = new string[] { "2 4", "5 6", "9 5" };
+                //output
+                string[] outputs = new string[] { "8", "30", "44" };
+
+                List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
+                foreach (var input in inputs)
+                {
+                    var result = SubmissionHelper._Instance.uploadSource(sourceCode, input);
+                    results.Add(result);
+                }
+                return View(results.ToString() + "<br><br><br><br><br><br>" + outputs);
             }
         }
 
