@@ -27,8 +27,7 @@ namespace Homework.Controllers
                 var model = new List<TemaAModel>();
                 var model2 = new IndexModel();
 
-                try
-                {
+                
                     int id = (int)Session["UserId"];
 
                     //var id = 2;
@@ -69,11 +68,7 @@ namespace Homework.Controllers
                         model.Add(tm);
                     }
                    
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex);
-                }
+                
 
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);
