@@ -13,11 +13,19 @@
         <table>
             <tr>
                 <th>
+<<<<<<< HEAD
+                    @Html.ActionLink("Dupa data", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa data" }, null)
+                </th>
+                <th> <div>|  |</div> </th>
+                <th>
+                    @Html.ActionLink("Dupa Rating", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa rating" }, null)
+=======
                     @Html.ActionLink("Data", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa data" }, null)
                 </th>
                 <th> <div> |</div> </th>
                 <th>
                     @Html.ActionLink("Rating", "ListaTeme", "Homeworks", new { id_prof = Model.id_prof, sort = "Dupa rating" }, null)
+>>>>>>> 30e63a29c089296db73d30d3e57e20458126ea61
                 </th>
                 <th></th>
             </tr>
@@ -36,10 +44,19 @@
     }
 </div>
 @if (Model.teme.PageCount > 1)
+<<<<<<< HEAD
+{ 
+<center>
+    <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
+</center>
+
+@Html.PagedListPager(Model.teme, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))
+=======
 {
     <center>
         <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
     </center>
 
-@Html.PagedListPager(Model.teme, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))
+    @Html.PagedListPager(Model.teme, page => Url.Action("ListaTeme", new { page, id_prof = ViewBag.id_prof }))
+>>>>>>> 30e63a29c089296db73d30d3e57e20458126ea61
 }

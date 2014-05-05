@@ -9,6 +9,21 @@
     ViewBag.Title = "ShowHomework";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section JavaScript
+{
+    <link href="@Url.Content("~/Content/rating.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/rating.js")"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('.container').rating();
+        });
+    </script>
+
+}
+
  <script>
      var see = "false";
      function Arata()
@@ -84,6 +99,8 @@
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
 
+@Html.Partial("_AddRating")
+
 @Html.Partial("_AddComment")
 
 
@@ -96,11 +113,14 @@
 
 
 @if(Model.Hm.comentariu.Any())
-{ 
+{
+    if (Model.Hm.comentariu.PageCount > 1)
+    { 
     <center>
         <p> Page @(Model.Hm.comentariu.PageCount < Model.Hm.comentariu.PageNumber ? 0 : Model.Hm.comentariu.PageNumber) of @Model.Hm.comentariu.PageCount </p>
     </center>
 
     @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
+}
 }
 

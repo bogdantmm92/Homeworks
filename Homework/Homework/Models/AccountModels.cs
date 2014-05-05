@@ -261,7 +261,7 @@ namespace Homework.Models
         public List<Elev> elev;
 
         public bool send { get; set; }
-
+        public int rating { get; set; }
     }
 
     public class Elev {
