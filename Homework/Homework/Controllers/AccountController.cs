@@ -186,6 +186,7 @@ namespace Homework.Controllers {
         // GET: /Account/Manage
 
         public ActionResult Manage( ManageMessageId? message ) {
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -193,7 +194,23 @@ namespace Homework.Controllers {
                 : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount( WebSecurity.GetUserId( User.Identity.Name ) );
             ViewBag.ReturnUrl = Url.Action( "Manage" );
-            return View();
+
+            LocalPasswordModel model = new LocalPasswordModel();
+
+            using( var db = new HomeworkContext() ) {
+
+                var id = (int)Session["UserId"];
+                var user = db.Users.Where( a => a.id_user == id ).First();
+
+                model.an = (int)user.an_studiu;
+                model.clasa = user.clasa;
+                model.nume = user.nume;
+                model.prenume = user.prenume;
+                model.email = user.email;
+
+            }
+
+            return View( model );
         }
 
         //
@@ -202,6 +219,7 @@ namespace Homework.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Manage( LocalPasswordModel model ) {
+
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount( WebSecurity.GetUserId( User.Identity.Name ) );
             ViewBag.HasLocalPassword = hasLocalAccount;
             ViewBag.ReturnUrl = Url.Action( "Manage" );
@@ -216,6 +234,22 @@ namespace Homework.Controllers {
                     }
 
                     if( changePasswordSucceeded ) {
+                        
+                        using( var db = new HomeworkContext() ) {
+
+                        var id = (int)Session["UserId"];
+                        var user = db.Users.Where( a => a.id_user == id ).First();
+
+                        user.an_studiu = model.an;
+                        user.clasa = model.clasa;
+                        user.nume = model.nume;
+                        user.prenume = model.prenume;
+                        user.email = model.email;
+
+                        db.SaveChanges();
+
+                 }
+                    
                         return RedirectToAction( "Manage", new {
                             Message = ManageMessageId.ChangePasswordSuccess
                         } );
