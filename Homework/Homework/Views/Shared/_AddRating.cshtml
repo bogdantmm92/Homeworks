@@ -1,0 +1,23 @@
+﻿@model Homework.Models.SeeHomeworkModel
+
+
+@using (Html.BeginForm("AddRating", "Homeworks", new { id_tema = Model.Hm.id_tema }))
+{
+    if(Session["votat"] == "nu")
+    { 
+    <section class="container">
+        @Html.RadioButtonFor(m => Model.rating, "1", new { @class = "rating" })
+        @Html.RadioButtonFor(m => Model.rating, "2", new { @class = "rating" })
+        @Html.RadioButtonFor(m => Model.rating, "3", new { @class = "rating" })
+        @Html.RadioButtonFor(m => Model.rating, "4", new { @class = "rating" })
+        @Html.RadioButtonFor(m => Model.rating, "5", new { @class = "rating" })
+    </section>
+    
+    
+    <input type="submit" name="addRating" value="Voteaza" />
+    }
+}
+
+
+
+

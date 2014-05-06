@@ -10,14 +10,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-    var see = "false";
-    function Arata() {
-        r = document.getElementById("red");
-        if (see == "false")
-        { see = "true"; }
-        else
-        { see = "false"; }
+@section JavaScript
+{
+    <link href="@Url.Content("~/Content/rating.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/rating.js")"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('.container').rating();
+        });
+    </script>
+
+}
+
+ <script>
+     var see = "false";
+     function Arata()
+     {
+         r = document.getElementById("red");
+         if (see == "false")
+         { see = "true";}
+         else
+         { see = "false"; }
 
         if (see == "false")
         { r.style.visibility = "hidden"; }
@@ -62,16 +77,17 @@
         <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div><br>
         <div>
             <a onclick="Arata()">Redirectioneaza</a>
-            @using (Html.BeginForm("ShowHomework", "Homeworks", FormMethod.Post))
+            @using (Html.BeginForm("SeeStudents", "Homeworks", FormMethod.Post))
             {
                 ViewBag.id_tema = Model.id_tema;
                 @Html.HiddenFor(m => m.id_tema)
                 @Html.HiddenFor(m => m.id_prof)
                 <div id="red" style="visibility:hidden">
-                    An:  @Html.EditorFor(m => m.an)
-                    Clasele:  @Html.EditorFor(m => m.clase)
-
-                    <input type="Submit" value="Send">
+                    An:  @Html.TextBoxFor(m => m.an, new  { @Value = "9" })
+                    Clasele:  @Html.TextBoxFor(m => m.clase, new { @Value = "A" })
+                    
+                    <button type="submit" name="Show" value="False">Send to all</button>
+                    
                 </div>
             }
         </div>
@@ -82,15 +98,19 @@
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
 
+@Html.Partial("_AddRating")
+
     @if ((bool)Session["prof"] == false)
     {
         @Html.Partial("_AddSource")
     }
+
     @*Sectiune de comentarii*@
     <div>
         <div>
             @Html.Partial("_AddComment")
         </div>
+
         <div id="allComments">
             @foreach (var comm in Model.Hm.comentariu)
             { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
@@ -99,12 +119,15 @@
         </div>
 
 
-        @if (Model.Hm.comentariu.Any())
-        {
-            <center>
-                <p> Page @(Model.Hm.comentariu.PageCount < Model.Hm.comentariu.PageNumber ? 0 : Model.Hm.comentariu.PageNumber) of @Model.Hm.comentariu.PageCount </p>
-            </center>
+@if(Model.Hm.comentariu.Any())
+{
+    if (Model.Hm.comentariu.PageCount > 1)
+    { 
+    <center>
+        <p> Page @(Model.Hm.comentariu.PageCount < Model.Hm.comentariu.PageNumber ? 0 : Model.Hm.comentariu.PageNumber) of @Model.Hm.comentariu.PageCount </p>
+    </center>
 
-            @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
-        }
-    </div>
+    @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
+}
+}
+

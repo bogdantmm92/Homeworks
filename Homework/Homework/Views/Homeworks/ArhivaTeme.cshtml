@@ -25,10 +25,13 @@
 </div>
 
 @if (Model.Any())
-{ 
+{
+    if (Model.PageCount > 1)
+    { 
 <center>
     <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
 </center>
 
 @Html.PagedListPager(Model, page => Url.Action("ArhivaTeme", new { page }))
+}
 }

@@ -27,10 +27,10 @@ namespace Homework.Controllers
             {
                 var model = new List<TemaAModel>();
                 var model2 = new IndexModel();
-
-                try
-                {
-                    int id = (int)Session["UserId"];
+                int id = 0;
+                if (Session["UserId"] != null)
+                { id = (int)Session["UserId"]; }
+                else { return View(); }
 
                     //var id = 2;
                     var liceu = db.Liceus.Join(db.Users, a => a.id_liceu, b => b.id_liceu, (a, b) => new { liceu = a, user = b }).Where(a => a.user.id_user == id).FirstOrDefault();
@@ -70,11 +70,7 @@ namespace Homework.Controllers
                         model.Add(tm);
                     }
                    
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex);
-                }
+                
 
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);

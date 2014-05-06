@@ -25,9 +25,9 @@
                 <th>
                     @Html.ActionLink("Alfabetic", "Sorteaza", "Homeworks", new { Sorting_Order = "Alfabetic" }, null)
                 </th>
-                <th> <div>|  |</div> </th>
+                <th> <div>| </div> </th>
                 <th>
-                    @Html.ActionLink("Dupa Rating", "Sorteaza", "Homeworks", new { Sorting_Order = "Dupa rating" }, null)
+                    @Html.ActionLink("Rating", "Sorteaza", "Homeworks", new { Sorting_Order = "Rating" }, null)
                 </th>
                 <th></th>
             </tr>
@@ -47,12 +47,13 @@
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>
         }
     </div>
-
+    @if(Model.PageCount > 1)
+    { 
     <center>
         <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </p>
     </center>
 
     @Html.PagedListPager(Model, page => Url.Action("Sorteaza", new { page }))
-
+    }
 </body>
 </html>

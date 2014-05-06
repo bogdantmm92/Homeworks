@@ -39,14 +39,15 @@
                     </hgroup>                      
                    
            
-
+@if(Model.teme.PageCount > 1)
+{ 
         <center>
             <p> Page @(Model.teme.PageCount < Model.teme.PageNumber ? 0 : Model.teme.PageNumber) of @Model.teme.PageCount </p>
         </center>
 
         @Html.PagedListPager(Model.teme, page => Url.Action("Index", new { page }))
 
-
+}
                     </div>
        
     }
