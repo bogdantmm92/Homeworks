@@ -219,11 +219,6 @@ namespace Homework.Controllers {
                 sourceFile.cale = sourceRelativePath;
                 db.Fisiers.Add(sourceFile);
 
-                Submit submit = new Submit();
-                submit.Fisier = sourceFile;
-                submit.id_tema = model.id_tema;
-                db.Submits.Add(submit);
-
                 //Source code
                 string sourceCode;
                 using (StreamReader sr = new StreamReader(sourcePath))
@@ -237,12 +232,25 @@ namespace Homework.Controllers {
                 string[] outputs = new string[] { "8", "30", "44" };
 
                 List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
-                foreach (var input in inputs)
+                int points = 0;
+                for (var i = 0; i < inputs.Length; i ++)
                 {
+                    var input = inputs[i];
                     var result = SubmissionHelper._Instance.uploadSource(sourceCode, input);
                     results.Add(result);
+                    var output = result["output"];
+                    if (output == outputs[i])
+                        points++;
                 }
-                return View(results.ToString() + "<br><br><br><br><br><br>" + outputs);
+
+                Submit submit = new Submit();
+                submit.Fisier = sourceFile;
+                submit.id_tema = model.id_tema;
+                submit.rezultat = points * 100 / outputs.Length;
+                db.Submits.Add(submit);
+
+                return RedirectToAction("Sources", new RouteValueDictionary(new { controller = "Homeworks", action = "Sources", id_tema = model.id_tema }));
+
             }
         }
 

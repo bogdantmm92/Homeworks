@@ -220,6 +220,9 @@
       <DependentUpon>HomeworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\AccountUtil.cs" />
+    <Compile Include="Utils\Ideone_ServiceService.cs" />
+    <Compile Include="Utils\Program.cs" />
+    <Compile Include="Utils\SubmissionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
