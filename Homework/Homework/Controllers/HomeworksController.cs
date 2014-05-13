@@ -197,15 +197,16 @@ namespace Homework.Controllers {
         [HttpPost]
         public ActionResult SubmitSource(SeeHomeworkModel model)
         {
+            int id_tema = (int)Session["id_tema"];
+
             //Should not happen
             if( (bool)Session["prof"] ) {
                 return View( "~/Views/Home/Index.cshtml" );
             }
             using (var db = new HomeworkContext())
             {
-                var sourceFile = new Fisier();
                 var defaultDirectory = Server.MapPath("~/App_Data/uploads");
-                var sourceDirectory = String.Format("source_codes/homework{0}/{1}", model.id_tema, userId());
+                var sourceDirectory = String.Format("source_codes/homework{0}/{1}", id_tema, userId());
                 var sourceFileName = String.Format("submission{0}.txt", db.Submits.Count());
 
                 var sourceRelativePath = Path.Combine(sourceDirectory, sourceFileName);
@@ -216,6 +217,7 @@ namespace Homework.Controllers {
                 System.IO.Directory.CreateDirectory(sourceDirectoryPath);
                 model.source_code.SaveAs(sourcePath);
 
+                var sourceFile = new Fisier();
                 sourceFile.cale = sourceRelativePath;
                 db.Fisiers.Add(sourceFile);
 
@@ -242,14 +244,16 @@ namespace Homework.Controllers {
                     if (output == outputs[i])
                         points++;
                 }
-
+                db.SaveChanges();
                 Submit submit = new Submit();
                 submit.Fisier = sourceFile;
-                submit.id_tema = model.id_tema;
+                submit.id_tema = id_tema;
+                submit.id_user = userId();
                 submit.rezultat = points * 100 / outputs.Length;
                 db.Submits.Add(submit);
+                db.SaveChanges();
 
-                return RedirectToAction("Sources", new RouteValueDictionary(new { controller = "Homeworks", action = "Sources", id_tema = model.id_tema }));
+                return RedirectToAction("Sources", new RouteValueDictionary(new { controller = "Homeworks", action = "Sources", id_tema = id_tema }));
 
             }
         }
@@ -386,6 +390,7 @@ namespace Homework.Controllers {
 
         public ActionResult ShowHomework(int id_tema, int? page)
         {
+            Session["id_tema"] = id_tema;
             using (var db = new HomeworkContext())
             {
                 var m = new SeeHomeworkModel();
@@ -528,7 +533,8 @@ namespace Homework.Controllers {
                 var submit = db.Submits.Where(a => a.id_submit == id_submit).FirstOrDefault();
                 var id_sursa = submit.id_sursa;
                 var file = db.Fisiers.Where(a => a.id_fisier == id_sursa).FirstOrDefault();
-                string path = file.cale;
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                string path = Path.Combine(defaultDirectory, file.cale);
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(path);
                 string fileName = System.IO.Path.GetFileName(path);

@@ -98,7 +98,7 @@
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
 
-@Html.Partial("_AddRating")
+    @Html.Partial("_AddRating")
 
     @if ((bool)Session["prof"] == false)
     {
