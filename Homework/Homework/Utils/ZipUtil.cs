@@ -31,7 +31,7 @@ namespace Homework.Utils
 
                     if (fileName != String.Empty)
                     {
-                        using (FileStream streamWriter = File.Create(theEntry.Name))
+                        using (FileStream streamWriter = File.Create(fileName))
                         {
 
                             int size = 2048;
