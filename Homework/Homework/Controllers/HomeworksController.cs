@@ -603,8 +603,9 @@ namespace Homework.Controllers {
                 tema.enunt = model.enunt;
                 var fisierInOut = new Fisier();
                 var fisierHelp = new Fisier();
-                var fileName = Path.GetFileName(model.in_out.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var fileName = Path.GetFileName(model.in_out.FileName) + "_" + db.Fisiers.Count();
+                var inputOutputPath = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var path = inputOutputPath;
                 model.in_out.SaveAs(path);
                 fisierInOut.cale = path;
                 db.Fisiers.Add(fisierInOut);
@@ -637,7 +638,17 @@ namespace Homework.Controllers {
                 var users = db.Users.Where( a => a.an_studiu == model.an && classes.Contains( a.clasa ) && a.id_liceu == idLiceu && a.tip == 1 ).ToList();
 
                 db.Temas.Add(tema);
+                db.SaveChanges();
 
+                //Decompress input-output
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                var sourceDirectory = Path.Combine("input_output", String.Format("homework{0}", tema.id_tema));
+
+                var sourceDirectoryPath = Path.Combine(defaultDirectory, sourceDirectory);
+                System.IO.Directory.CreateDirectory(sourceDirectoryPath);
+
+                ZipUtil.unzip(inputOutputPath, sourceDirectoryPath);
+                
                 //TO DO: Un 'bulk insert'
                 foreach (var user in users)
                 {

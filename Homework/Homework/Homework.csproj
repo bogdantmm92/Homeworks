@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>C:\Users\Bogdan Tirca\Desktop\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.BZip2">
       <HintPath>C:\Users\Bogdan Tirca\Desktop\Ionic.BZip2.dll</HintPath>
     </Reference>
@@ -226,6 +229,7 @@
     <Compile Include="Utils\Ideone_ServiceService.cs" />
     <Compile Include="Utils\Program.cs" />
     <Compile Include="Utils\SubmissionHelper.cs" />
+    <Compile Include="Utils\ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
