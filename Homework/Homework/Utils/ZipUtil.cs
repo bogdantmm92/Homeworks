@@ -17,7 +17,6 @@ namespace Homework.Utils
                 ZipEntry theEntry;
                 while ((theEntry = s.GetNextEntry()) != null)
                 {
-
                     Console.WriteLine(theEntry.Name);
 
                     string directoryName = output;

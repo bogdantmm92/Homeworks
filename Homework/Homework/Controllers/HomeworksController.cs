@@ -14,6 +14,7 @@ using System.Web.Routing;
 using PagedList.Mvc;
 using PagedList;
 using Homework.Utils;
+using System.Text;
 
 namespace Homework.Controllers {
     [Authorize]
@@ -228,14 +229,30 @@ namespace Homework.Controllers {
                     sourceCode = sr.ReadToEnd();
                 }
 
+                //Input output
+                var inOutRelDir = Path.Combine("input_output", String.Format("homework{0}", id_tema));
+                var inputOutputDir = Path.Combine(defaultDirectory, inOutRelDir);
+                string[] files = Directory.GetFiles(inputOutputDir, "*.txt");
+               
                 //input
-                string[] inputs = new string[] { "2 4", "5 6", "9 5" };
+                List<string> inputs = new List<string>();
                 //output
-                string[] outputs = new string[] { "8", "30", "44" };
-
+                List<string> outputs = new List<string>();
+                foreach (string filePath in files)
+                {
+                    string text = string.Empty;
+                    using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
+                    {
+                        text = streamReader.ReadToEnd();
+                    }
+                    if (filePath.Contains("_input_"))
+                        inputs.Add(text);
+                    if (filePath.Contains("_output_"))
+                        outputs.Add(text);
+                }
                 List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
                 int points = 0;
-                for (var i = 0; i < inputs.Length; i ++)
+                for (var i = 0; i < inputs.Count(); i ++)
                 {
                     var input = inputs[i];
                     var result = SubmissionHelper._Instance.uploadSource(sourceCode, input);
@@ -249,7 +266,7 @@ namespace Homework.Controllers {
                 submit.Fisier = sourceFile;
                 submit.id_tema = id_tema;
                 submit.id_user = userId();
-                submit.rezultat = points * 100 / outputs.Length;
+                submit.rezultat = points * 100 / outputs.Count();
                 db.Submits.Add(submit);
                 db.SaveChanges();
 
