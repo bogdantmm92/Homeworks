@@ -20,7 +20,7 @@ namespace Homework.Utils
 
                     Console.WriteLine(theEntry.Name);
 
-                    string directoryName = Path.GetDirectoryName(output);
+                    string directoryName = output;
                     string fileName = Path.Combine(directoryName, Path.GetFileName(theEntry.Name));
 
                     // create directory
