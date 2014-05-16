@@ -31,6 +31,7 @@ namespace Homework.Controllers {
             return (int)Session["LiceuId"];
         }
 
+        /*
         public ActionResult Licee(int ? page)
 
         {
@@ -47,6 +48,7 @@ namespace Homework.Controllers {
 
             }
         }
+        */
 
        public ActionResult ListaTeme(int id_prof, string sort, int ? page)
        {
@@ -148,14 +150,12 @@ namespace Homework.Controllers {
                
            }
 
+        /*
        private ActionResult View(LiceeModel model, string Sorting_Order)
        {
            throw new NotImplementedException();
        }
-
-
-
-
+        */
 
        [HttpPost]
        public ActionResult AddComment(SeeHomeworkModel model)
@@ -721,7 +721,7 @@ namespace Homework.Controllers {
 
         }
 
-
+        /*
         [HttpGet]
         public ActionResult ChangeInfo() {
             ViewBag.Title = "Creeaza Tema";
@@ -745,7 +745,9 @@ namespace Homework.Controllers {
 
 
         }
+        */
 
+        /*
         [HttpPost]
         public ActionResult ChangeInfo( ChangeInfo model ) {
             ViewBag.Title = "Creeaza Tema";
@@ -769,7 +771,7 @@ namespace Homework.Controllers {
             return View();
 
         }
-
+        */
 
         [HttpGet]
         public ActionResult TemeleMele(int? page) {
