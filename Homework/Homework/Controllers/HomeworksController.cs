@@ -164,7 +164,7 @@ namespace Homework.Controllers {
        {
            using (var db = new HomeworkContext())
            {
-               if (ModelState.IsValid)
+               //if (ModelState.IsValid)
                {
                    try
                    {
@@ -191,7 +191,7 @@ namespace Homework.Controllers {
                         id_tema = model.id_tema
                     } ) );
                 }
-                return View( model );
+                
             }
         }
 
@@ -973,7 +973,7 @@ namespace Homework.Controllers {
             {
                 
 
-                if (ModelState.IsValid)
+                //if (ModelState.IsValid)
                 {
                     try
                     {
@@ -1035,7 +1035,7 @@ namespace Homework.Controllers {
                     })); 
 
                 }
-                return View(model);
+                
             }
         }
 

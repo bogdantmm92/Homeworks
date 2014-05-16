@@ -93,7 +93,7 @@
         </div>
     }
 }
-@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["isProf"])
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["prof"])
 {
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
