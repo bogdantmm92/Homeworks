@@ -173,12 +173,16 @@ namespace Homework.Controllers {
        {
            using (var db = new HomeworkContext())
            {
+<<<<<<< HEAD
+               //if (ModelState.IsValid)
+=======
               // if (ModelState.IsValid)
+>>>>>>> 5c25debde47e1ebea35df2a2b615e24a0762071e
                {
                    try
                    {
                        var f = new Comentariu();
-                       f.data = System.DateTime.Now;
+                       f.data = DateTime.Now;
                        f.id_tema = model.id_tema;
                        f.id_user = (int)Session["UserId"];
                        f.text = model.c.text;
@@ -200,7 +204,11 @@ namespace Homework.Controllers {
                         id_tema = model.id_tema
                     } ) );
                 }
+<<<<<<< HEAD
+                
+=======
                // return View( model );
+>>>>>>> 5c25debde47e1ebea35df2a2b615e24a0762071e
             }
         }
 
@@ -561,22 +569,6 @@ namespace Homework.Controllers {
             }
         }
 
-        public FileResult DownloadIn_Out( int id_io ) {
-            using( var db = new HomeworkContext() ) {
-                var tema = db.Temas.Where( a => a.id_in_out == id_io ).FirstOrDefault();
-                var id_tema = tema.id_in_out;
-
-                var file = db.Fisiers.Where( a => a.id_fisier == id_tema ).FirstOrDefault();
-
-                var defaultDirectory = Path.Combine( "input_output", String.Format( "homework{0}", id_tema ) );
-                string path = Path.Combine( defaultDirectory, file.cale );
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes( path );
-                string fileName = System.IO.Path.GetFileName( path );
-                return File( fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "input_output" + " - " + tema.titlu + ".zip" );
-            }
-        }
-
         public FileResult Download(int id_submit)
         {
             using (var db = new HomeworkContext())
@@ -637,7 +629,12 @@ namespace Homework.Controllers {
         }
 
         [HttpPost]
+
         [Authorize]
+
+
+
+   
         public ActionResult AddHomework(AddHomeworkModel model)
         {
             //Unlikely event
@@ -1073,12 +1070,16 @@ namespace Homework.Controllers {
                     })); 
 
                 }
+<<<<<<< HEAD
+                
+=======
                 return RedirectToAction("ShowHomework", new RouteValueDictionary(new
                 {
                     controller = "Homeworks",
                     action = "ShowHomework",
                     id_tema = model.id_tema
                 })); 
+>>>>>>> 5c25debde47e1ebea35df2a2b615e24a0762071e
             }
         }
 

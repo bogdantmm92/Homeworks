@@ -6,11 +6,9 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "ShowHomework";
+    ViewBag.Title = "Show Homework";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<<<<<<< HEAD
-=======
 
 @section JavaScript
 {
@@ -35,16 +33,6 @@
          { see = "true";}
          else
          { see = "false"; }
->>>>>>> 03012f8590ef25421bce427639fd2155b0560a88
-
-<script>
-    var see = "false";
-    function Arata() {
-        r = document.getElementById("red");
-        if (see == "false")
-        { see = "true"; }
-        else
-        { see = "false"; }
 
         if (see == "false")
         { r.style.visibility = "hidden"; }
@@ -56,7 +44,7 @@
 
 
 
-    <h2 class="Titlu">Titlul temei :   @Model.Hm.Title</h2>
+    <h2 class="Titlu">@Model.Hm.Title</h2>
     <div class="despre">
         <div>  Creata de   @Model.Hm.Professor</div>
         <div>  Deadline:   @Model.Hm.deadline </div>
@@ -89,64 +77,53 @@
         <div>@Html.ActionLink("Vezi Note", "VeziNote", "Homeworks", new { id_tema = Model.Hm.id_tema }, null) </div><br>
         <div>
             <a onclick="Arata()">Redirectioneaza</a>
-            @using (Html.BeginForm("ShowHomework", "Homeworks", FormMethod.Post))
+            @using (Html.BeginForm("SeeStudents", "Homeworks", FormMethod.Post))
             {
                 ViewBag.id_tema = Model.id_tema;
                 @Html.HiddenFor(m => m.id_tema)
                 @Html.HiddenFor(m => m.id_prof)
                 <div id="red" style="visibility:hidden">
-                    An:  @Html.EditorFor(m => m.an)
-                    Clasele:  @Html.EditorFor(m => m.clase)
-
-                    <input type="Submit" value="Send">
+                    An:  @Html.TextBoxFor(m => m.an, new  { @Value = "9" })
+                    Clasele:  @Html.TextBoxFor(m => m.clase, new { @Value = "A" })
+                    
+                    <button type="submit" name="Show" value="False">Retrimite</button>
+                    
                 </div>
             }
         </div>
     }
 }
-@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["isProf"])
+<<<<<<< HEAD
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["prof"])
+=======
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["Prof"])
+>>>>>>> 5c25debde47e1ebea35df2a2b615e24a0762071e
 {
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
+<br/>
 
-<<<<<<< HEAD
+    @Html.Partial("_AddRating")
+
     @if ((bool)Session["prof"] == false)
     {
         @Html.Partial("_AddSource")
     }
+
     @*Sectiune de comentarii*@
     <div>
         <div>
             @Html.Partial("_AddComment")
         </div>
+
         <div id="allComments">
             @foreach (var comm in Model.Hm.comentariu)
             { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
-=======
-@Html.Partial("_AddRating")
-
-@Html.Partial("_AddComment")
-
-
-<div id="allComments">
-    @foreach (var comm in Model.Hm.comentariu)
-    { <div> <p><strong>@comm.username :</strong></p> <p><i>@comm.data</i></p> <p>@comm.text</p> </div>
-
-        <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
-</div>
->>>>>>> 03012f8590ef25421bce427639fd2155b0560a88
 
                 <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center> }
         </div>
 
-<<<<<<< HEAD
 
-        @if (Model.Hm.comentariu.Any())
-        {
-            <center>
-                <p> Page @(Model.Hm.comentariu.PageCount < Model.Hm.comentariu.PageNumber ? 0 : Model.Hm.comentariu.PageNumber) of @Model.Hm.comentariu.PageCount </p>
-            </center>
-=======
 @if(Model.Hm.comentariu.Any())
 {
     if (Model.Hm.comentariu.PageCount > 1)
@@ -158,8 +135,4 @@
     @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
 }
 }
->>>>>>> 03012f8590ef25421bce427639fd2155b0560a88
 
-            @Html.PagedListPager(Model.Hm.comentariu, page => Url.Action("ShowHomework", new { page, id_tema = Model.id_tema }))
-        }
-    </div>

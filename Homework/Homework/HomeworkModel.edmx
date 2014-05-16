@@ -11,7 +11,7 @@
           </Key>
           <Property Name="id_comentariu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_tema" Type="int" Nullable="false" />
-          <Property Name="data" Type="date" Nullable="false" />
+          <Property Name="data" Type="datetime" Nullable="false" />
           <Property Name="id_user" Type="int" Nullable="false" />
           <Property Name="text" Type="varchar" MaxLength="300" Nullable="false" />
         </EntityType>
@@ -376,7 +376,7 @@
           </Key>
           <Property Name="id_comentariu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_tema" Type="Int32" Nullable="false" />
-          <Property Name="data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="id_user" Type="Int32" Nullable="false" />
           <Property Name="text" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Tema" Relationship="DBModel.FK_Comentariu_ToTema" FromRole="Comentariu" ToRole="Tema" />
