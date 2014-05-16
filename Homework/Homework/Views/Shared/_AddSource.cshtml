@@ -1,0 +1,18 @@
+﻿@model Homework.Models.SeeHomeworkModel
+
+<div id="addSource" style="width:auto; height:80px">
+
+    @using (Html.BeginForm("SubmitSource", "Homeworks", FormMethod.Post,
+        new {   enctype = "multipart/form-data"}))
+    {
+        <div>
+            <div style="float:left">
+               <input type="file" name="source_code" value="Choose file" />
+            </div>
+            <div style="float:right">
+                <input type="submit" name="addSource" value="Submit source code" />
+            </div>
+        </div>
+    }
+
+</div>

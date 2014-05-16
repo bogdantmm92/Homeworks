@@ -1,4 +1,5 @@
 ﻿using Homework.Models;
+using Homework.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,25 @@ namespace Homework.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            string source =
+@"
+#include <iostream>
+using namespace std;
+
+int main() {
+	int a, b;
+	cin >> a >> b;
+	cout << a * b;
+	return 0;
+}
+";
+
+            SubmissionHelper._Instance.uploadSource(source, "2 7");
             return View();
         }
     }
