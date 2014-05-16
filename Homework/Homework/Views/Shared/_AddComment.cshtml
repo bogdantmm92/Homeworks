@@ -1,17 +1,18 @@
 ﻿@model Homework.Models.SeeHomeworkModel
 
-<div id="addComm">
+<div id="addComm" style="width:auto; height:80px">
 
     @using (Html.BeginForm("AddComment", "Homeworks", new { id_tema = Model.Hm.id_tema }))
-
-    { 
-        <p>
-            @Html.LabelFor(m => Model.c.text)
-            @Html.TextAreaFor(m => Model.c.text) 
-        </p>
-
-        <input type="submit" name="addComment" value="Submit" />
-
-	}
+    {
+        <div>
+            <div style="float:left">
+                @*@Html.LabelFor(m => Model.c.text)*@
+                @Html.TextAreaFor(m => Model.c.text)
+            </div>
+            <div style="float:right">
+                <input type="submit" name="addComment" value="Add comment" />
+            </div>
+        </div>
+    }
 
 </div>

@@ -13,6 +13,8 @@ using WebMatrix.WebData;
 using System.Web.Routing;
 using PagedList.Mvc;
 using PagedList;
+using Homework.Utils;
+using System.Text;
 
 namespace Homework.Controllers {
     [Authorize]
@@ -173,30 +175,105 @@ namespace Homework.Controllers {
                        f.text = model.c.text;
 
 
-                       db.Comentarius.Add(f);
-                       db.SaveChanges();
-                   }
-                   catch (DbEntityValidationException dbEx)
-                   {
-                       foreach (var validationErrors in dbEx.EntityValidationErrors)
-                       {
-                           foreach (var validationError in validationErrors.ValidationErrors)
-                           {
-                               Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                           }
-                       }
-                   }
-                       return RedirectToAction("ShowHomework", new RouteValueDictionary(new
-                       {
-                           controller = "Homeworks",
-                           action = "ShowHomework",
-                           id_tema = model.id_tema
-                       }));                   
-                   
-               }
-               return View(model);
-           }
-       }
+                        db.Comentarius.Add( f );
+                        db.SaveChanges();
+                    } catch( DbEntityValidationException dbEx ) {
+                        foreach( var validationErrors in dbEx.EntityValidationErrors ) {
+                            foreach( var validationError in validationErrors.ValidationErrors ) {
+                                Trace.TraceInformation( "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage );
+                            }
+                        }
+                    }
+                    return RedirectToAction("ShowHomework", new RouteValueDictionary(new
+                    {
+                        controller = "Homeworks",
+                        action = "ShowHomework",
+                        id_tema = model.id_tema
+                    } ) );
+                }
+                return View( model );
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SubmitSource(SeeHomeworkModel model)
+        {
+            int id_tema = (int)Session["id_tema"];
+
+            //Should not happen
+            if( (bool)Session["prof"] ) {
+                return View( "~/Views/Home/Index.cshtml" );
+            }
+            using (var db = new HomeworkContext())
+            {
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                var sourceDirectory = String.Format("source_codes/homework{0}/{1}", id_tema, userId());
+                var sourceFileName = String.Format("submission{0}.txt", db.Submits.Count());
+
+                var sourceRelativePath = Path.Combine(sourceDirectory, sourceFileName);
+
+                var sourceDirectoryPath = Path.Combine(defaultDirectory, sourceDirectory);
+                var sourcePath = Path.Combine(defaultDirectory, sourceRelativePath);
+
+                System.IO.Directory.CreateDirectory(sourceDirectoryPath);
+                model.source_code.SaveAs(sourcePath);
+
+                var sourceFile = new Fisier();
+                sourceFile.cale = sourceRelativePath;
+                db.Fisiers.Add(sourceFile);
+
+                //Source code
+                string sourceCode;
+                using (StreamReader sr = new StreamReader(sourcePath))
+                {
+                    sourceCode = sr.ReadToEnd();
+                }
+
+                //Input output
+                var inOutRelDir = Path.Combine("input_output", String.Format("homework{0}", id_tema));
+                var inputOutputDir = Path.Combine(defaultDirectory, inOutRelDir);
+                string[] files = Directory.GetFiles(inputOutputDir, "*.txt");
+               
+                //input
+                List<string> inputs = new List<string>();
+                //output
+                List<string> outputs = new List<string>();
+                foreach (string filePath in files)
+                {
+                    string text = string.Empty;
+                    using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
+                    {
+                        text = streamReader.ReadToEnd();
+                    }
+                    if (filePath.Contains("_input_"))
+                        inputs.Add(text);
+                    if (filePath.Contains("_output_"))
+                        outputs.Add(text);
+                }
+                List<Dictionary<string, string>> results = new List<Dictionary<string, string>>();
+                int points = 0;
+                for (var i = 0; i < inputs.Count(); i ++)
+                {
+                    var input = inputs[i];
+                    var result = SubmissionHelper._Instance.uploadSource(sourceCode, input);
+                    results.Add(result);
+                    var output = result["output"];
+                    if (output == outputs[i])
+                        points++;
+                }
+                db.SaveChanges();
+                Submit submit = new Submit();
+                submit.Fisier = sourceFile;
+                submit.id_tema = id_tema;
+                submit.id_user = userId();
+                submit.rezultat = points * 100 / outputs.Count();
+                db.Submits.Add(submit);
+                db.SaveChanges();
+
+                return RedirectToAction("Sources", new RouteValueDictionary(new { controller = "Homeworks", action = "Sources", id_tema = id_tema }));
+
+            }
+        }
 
         [HttpPost]
         public ActionResult SeeStudents2(SeeHomeworkModel model, string[] tags)
@@ -231,7 +308,7 @@ namespace Homework.Controllers {
            // return View("~/Views/Home/Index.cshtml");
 
         }
-        
+
 
         [HttpPost]
         public ActionResult SeeStudents(SeeHomeworkModel model)
@@ -330,6 +407,7 @@ namespace Homework.Controllers {
 
         public ActionResult ShowHomework(int id_tema, int? page)
         {
+            Session["id_tema"] = id_tema;
             using (var db = new HomeworkContext())
             {
                 var m = new SeeHomeworkModel();
@@ -472,7 +550,8 @@ namespace Homework.Controllers {
                 var submit = db.Submits.Where(a => a.id_submit == id_submit).FirstOrDefault();
                 var id_sursa = submit.id_sursa;
                 var file = db.Fisiers.Where(a => a.id_fisier == id_sursa).FirstOrDefault();
-                string path = file.cale;
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                string path = Path.Combine(defaultDirectory, file.cale);
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(path);
                 string fileName = System.IO.Path.GetFileName(path);
@@ -541,8 +620,9 @@ namespace Homework.Controllers {
                 tema.enunt = model.enunt;
                 var fisierInOut = new Fisier();
                 var fisierHelp = new Fisier();
-                var fileName = Path.GetFileName(model.in_out.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var fileName = Path.GetFileName(model.in_out.FileName) + "_" + db.Fisiers.Count();
+                var inputOutputPath = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var path = inputOutputPath;
                 model.in_out.SaveAs(path);
                 fisierInOut.cale = path;
                 db.Fisiers.Add(fisierInOut);
@@ -575,7 +655,17 @@ namespace Homework.Controllers {
                 var users = db.Users.Where( a => a.an_studiu == model.an && classes.Contains( a.clasa ) && a.id_liceu == idLiceu && a.tip == 1 ).ToList();
 
                 db.Temas.Add(tema);
+                db.SaveChanges();
 
+                //Decompress input-output
+                var defaultDirectory = Server.MapPath("~/App_Data/uploads");
+                var sourceDirectory = Path.Combine("input_output", String.Format("homework{0}", tema.id_tema));
+
+                var sourceDirectoryPath = Path.Combine(defaultDirectory, sourceDirectory);
+                System.IO.Directory.CreateDirectory(sourceDirectoryPath);
+
+                ZipUtil.unzip(inputOutputPath, sourceDirectoryPath);
+                
                 //TO DO: Un 'bulk insert'
                 foreach (var user in users)
                 {
