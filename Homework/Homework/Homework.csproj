@@ -42,9 +42,6 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>C:\Users\Bogdan Tirca\Desktop\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.BZip2">
-      <HintPath>C:\Users\Bogdan Tirca\Desktop\Ionic.BZip2.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -400,6 +397,7 @@
     <Content Include="Views\Homeworks\SeeStudents.cshtml" />
     <Content Include="Views\Shared\_AddRating.cshtml" />
     <Content Include="Views\Shared\_AddSource.cshtml" />
+    <Content Include="Views\Homeworks\CompileError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
