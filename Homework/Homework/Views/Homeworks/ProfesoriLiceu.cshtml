@@ -4,7 +4,7 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Lista de profesori";
+    ViewBag.Title = "Profesori din ";
 }
 
 <!DOCTYPE html>
@@ -16,9 +16,7 @@
 
 </head>
 <body>
-    <hgroup class="title">
-        <h1>@ViewBag.Title.</h1>
-    </hgroup>
+        <h1 class="Titlu">Profesori din @ViewBag.liceu</h1>
     <div>
 
 
@@ -29,9 +27,8 @@
             <div>
 
                 <p><strong>@Html.ActionLink(NumeProf, "ListaTeme", "Homeworks", new { id_prof = prof.id_prof }, null)</strong> </p>
-                <p>@prof.liceu</p>
                 <p>Numar de teme incarcate: @prof.numar_teme </p>
-                <p>Rating : @prof.rating </p>
+                <p>Rating : @prof.rating</p>
             </div>
 
             <center> <div style="height: 3px; width: 800px; background-color: black"></div> </center>

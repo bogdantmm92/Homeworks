@@ -19,6 +19,7 @@ namespace Homework
         public int id_tema { get; set; }
         public int rezultat { get; set; }
         public int id_sursa { get; set; }
+        public Nullable<System.DateTime> data { get; set; }
     
         public virtual Fisier Fisier { get; set; }
         public virtual Tema Tema { get; set; }

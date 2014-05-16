@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'G:\Visual Studio Projects\Homeworks\Homework\Homework\HomeworkModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Homeworks\Homework\Homework\HomeworkModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

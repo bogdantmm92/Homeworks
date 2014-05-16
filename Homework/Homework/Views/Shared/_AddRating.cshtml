@@ -1,5 +1,5 @@
 ﻿@model Homework.Models.SeeHomeworkModel
-
+<br/>
 
 @using (Html.BeginForm("AddRating", "Homeworks", new { id_tema = Model.Hm.id_tema }))
 {
@@ -12,9 +12,8 @@
         @Html.RadioButtonFor(m => Model.rating, "4", new { @class = "rating" })
         @Html.RadioButtonFor(m => Model.rating, "5", new { @class = "rating" })
     </section>
-    
-    
     <input type="submit" name="addRating" value="Voteaza" />
+        
     }
 }
 

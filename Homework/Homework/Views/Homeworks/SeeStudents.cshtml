@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>See Students</h2>
+<h2 class="Titlu">Studenti</h2>
 @section Javascript{
     <script type="text/javascript">
         function checkAll() {
@@ -28,15 +28,15 @@
     ViewBag.id_tema = Model.id_tema;
     Html.HiddenFor(m => m.id_tema);
     Html.HiddenFor(m => m.id_prof) ;
-    <input type="checkbox" id="all" name="checkall" onchange="checkAll();"><span>Check All</span><br/>
+    <input type="checkbox" id="all" name="checkall" onchange="checkAll();"><span> Check All</span><br/><br/>
 
         foreach (var elev in Model.elev)
         {
-            <input type="checkbox" id="id1" name="tags" value="@elev.id_elev">@(elev.nume + " " + @elev.prenume) <br/>
+            <input type="checkbox" id="id1" name="tags" value="@elev.id_elev"> @(elev.nume + " " + @elev.prenume) <br/>
 
         }
-
-        <input type="submit" name="Send" value="Send">
+        <br/>
+        <input type="submit" name="Send" value="Trimite">
 
    
 }
