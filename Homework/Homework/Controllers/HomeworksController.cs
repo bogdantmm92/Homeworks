@@ -159,6 +159,15 @@ namespace Homework.Controllers {
        }
         */
 
+        [HttpGet]
+       public ActionResult CompileError(string errorMsg)
+       {
+           var model = new CompileErrorModel
+           {
+               error = errorMsg
+           };
+           return View(model);
+       }
        [HttpPost]
        public ActionResult AddComment(SeeHomeworkModel model)
        {
@@ -258,6 +267,10 @@ namespace Homework.Controllers {
                     var result = SubmissionHelper._Instance.uploadSource(sourceCode, input);
                     results.Add(result);
                     var output = result["output"];
+                    if (result["cmpinfo"] != "")
+                    {
+                        return RedirectToAction("CompileError", new RouteValueDictionary(new { controller = "Homeworks", action = "CompileError", errorMsg = result["cmpinfo"]}));
+                    }
                     if (output == outputs[i])
                         points++;
                 }

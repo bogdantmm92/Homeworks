@@ -198,7 +198,11 @@ namespace Homework.Models
         public int type { get; set; }
     }
 
-
+    public class CompileErrorModel
+    {
+        [Display(Name = "Error message")]
+        public string error;
+    }
     public class LiceuModel
     {
         public int id_liceu;
