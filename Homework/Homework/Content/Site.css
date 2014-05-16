@@ -471,6 +471,9 @@ input, textarea {
     padding: 5px;
     width: 300px;
 }
+.radio {
+     width: 30px;
+}
 
 textarea {
     font-family: inherit;

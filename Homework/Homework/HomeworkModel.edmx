@@ -56,6 +56,7 @@
           <Property Name="id_tema" Type="int" Nullable="false" />
           <Property Name="rezultat" Type="int" Nullable="false" />
           <Property Name="id_sursa" Type="int" Nullable="false" />
+          <Property Name="data" Type="datetime" />
         </EntityType>
         <EntityType Name="Tema">
           <Key>
@@ -433,6 +434,7 @@
           <NavigationProperty Name="Fisier" Relationship="DBModel.FK_Submit_ToFisier" FromRole="Submit" ToRole="Fisier" />
           <NavigationProperty Name="Tema" Relationship="DBModel.FK_Submit_ToTema" FromRole="Submit" ToRole="Tema" />
           <NavigationProperty Name="User" Relationship="DBModel.FK_Submit_ToUser" FromRole="Submit" ToRole="User" />
+          <Property Name="data" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Tema">
           <Key>
@@ -687,6 +689,7 @@
           <EntitySetMapping Name="Submits">
             <EntityTypeMapping TypeName="DBModel.Submit">
               <MappingFragment StoreEntitySet="Submit">
+                <ScalarProperty Name="data" ColumnName="data" />
                 <ScalarProperty Name="id_sursa" ColumnName="id_sursa" />
                 <ScalarProperty Name="rezultat" ColumnName="rezultat" />
                 <ScalarProperty Name="id_tema" ColumnName="id_tema" />

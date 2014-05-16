@@ -138,7 +138,7 @@ namespace Homework.Controllers {
                {
                    var l = new LiceuModel();
                    l.nume = liceu.nume;
-                   l.rating_total = liceu.rating_total;
+                   l.rating_total = Math.Truncate(liceu.rating_total * 100) / 100;
                    l.id_liceu = liceu.id_liceu;
                    model.Add(l);
                }
@@ -164,7 +164,7 @@ namespace Homework.Controllers {
        {
            using (var db = new HomeworkContext())
            {
-               if (ModelState.IsValid)
+              // if (ModelState.IsValid)
                {
                    try
                    {
@@ -191,7 +191,7 @@ namespace Homework.Controllers {
                         id_tema = model.id_tema
                     } ) );
                 }
-                return View( model );
+               // return View( model );
             }
         }
 
@@ -267,6 +267,7 @@ namespace Homework.Controllers {
                 submit.id_tema = id_tema;
                 submit.id_user = userId();
                 submit.rezultat = points * 100 / outputs.Count();
+                submit.data = System.DateTime.Now;
                 db.Submits.Add(submit);
                 db.SaveChanges();
 
@@ -459,14 +460,18 @@ namespace Homework.Controllers {
                 }
                 model.current_grade = 0; // ------------------------- Aici e harcodat
 
-                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
-                model.grade = db.Submits.Where(a => a.id_user == 1).FirstOrDefault().rezultat;
+                 //Session["user_id"] = 1; // ------------------------- Aici e harcodat
+                var id = (int)Session["UserId"];
+                if ((bool)Session["prof"] == false)
+                {
+                    var ceva = db.Submits.Where(a => a.id_user == id).FirstOrDefault();
+                    if (ceva != null)
+                    { model.grade = ceva.rezultat; }
+                    else
+                    { model.grade = 0; }
+                }
 
 
-                // Session["user_id"] = 1; // ------------------------- Aici e harcodat
-                model.grade = db.Submits.Where( a => a.id_user == 1 ).FirstOrDefault().rezultat;
-
-                var id = (int)Session["UserId"]; 
                
                 var nota= db.Submits.Where(c => (c.id_user == id && c.id_tema == id_tema)).OrderByDescending(c => c.rezultat).FirstOrDefault();
                 if (nota != null)
@@ -536,7 +541,7 @@ namespace Homework.Controllers {
                     model.Add( tm );
                 }
 
-                int pageSize = 3;
+                int pageSize = 5;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
                 //return View(model);
@@ -565,14 +570,20 @@ namespace Homework.Controllers {
             {
                 var model = new List <SourceModel> ();
                 var rez = db.Submits.Where(a => a.id_tema == id_tema).ToList();
+                var t = db.Temas.Where(a => a.id_tema == id_tema).FirstOrDefault();
+                ViewBag.titlu = t.titlu;
                 foreach (var c in rez)
                 {
                     SourceModel source = new SourceModel();
                     source.result = c.rezultat;
                     var user = db.Users.Where(a => a.id_user == c.id_user).FirstOrDefault();
+                   
                     source.username = user.nume + " " + user.prenume;
                     source.id_source = c.id_sursa;
                     source.id_submit = c.id_submit;
+                    source.data = (DateTime)c.data;
+                   // source.titlu = t.titlu;
+                    
                     model.Add(source);
                 }
                 return View(model);
@@ -720,6 +731,7 @@ namespace Homework.Controllers {
                         prof.liceu = liceu.nume;
                         prof.id_liceu = liceu.id_liceu;
                     }
+                    ViewBag.liceu = prof.liceu;
 
                     var list2 = new List<double>();
                     var list = new List<double>();
@@ -741,7 +753,9 @@ namespace Homework.Controllers {
 
                     if (list.Count() == 0) prof.rating = 0;
                     else
-                        prof.rating = list.Average();
+                        prof.rating = Math.Truncate(list.Average() * 100) / 100;
+
+
 
                     profi.Add(prof);
                 }
@@ -973,7 +987,7 @@ namespace Homework.Controllers {
             {
                 
 
-                if (ModelState.IsValid)
+                //if (ModelState.IsValid)
                 {
                     try
                     {
@@ -1035,7 +1049,12 @@ namespace Homework.Controllers {
                     })); 
 
                 }
-                return View(model);
+                return RedirectToAction("ShowHomework", new RouteValueDictionary(new
+                {
+                    controller = "Homeworks",
+                    action = "ShowHomework",
+                    id_tema = model.id_tema
+                })); 
             }
         }
 

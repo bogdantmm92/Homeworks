@@ -6,7 +6,7 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "ShowHomework";
+    ViewBag.Title = "Show Homework";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -44,7 +44,7 @@
 
 
 
-    <h2 class="Titlu">Titlul temei :   @Model.Hm.Title</h2>
+    <h2 class="Titlu">@Model.Hm.Title</h2>
     <div class="despre">
         <div>  Creata de   @Model.Hm.Professor</div>
         <div>  Deadline:   @Model.Hm.deadline </div>
@@ -86,17 +86,18 @@
                     An:  @Html.TextBoxFor(m => m.an, new  { @Value = "9" })
                     Clasele:  @Html.TextBoxFor(m => m.clase, new { @Value = "A" })
                     
-                    <button type="submit" name="Show" value="False">Send to all</button>
+                    <button type="submit" name="Show" value="False">Retrimite</button>
                     
                 </div>
             }
         </div>
     }
 }
-@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["isProf"])
+@if ((Model.Hm.deadline < DateTime.Now && Model.Hm.privat == 0) || (bool)Session["Prof"])
 {
     @Html.ActionLink("Vezi surse", "Sources", "Homeworks", new { id_tema = Model.id_tema }, null);
 }
+<br/>
 
     @Html.Partial("_AddRating")
 

@@ -4,8 +4,7 @@
 }
 
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
+    <h1>@ViewBag.Title</h1>
 </hgroup>
 
 @using (Html.BeginForm()) {
@@ -49,9 +48,9 @@
                 @Html.DropDownListFor(m => m.selectedClass, Model.Classes)
             </li>
             <li>
-                @Html.RadioButtonFor(m => m.type, 1, new { id = "student-radio" , @checked = "checked"}) Student
+                @Html.RadioButtonFor(m => m.type, 1, new { id = "student-radio" , @checked = "checked", @class = "radio" }) Student
                 <br />
-                @Html.RadioButtonFor(m => m.type, 2, new { id = "profesor-radio" }) Profesor
+                @Html.RadioButtonFor(m => m.type, 2, new { id = "profesor-radio", @class = "radio" }) Profesor
             </li>
         </ol>
         <input type="submit" value="Register" />

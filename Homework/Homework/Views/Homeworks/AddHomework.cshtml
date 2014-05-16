@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <h1>@ViewBag.Title</h1>
+    <h1 class="Titlu">@ViewBag.Title</h1><br/>
 
     <div>
 
@@ -49,10 +49,10 @@
                 </li>
 
                 <li>
-                    An:
+                    An: <br/>
                     @for (int i = 9; i <= 12; i++)
                     {
-                        @Html.RadioButtonFor(b => b.an, i) @i
+                        @Html.RadioButtonFor(b => b.an, i, new { @class = "radio" }) @i <br/>
                     }
                 </li>
 
@@ -68,7 +68,7 @@
 
             </ul>
 
-            <input type="submit" name="addhomework" value="creeaza" />
+            <input type="submit" name="addhomework" value="Creeaza" />
 
         }
 

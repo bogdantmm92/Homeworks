@@ -354,10 +354,12 @@ namespace Homework.Models
 	
 	    public class SourceModel
     {
-        public int result { get; set; }
+            public int result { get; set; }
+        public string titlu { get; set; }
         public string username { get; set; }
         public int id_source { get; set; }
         public int id_submit { get; set; }
+        public DateTime data { get; set; }
     }
 
         public class IndexModel

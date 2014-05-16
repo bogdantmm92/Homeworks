@@ -11,12 +11,12 @@
 
 
 <div id="allHomeworks">
-    <h2 class="Titlu">ArhivaTeme</h2>
+    <h2 class="Titlu">Arhiva Teme</h2>
     <br>
     @foreach (var tm in Model)
     { <div>
         <strong><p><a href="./ShowHomework?id_tema=@tm.id_tema"> @tm.titlu</a></p></strong>
-        <p><strong>Creata de : </strong>@tm.prof din @tm.liceu 
+        <p><strong>Creata de : </strong>@tm.prof din @tm.liceu <br/>
         <strong> Rating :</strong> @tm.rating </p>
     </div>
 
